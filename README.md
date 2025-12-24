@@ -2,6 +2,10 @@
 
 A comprehensive resume management application built with featuring a professional resume builder and a personal portfolio page.
 
+
+[![Deployed](https://img.shields.io/badge/Website-Visit-green)](https://www.omarmuneercoder.de/)
+
+
 ## 🎯 Features
 
 ### 1. **Home Page** (`/`)
