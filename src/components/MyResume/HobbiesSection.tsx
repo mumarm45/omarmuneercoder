@@ -1,4 +1,6 @@
 import HobbyCard from './HobbyCard';
+import { theme } from '@/theme/colors';
+import { cn } from '@/hooks/useTheme';
 
 interface Hobby {
   icon: React.ReactNode;
@@ -18,11 +20,9 @@ function HobbiesSection({ isDark, title, intro, hobbies }: HobbiesSectionProps):
     <section className="py-16 px-6" id="hobbies">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl font-bold text-center mb-4">
-          <span className="text-indigo-500">{title}</span>
+          <span className={theme.text.heading}>{title}</span>
         </h2>
-        <p
-          className={`text-center ${isDark ? 'text-slate-300' : 'text-gray-600'} max-w-2xl mx-auto mb-12`}
-        >
+        <p className={cn('text-center max-w-2xl mx-auto mb-12', isDark ? theme.text.secondary.dark : theme.text.secondary.light)}>
           {intro}
         </p>
         <div className="grid md:grid-cols-3 gap-6">

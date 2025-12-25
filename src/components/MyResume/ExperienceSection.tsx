@@ -1,4 +1,5 @@
 import ExperienceCard from './ExperienceCard';
+import { theme } from '@/theme/colors';
 
 interface Experience {
   title: string;
@@ -21,7 +22,7 @@ function ExperienceSection({ isDark, title, experiences }: ExperienceSectionProp
       <div className="max-w-5xl mx-auto">
         <h2 className="text-3xl font-bold text-center mb-12">
           {title.split(' ')[0]}{' '}
-          <span className="text-indigo-500">{title.split(' ')[1]}</span>
+          <span className={theme.text.heading}>{title.split(' ')[1]}</span>
         </h2>
         <div className="space-y-8">
           {experiences.map((exp, index) => (

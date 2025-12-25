@@ -1,4 +1,5 @@
 import SkillCard from './SkillCard';
+import { theme } from '@/theme/colors';
 
 interface SkillsSectionProps {
   isDark: boolean;
@@ -16,7 +17,7 @@ function SkillsSection({ isDark, title, categories }: SkillsSectionProps): JSX.E
       <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl font-bold text-center mb-12">
           {title.split(' & ')[0]} &{' '}
-          <span className="text-indigo-500">{title.split(' & ')[1]}</span>
+          <span className={theme.text.heading}>{title.split(' & ')[1]}</span>
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {categories.map((category, index) => (

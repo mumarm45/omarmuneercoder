@@ -1,5 +1,7 @@
 
 import { X } from 'lucide-react';
+import { theme } from '@/theme/colors';
+import { cn } from '@/hooks/useTheme';
 
 type DialogSize = 'sm' | 'md' | 'lg' | 'xl';
 
@@ -32,17 +34,17 @@ function Dialog({ isOpen, onClose, title, children, size = 'md' }: DialogProps):
       {/* Dialog */}
       <div className="flex min-h-full items-center justify-center p-4">
         <div 
-          className={`relative bg-white rounded-lg shadow-xl w-full ${sizeClasses[size]} max-h-[90vh] overflow-y-auto`}
+          className={cn('relative rounded-lg shadow-xl w-full max-h-[90vh] overflow-y-auto', theme.backgrounds.card.light, sizeClasses[size])}
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="sticky top-0 bg-white border-b px-6 py-4 flex items-center justify-between z-10">
-            <h2 className="text-xl font-semibold text-gray-800">{title}</h2>
+          <div className={cn('sticky top-0 border-b px-6 py-4 flex items-center justify-between z-10', theme.backgrounds.card.light, theme.borders.light)}>
+            <h2 className={cn('text-xl font-semibold', theme.text.heading)}>{title}</h2>
             <button
               onClick={onClose}
-              className="p-2 hover:bg-gray-100 rounded-lg transition"
+              className={cn('p-2 rounded-lg transition', theme.buttons.secondary)}
             >
-              <X className="w-5 h-5 text-gray-500" />
+              <X className={cn('w-5 h-5', theme.text.muted.light)} />
             </button>
           </div>
           

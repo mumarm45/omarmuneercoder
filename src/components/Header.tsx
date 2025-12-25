@@ -7,6 +7,8 @@ import useResumeStore from '@store/resumeStore';
 import { useAsyncOperation } from '@hooks/useAsyncOperation';
 import { logger } from '@utils/errorHandling';
 import Toast from './Toast';
+import { theme } from '@/theme/colors';
+import { cn } from '@/hooks/useTheme';
 
 // Download menu item component
 interface DownloadMenuItemProps {
@@ -93,23 +95,22 @@ function Header(): JSX.Element {
 
   return (
     <>
-      <header className="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 py-4">
+      <header className={cn('border-b shadow-lg sticky top-0 z-50', theme.backgrounds.header, 'border-slate-800')}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <nav className="flex items-center justify-between">
             {/* Left section */}
             <div className="flex items-center gap-6">
               <Link 
                 to="/" 
-                className="flex items-center gap-2 text-slate-600 hover:text-slate-800 
-                         transition-colors duration-200 group"
+                className="flex items-center gap-2 text-slate-200 hover:text-white transition-colors duration-200 group"
               >
                 <Home className="w-5 h-5 group-hover:scale-110 transition-transform" />
                 <span className="font-semibold">Home</span>
               </Link>
               
               <div className="flex items-center gap-3">
-                <FileText className="w-8 h-8 text-slate-700" />
-                <h1 className="text-2xl font-bold text-slate-800">Resume Builder</h1>
+                <FileText className={cn('w-8 h-8', theme.text.onDark)} />
+                <h1 className={cn('text-2xl font-bold', theme.text.onDark)}>Resume Builder</h1>
               </div>
             </div>
             
@@ -118,7 +119,7 @@ function Header(): JSX.Element {
               {/* Toggle Preview Button */}
               <button
                 onClick={togglePreview}
-                className="btn-secondary flex items-center gap-2"
+                className="btn-secondary-light flex items-center gap-2"
                 aria-label={showPreview ? 'Hide preview' : 'Show preview'}
               >
                 {showPreview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -132,7 +133,7 @@ function Header(): JSX.Element {
                 <button
                   onClick={toggleDownloadMenu}
                   disabled={isExporting}
-                  className="btn-primary flex items-center gap-2"
+                  className="btn-primary-light flex items-center gap-2"
                   aria-label="Download options"
                   aria-expanded={showDownloadMenu}
                 >

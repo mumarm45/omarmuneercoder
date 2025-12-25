@@ -1,6 +1,8 @@
 import { memo } from 'react';
 import { FileText, User, Edit, Check, FileDown, Github } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { theme } from '@/theme/colors';
+import { cn } from '@/hooks/useTheme';
 
 interface FeatureCardProps {
   icon: typeof Edit;
@@ -69,9 +71,9 @@ NavigationCard.displayName = 'NavigationCard';
 
 function HomePage(): JSX.Element {
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-slate-200">
+    <div className={cn('min-h-screen flex flex-col', theme.backgrounds.page)}>
       {/* Header - Full Width */}
-      <header className="w-full bg-gradient-to-r from-slate-600 to-slate-700 px-4 sm:px-6 lg:px-8 py-6 sm:py-8 text-white shadow-lg">
+      <header className={cn('w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8 shadow-lg', theme.backgrounds.header, theme.text.onDark)}>
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between flex-wrap gap-3 mb-3 sm:mb-4">
             <div className="flex items-center gap-3">
@@ -164,9 +166,9 @@ function HomePage(): JSX.Element {
       </main>
 
       {/* Footer - Full Width */}
-      <footer className="w-full bg-slate-50 px-4 sm:px-6 lg:px-8 py-4 sm:py-6 border-t border-slate-200 shadow-inner">
+      <footer className={cn('w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6 border-t shadow-inner', 'bg-slate-50', theme.borders.light)}>
         <div className="max-w-7xl mx-auto">
-          <p className="text-center text-slate-600 text-xs sm:text-sm">
+          <p className={cn('text-center text-xs sm:text-sm', theme.text.secondary.light)}>
             Built with TypeScript, Zustand, and Tailwind CSS • Fully tested with Jest
           </p>
         </div>

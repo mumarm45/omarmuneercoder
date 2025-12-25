@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Edit2, Save } from 'lucide-react';
+import { theme } from '@/theme/colors';
+import { cn } from '@/hooks/useTheme';
 
 interface EditableFieldProps {
   value: string;
@@ -38,7 +40,7 @@ function EditableField({
           <textarea
             value={editValue}
             onChange={(e) => setEditValue(e.target.value)}
-            className={`w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 ${inputClassName}`}
+            className={cn('input-field', inputClassName)}
             placeholder={placeholder}
             rows={4}
             autoFocus
@@ -48,7 +50,7 @@ function EditableField({
             type="text"
             value={editValue}
             onChange={(e) => setEditValue(e.target.value)}
-            className={`w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 ${inputClassName}`}
+            className={cn('input-field', inputClassName)}
             placeholder={placeholder}
             autoFocus
           />
@@ -56,14 +58,14 @@ function EditableField({
         <div className="flex gap-2">
           <button
             onClick={handleSave}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded transition"
+            className={cn('flex items-center gap-2 px-4 py-2 rounded transition', theme.buttons.primary)}
           >
             <Save className="w-4 h-4" />
             Save
           </button>
           <button
             onClick={handleCancel}
-            className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded transition"
+            className={cn('px-4 py-2 rounded transition', theme.buttons.secondary)}
           >
             Cancel
           </button>
@@ -76,9 +78,9 @@ function EditableField({
     <div className={`relative group ${className}`}>
       <button
         onClick={() => setIsEditing(true)}
-        className="absolute top-0 right-0 opacity-0 group-hover:opacity-100 p-2 bg-gray-100 hover:bg-gray-200 rounded transition"
+        className={cn('absolute top-0 right-0 opacity-0 group-hover:opacity-100 p-2 rounded transition', theme.buttons.secondary)}
       >
-        <Edit2 className="w-4 h-4 text-gray-600" />
+        <Edit2 className={cn('w-4 h-4', theme.text.secondary.light)} />
       </button>
       {multiline ? (
         <p className="whitespace-pre-line">{value}</p>

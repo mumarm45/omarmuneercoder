@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Languages } from 'lucide-react';
+import { theme } from '@/theme/colors';
+import { cn } from '@/hooks/useTheme';
 
 interface NavigationProps {
   isDark: boolean;
@@ -32,7 +34,7 @@ function Navigation({
         <div className="flex items-center gap-4">
           <Link
             to="/"
-            className="flex items-center gap-2 text-indigo-500 hover:text-indigo-600 transition"
+            className="flex items-center gap-2 text-slate-600 hover:text-slate-800 transition"
           >
             <ArrowLeft className="w-5 h-5" />
             <span className="font-semibold">{backToHomeText}</span>
@@ -57,7 +59,7 @@ function Navigation({
           <button
             onClick={onDownload}
             disabled={isDownloading}
-            className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
+            className={cn('flex items-center gap-2 px-4 py-2 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed', theme.buttons.primary)}
           >
             {isDownloading ? downloadingText : downloadText}
           </button>

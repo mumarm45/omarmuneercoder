@@ -1,5 +1,7 @@
 import { Mail, Linkedin, Phone, Globe, MapPin } from 'lucide-react';
 import ContactCard from './ContactCard';
+import { theme } from '@/theme/colors';
+import { cn } from '@/hooks/useTheme';
 
 interface ContactSectionProps {
   title: string;
@@ -22,10 +24,10 @@ function ContactSection({
 }: ContactSectionProps): JSX.Element {
   return (
     <section
-      className="py-16 px-6 bg-gradient-to-r from-indigo-600 to-cyan-500"
+      className={cn('py-16 px-6', theme.backgrounds.header)}
       id="contact"
     >
-      <div className="max-w-5xl mx-auto text-center text-white">
+      <div className={cn('max-w-5xl mx-auto text-center', theme.text.onDark)}>
         <h2 className="text-3xl font-bold mb-8">{title}</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
           <ContactCard

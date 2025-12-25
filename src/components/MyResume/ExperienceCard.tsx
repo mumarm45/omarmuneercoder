@@ -1,4 +1,6 @@
 import { MapPin, Calendar } from 'lucide-react';
+import { theme } from '@/theme/colors';
+import { cn } from '@/hooks/useTheme';
 
 interface ExperienceCardProps {
   title: string;
@@ -21,9 +23,13 @@ function ExperienceCard({
 }: ExperienceCardProps): JSX.Element {
   return (
     <div
-      className={`${isDark ? 'bg-slate-800 border-slate-700' : 'bg-white border-gray-200'} rounded-xl p-8 border-l-4 border-l-indigo-500 shadow-lg`}
+      className={cn(
+        'rounded-xl p-8 border-l-4 border-l-slate-600 shadow-lg',
+        isDark ? theme.backgrounds.card.dark : theme.backgrounds.card.light,
+        isDark ? theme.borders.dark : theme.borders.light
+      )}
     >
-      <h3 className="text-2xl font-bold text-indigo-500 mb-2">{title}</h3>
+      <h3 className={cn('text-2xl font-bold mb-2', theme.text.heading)}>{title}</h3>
       <p className="text-xl font-semibold mb-2">{company}</p>
       <div className="flex gap-4 mb-4 text-sm flex-wrap">
         <span className="flex items-center gap-2">
@@ -34,12 +40,14 @@ function ExperienceCard({
         </span>
       </div>
       {description && (
-        <p className={`mb-4 ${isDark ? 'text-slate-300' : 'text-gray-600'}`}>{description}</p>
+        <p className={cn('mb-4', isDark ? theme.text.secondary.dark : theme.text.secondary.light)}>
+          {description}
+        </p>
       )}
-      <ul className={`space-y-2 ${isDark ? 'text-slate-300' : 'text-gray-700'}`}>
+      <ul className={cn('space-y-2', isDark ? theme.text.secondary.dark : 'text-gray-700')}>
         {responsibilities.map((item, index) => (
           <li key={index} className="flex items-start gap-2">
-            <span className="text-indigo-500 mt-1">•</span>
+            <span className="text-slate-600 mt-1">•</span>
             <span>{item}</span>
           </li>
         ))}

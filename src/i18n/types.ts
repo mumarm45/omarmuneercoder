@@ -1,0 +1,73 @@
+export interface Translation {
+  backToHome: string;
+  downloadPDF: string;
+  downloading: string;
+  getInTouch: string;
+  linkedinProfile: string;
+  title: string;
+  summary: string;
+  skillsTitle: string;
+  experienceTitle: string;
+  educationTitle: string;
+  contactTitle: string;
+  frontend: string;
+  backend: string;
+  databases: string;
+  devopsCloud: string;
+  security: string;
+  architecture: string;
+  testing: string;
+  toolsOther: string;
+  email: string;
+  linkedin: string;
+  phone: string;
+  website: string;
+  location: string;
+  locationValue: string;
+  ingolstadtGermany: string;
+  abuDhabiUAE: string;
+  dubaiUAE: string;
+  lahorePakistan: string;
+  present: string;
+  exp1Title: string;
+  exp1Company: string;
+  exp1Period: string;
+  exp1Desc: string;
+  exp1Points: string[];
+  exp2Title: string;
+  exp2Company: string;
+  exp2Period: string;
+  exp2Desc: string;
+  exp2Points: string[];
+  exp3Title: string;
+  exp3Company: string;
+  exp3Period: string;
+  exp3Points: string[];
+  exp4Title: string;
+  exp4Company: string;
+  exp4Period: string;
+  exp4Points: string[];
+  exp5Title: string;
+  exp5Company: string;
+  exp5Period: string;
+  exp5Desc: string;
+  exp5Points: string[];
+  eduDegree: string;
+  eduSchool: string;
+  eduPeriod: string;
+  hobbiesTitle: string;
+  hobbiesIntro: string;
+  hobbyProgramming: string;
+  hobbyProgrammingDesc: string;
+  hobbyRunning: string;
+  hobbyRunningDesc: string;
+  hobbyFitness: string;
+  hobbyFitnessDesc: string;
+}
+
+export interface Translations {
+  en: Translation;
+  de: Translation;
+}
+
+export type Language = 'en' | 'de';
