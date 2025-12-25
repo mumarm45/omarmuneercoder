@@ -28,11 +28,18 @@ interface MyResumeState {
   downloadResume: () => Promise<DownloadResult>;
 }
 
+// Helper function to detect theme based on time of day
+const getAutoTheme = (): Theme => {
+  const hour = new Date().getHours();
+  // Light theme between 7 AM and 7 PM, dark theme otherwise
+  return hour >= 7 && hour < 19 ? 'light' : 'dark';
+};
+
 const useMyResumeStore = create<MyResumeState>()(
   persist(
     (set, get) => ({
-      // UI State
-      theme: 'dark',
+      // UI State - Auto-detect theme based on time of day
+      theme: getAutoTheme(),
       language: 'en',
       
       // Resume file path - MUST match the actual file location

@@ -1,16 +1,14 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import {
-  ArrowLeft,
-  Mail,
-  Phone,
-  MapPin,
-  Linkedin,
-  Globe,
-  Calendar,
-  Languages,
-} from 'lucide-react';
 import useMyResumeStore from '@/store/pages/myResumeStore';
+import TopBar from '@/components/MyResume/TopBar';
+import Navigation from '@/components/MyResume/Navigation';
+import HeroSection from '@/components/MyResume/HeroSection';
+import SkillsSection from '@/components/MyResume/SkillsSection';
+import ExperienceSection from '@/components/MyResume/ExperienceSection';
+import EducationSection from '@/components/MyResume/EducationSection';
+import HobbiesSection from '@/components/MyResume/HobbiesSection';
+import ContactSection from '@/components/MyResume/ContactSection';
+import Footer from '@/components/MyResume/Footer';
 
 
 // Types  
@@ -71,6 +69,14 @@ interface Translation {
   eduDegree: string;
   eduSchool: string;
   eduPeriod: string;
+  hobbiesTitle: string;
+  hobbiesIntro: string;
+  hobbyProgramming: string;
+  hobbyProgrammingDesc: string;
+  hobbyRunning: string;
+  hobbyRunningDesc: string;
+  hobbyFitness: string;
+  hobbyFitnessDesc: string;
 }
 
 interface Translations {
@@ -87,23 +93,6 @@ interface Experience {
   responsibilities: string[];
 }
 
-interface SkillCardProps {
-  title: string;
-  icon: string;
-  skills: string[];
-  isDark: boolean;
-}
-
-interface ExperienceCardProps extends Experience {
-  isDark: boolean;
-}
-
-interface ContactCardProps {
-  icon: React.ReactNode;
-  title: string;
-  value: string;
-  href?: string;
-}
 
 // Translation data
 const translations: Translations = {
@@ -217,6 +206,16 @@ const translations: Translations = {
     eduDegree: 'Bachelor of Science in Computer Science',
     eduSchool: 'COMSATS Institute of Information Technology',
     eduPeriod: 'Jan 2009 - Dec 2013',
+
+    // Hobbies
+    hobbiesTitle: 'Hobbies & Interests',
+    hobbiesIntro: 'Beyond coding, I believe staying physically active is essential for mental health and productivity. Here\'s what keeps me balanced:',
+    hobbyProgramming: 'Programming',
+    hobbyProgrammingDesc: 'I love exploring new technologies, building side projects, and contributing to open source. Coding is not just my job—it\'s my passion.',
+    hobbyRunning: 'Running',
+    hobbyRunningDesc: 'Running clears my mind and boosts creativity. Whether it\'s a morning jog or weekend long runs, it helps me stay focused and energized.',
+    hobbyFitness: 'Physical Fitness',
+    hobbyFitnessDesc: 'A healthy body supports a healthy mind. Regular exercise helps me maintain focus, reduce stress, and stay productive in my work.',
   },
   de: {
     backToHome: 'Zurück zur Startseite',
@@ -328,6 +327,16 @@ const translations: Translations = {
     eduDegree: 'Bachelor of Science in Informatik',
     eduSchool: 'COMSATS Institut für Informationstechnologie',
     eduPeriod: 'Jan 2009 - Dez 2013',
+
+    // Hobbies
+    hobbiesTitle: 'Hobbys & Interessen',
+    hobbiesIntro: 'Neben dem Programmieren glaube ich, dass körperliche Aktivität essenziell für die mentale Gesundheit und Produktivität ist. Das hält mich im Gleichgewicht:',
+    hobbyProgramming: 'Programmieren',
+    hobbyProgrammingDesc: 'Ich liebe es, neue Technologien zu erkunden, Nebenprojekte zu entwickeln und zu Open Source beizutragen. Programmieren ist nicht nur mein Beruf – es ist meine Leidenschaft.',
+    hobbyRunning: 'Laufen',
+    hobbyRunningDesc: 'Laufen befreit meinen Kopf und fördert die Kreativität. Ob morgendliches Joggen oder lange Wochenendläufe – es hilft mir, fokussiert und energiegeladen zu bleiben.',
+    hobbyFitness: 'Körperliche Fitness',
+    hobbyFitnessDesc: 'Ein gesunder Körper unterstützt einen gesunden Geist. Regelmäßiges Training hilft mir, konzentriert zu bleiben, Stress abzubauen und produktiv zu arbeiten.',
   },
 };
 
@@ -395,391 +404,166 @@ function MyResume(): JSX.Element {
     },
   ];
 
+  const skillCategories = [
+    {
+      title: t.frontend,
+      icon: '💻',
+      skills: [
+        'Angular 7-18',
+        'React',
+        'TypeScript',
+        'JavaScript ES6',
+        'NgRx',
+        'Redux',
+        'Zustand',
+        'Apollo GraphQL',
+        'AngularJS',
+      ],
+    },
+    {
+      title: t.backend,
+      icon: '⚙️',
+      skills: [
+        'Java',
+        'Spring Boot',
+        'Node.js',
+        'Kotlin',
+        '.NET',
+        'Python',
+        'GraphQL',
+        'Grails',
+        'Groovy',
+        'REST/SOAP',
+      ],
+    },
+    {
+      title: t.databases,
+      icon: '🗄️',
+      skills: ['MongoDB', 'MySQL', 'MSSQL', 'Hibernate'],
+    },
+    {
+      title: t.devopsCloud,
+      icon: '☁️',
+      skills: [
+        'Docker',
+        'Azure DevOps',
+        'Jenkins',
+        'GitHub Actions',
+        'AWS EC2',
+        'S3',
+        'Lambda',
+        'Beanstalk',
+      ],
+    },
+    {
+      title: t.security,
+      icon: '🔒',
+      skills: ['Spring Security', 'JWT', 'Apache Shiro', 'LDAP', 'SSO'],
+    },
+    {
+      title: t.architecture,
+      icon: '🏗️',
+      skills: [
+        'Microservices',
+        'MVC',
+        'Design Patterns',
+        'RabbitMQ',
+        'Multi-tenant',
+        'Client-Server',
+      ],
+    },
+    {
+      title: t.testing,
+      icon: '🧪',
+      skills: ['TDD', 'BDD', 'Jasmine', 'Jest', 'JUnit', 'Spock'],
+    },
+    {
+      title: t.toolsOther,
+      icon: '🛠️',
+      skills: ['Git', 'Maven', 'Gradle', 'NPM', 'SCSS', 'Bootstrap', 'Agile'],
+    },
+  ];
+
   return (
     <div
       className={`min-h-screen transition-colors duration-300 ${isDark ? 'bg-slate-900 text-slate-100' : 'bg-gray-50 text-gray-900'}`}
     >
-      {/* Top Bar */}
-      <div className="bg-gradient-to-r from-indigo-600 to-cyan-500 py-3 px-6 flex justify-center gap-8 flex-wrap text-sm text-white">
-        <a
-          href="mailto:mumarm45@gmail.com"
-          className="flex items-center gap-2 hover:opacity-80 transition"
-        >
-          <Mail className="w-4 h-4" /> mumarm45@gmail.com
-        </a>
-        <a
-          href="tel:+491624739773"
-          className="flex items-center gap-2 hover:opacity-80 transition"
-        >
-          <Phone className="w-4 h-4" /> +49 162 473 9773
-        </a>
-        <a
-          href="https://www.linkedin.com/in/mumarm45/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-2 hover:opacity-80 transition"
-        >
-          <Linkedin className="w-4 h-4" /> LinkedIn
-        </a>
-        <span className="flex items-center gap-2">
-          <MapPin className="w-4 h-4" /> {t.ingolstadtGermany}
-        </span>
-      </div>
+      <TopBar
+        email="mumarm45@gmail.com"
+        phone="+49 162 473 9773"
+        location={t.ingolstadtGermany}
+      />
 
-      {/* Navigation */}
-      <nav
-        className={`sticky top-0 z-50 ${isDark ? 'bg-slate-800/95' : 'bg-white/95'} backdrop-blur-md shadow-md`}
-      >
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <Link
-              to="/"
-              className="flex items-center gap-2 text-indigo-500 hover:text-indigo-600 transition"
-            >
-              <ArrowLeft className="w-5 h-5" />
-              <span className="font-semibold">{t.backToHome}</span>
-            </Link>
-          </div>
-          <div className="flex items-center gap-4">
-            <button
-              onClick={toggleLanguage}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full ${isDark ? 'bg-slate-700 hover:bg-slate-600' : 'bg-gray-200 hover:bg-gray-300'} transition font-semibold`}
-              aria-label="Toggle language"
-            >
-              <Languages className="w-4 h-4" />
-              {language === 'en' ? 'DE' : 'EN'}
-            </button>
-            <button
-              onClick={toggleTheme}
-              className={`p-2 rounded-full ${isDark ? 'bg-slate-700 hover:bg-slate-600' : 'bg-gray-200 hover:bg-gray-300'} transition`}
-              aria-label="Toggle theme"
-            >
-              {isDark ? '🌙' : '☀️'}
-            </button>
-            <button
-              onClick={handleDownload}
-              disabled={isDownloading}
-              className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isDownloading ? t.downloading : t.downloadPDF}
-            </button>
-          </div>
-        </div>
-      </nav>
+      <Navigation
+        isDark={isDark}
+        language={language}
+        isDownloading={isDownloading}
+        backToHomeText={t.backToHome}
+        downloadText={t.downloadPDF}
+        downloadingText={t.downloading}
+        onToggleLanguage={toggleLanguage}
+        onToggleTheme={toggleTheme}
+        onDownload={handleDownload}
+      />
 
-      {/* Hero Section */}
-      <section className="py-16 px-6">
-        <div className="max-w-5xl mx-auto text-center">
-          <div className="w-40 h-40 mx-auto mb-6 rounded-full overflow-hidden border-4 border-indigo-500 shadow-xl">
-            <img
-              src="/images/omar_muneer_2.jpg"
-              alt="Muhammad Omar Muneer"
-              className="w-full h-full object-cover object-top"
-            />
-          </div>
-          <h1 className="text-5xl font-bold mb-4">
-            Muhammad{' '}
-            <span className="bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent">
-              Omar Muneer
-            </span>
-          </h1>
-          <p className="text-2xl text-cyan-500 mb-4">{t.title}</p>
-          <p
-            className={`text-lg max-w-3xl mx-auto mb-8 ${isDark ? 'text-slate-300' : 'text-gray-600'}`}
-          >
-            {t.summary}
-          </p>
-          <div className="flex gap-4 justify-center flex-wrap">
-            <a
-              href="mailto:mumarm45@gmail.com"
-              className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-cyan-500 text-white rounded-full font-semibold hover:shadow-lg transition"
-            >
-              {t.getInTouch}
-            </a>
-            <a
-              href="https://www.linkedin.com/in/mumarm45/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`px-6 py-3 border-2 border-indigo-600 rounded-full font-semibold hover:bg-indigo-600 hover:text-white transition ${isDark ? 'text-white' : 'text-indigo-600'}`}
-            >
-              {t.linkedinProfile}
-            </a>
-          </div>
-        </div>
-      </section>
+      <HeroSection
+        isDark={isDark}
+        title={t.title}
+        summary={t.summary}
+        getInTouchText={t.getInTouch}
+        linkedinProfileText={t.linkedinProfile}
+      />
 
-      {/* Skills Section */}
-      <section className="py-16 px-6" id="skills">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            {t.skillsTitle.split(' & ')[0]} &{' '}
-            <span className="text-indigo-500">{t.skillsTitle.split(' & ')[1]}</span>
-          </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <SkillCard
-              title={t.frontend}
-              icon="💻"
-              skills={[
-                'Angular 7-18',
-                'React',
-                'TypeScript',
-                'JavaScript ES6',
-                'NgRx',
-                'Redux',
-                'Zustand',
-                'Apollo GraphQL',
-                'AngularJS',
-              ]}
-              isDark={isDark}
-            />
-            <SkillCard
-              title={t.backend}
-              icon="⚙️"
-              skills={[
-                'Java',
-                'Spring Boot',
-                'Node.js',
-                'Kotlin',
-                '.NET',
-                'Python',
-                'GraphQL',
-                'Grails',
-                'Groovy',
-                'REST/SOAP',
-              ]}
-              isDark={isDark}
-            />
-            <SkillCard
-              title={t.databases}
-              icon="🗄️"
-              skills={['MongoDB', 'MySQL', 'MSSQL', 'Hibernate']}
-              isDark={isDark}
-            />
-            <SkillCard
-              title={t.devopsCloud}
-              icon="☁️"
-              skills={[
-                'Docker',
-                'Azure DevOps',
-                'Jenkins',
-                'GitHub Actions',
-                'AWS EC2',
-                'S3',
-                'Lambda',
-                'Beanstalk',
-              ]}
-              isDark={isDark}
-            />
-            <SkillCard
-              title={t.security}
-              icon="🔒"
-              skills={['Spring Security', 'JWT', 'Apache Shiro', 'LDAP', 'SSO']}
-              isDark={isDark}
-            />
-            <SkillCard
-              title={t.architecture}
-              icon="🏗️"
-              skills={[
-                'Microservices',
-                'MVC',
-                'Design Patterns',
-                'RabbitMQ',
-                'Multi-tenant',
-                'Client-Server',
-              ]}
-              isDark={isDark}
-            />
-            <SkillCard
-              title={t.testing}
-              icon="🧪"
-              skills={['TDD', 'BDD', 'Jasmine', 'Jest', 'JUnit', 'Spock']}
-              isDark={isDark}
-            />
-            <SkillCard
-              title={t.toolsOther}
-              icon="🛠️"
-              skills={['Git', 'Maven', 'Gradle', 'NPM', 'SCSS', 'Bootstrap', 'Agile']}
-              isDark={isDark}
-            />
-          </div>
-        </div>
-      </section>
+      <SkillsSection isDark={isDark} title={t.skillsTitle} categories={skillCategories} />
 
-      {/* Experience Section */}
-      <section className="py-16 px-6" id="experience">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            {t.experienceTitle.split(' ')[0]}{' '}
-            <span className="text-indigo-500">{t.experienceTitle.split(' ')[1]}</span>
-          </h2>
-          <div className="space-y-8">
-            {experiences.map((exp, index) => (
-              <ExperienceCard key={index} {...exp} isDark={isDark} />
-            ))}
-          </div>
-        </div>
-      </section>
+      <ExperienceSection isDark={isDark} title={t.experienceTitle} experiences={experiences} />
 
-      {/* Education Section */}
-      <section className="py-16 px-6" id="education">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            <span className="text-indigo-500">{t.educationTitle}</span>
-          </h2>
-          <div
-            className={`${isDark ? 'bg-slate-800' : 'bg-white'} rounded-2xl p-8 shadow-lg border ${isDark ? 'border-slate-700' : 'border-gray-200'}`}
-          >
-            <div className="flex items-start gap-4">
-              <div className="text-4xl">🎓</div>
-              <div className="flex-1">
-                <h3 className="text-2xl font-bold text-indigo-500 mb-2">{t.eduDegree}</h3>
-                <p className="text-xl font-semibold mb-2">{t.eduSchool}</p>
-                <div className="flex gap-4 text-sm flex-wrap">
-                  <span className="flex items-center gap-2">
-                    <MapPin className="w-4 h-4" /> {t.lahorePakistan}
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4" /> {t.eduPeriod}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <EducationSection
+        isDark={isDark}
+        title={t.educationTitle}
+        degree={t.eduDegree}
+        school={t.eduSchool}
+        location={t.lahorePakistan}
+        period={t.eduPeriod}
+      />
 
-      {/* Contact Section */}
-      <section
-        className="py-16 px-6 bg-gradient-to-r from-indigo-600 to-cyan-500"
-        id="contact"
-      >
-        <div className="max-w-5xl mx-auto text-center text-white">
-          <h2 className="text-3xl font-bold mb-8">{t.contactTitle}</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
-            <ContactCard
-              icon={<Mail />}
-              title={t.email}
-              value="mumarm45@gmail.com"
-              href="mailto:mumarm45@gmail.com"
-            />
-            <ContactCard
-              icon={<Linkedin />}
-              title={t.linkedin}
-              value="linkedin.com/in/mumarm45"
-              href="https://www.linkedin.com/in/mumarm45/"
-            />
-            <ContactCard
-              icon={<Phone />}
-              title={t.phone}
-              value="+49 162 473 9773"
-              href="tel:+491624739773"
-            />
-            <ContactCard
-              icon={<Globe />}
-              title={t.website}
-              value="omarmuneercoder.de"
-              href="https://www.omarmuneercoder.de/"
-            />
-            <ContactCard icon={<MapPin />} title={t.location} value={t.locationValue} />
-          </div>
-        </div>
-      </section>
+      <HobbiesSection
+        isDark={isDark}
+        title={t.hobbiesTitle}
+        intro={t.hobbiesIntro}
+        hobbies={[
+          {
+            icon: <span className="text-6xl">💻</span>,
+            title: t.hobbyProgramming,
+            description: t.hobbyProgrammingDesc,
+          },
+          {
+            icon: <span className="text-6xl">🏃</span>,
+            title: t.hobbyRunning,
+            description: t.hobbyRunningDesc,
+          },
+          {
+            icon: <span className="text-6xl">💪</span>,
+            title: t.hobbyFitness,
+            description: t.hobbyFitnessDesc,
+          },
+        ]}
+      />
 
-      {/* Footer */}
-      <footer
-        className={`py-8 text-center ${isDark ? 'bg-slate-900 border-t border-slate-800' : 'bg-gray-50 border-t border-gray-200'}`}
-      >
-        <p className={isDark ? 'text-slate-400' : 'text-gray-600'}>
-          © 2025 Muhammad Omar Muneer. Built with passion.
-        </p>
-      </footer>
+      <ContactSection
+        title={t.contactTitle}
+        emailLabel={t.email}
+        linkedinLabel={t.linkedin}
+        phoneLabel={t.phone}
+        websiteLabel={t.website}
+        locationLabel={t.location}
+        locationValue={t.locationValue}
+      />
+
+      <Footer isDark={isDark} />
     </div>
   );
 }
 
-// Skill Card Component
-function SkillCard({ title, icon, skills, isDark }: SkillCardProps): JSX.Element {
-  return (
-    <div
-      className={`${isDark ? 'bg-slate-800 border-slate-700' : 'bg-white border-gray-200'} rounded-xl p-6 border hover:border-indigo-500 transition shadow-lg`}
-    >
-      <h3 className="text-xl font-bold text-indigo-500 mb-4 flex items-center gap-2">
-        <span>{icon}</span> {title}
-      </h3>
-      <div className="flex flex-wrap gap-2">
-        {skills.map((skill, index) => (
-          <span
-            key={index}
-            className={`px-3 py-1 ${isDark ? 'bg-indigo-900/30' : 'bg-indigo-100'} text-sm rounded-full ${isDark ? 'text-indigo-300' : 'text-indigo-700'}`}
-          >
-            {skill}
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// Experience Card Component
-function ExperienceCard({ 
-  title, 
-  company, 
-  location, 
-  period, 
-  description, 
-  responsibilities, 
-  isDark 
-}: ExperienceCardProps): JSX.Element {
-  return (
-    <div
-      className={`${isDark ? 'bg-slate-800 border-slate-700' : 'bg-white border-gray-200'} rounded-xl p-8 border-l-4 border-l-indigo-500 shadow-lg`}
-    >
-      <h3 className="text-2xl font-bold text-indigo-500 mb-2">{title}</h3>
-      <p className="text-xl font-semibold mb-2">{company}</p>
-      <div className="flex gap-4 mb-4 text-sm flex-wrap">
-        <span className="flex items-center gap-2">
-          <MapPin className="w-4 h-4" /> {location}
-        </span>
-        <span className="flex items-center gap-2">
-          <Calendar className="w-4 h-4" /> {period}
-        </span>
-      </div>
-      {description && (
-        <p className={`mb-4 ${isDark ? 'text-slate-300' : 'text-gray-600'}`}>{description}</p>
-      )}
-      <ul className={`space-y-2 ${isDark ? 'text-slate-300' : 'text-gray-700'}`}>
-        {responsibilities.map((item, index) => (
-          <li key={index} className="flex items-start gap-2">
-            <span className="text-indigo-500 mt-1">•</span>
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-// Contact Card Component
-function ContactCard({ icon, title, value, href }: ContactCardProps): JSX.Element {
-  const content = (
-    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 hover:bg-white/20 transition">
-      <div className="text-3xl mb-3">{icon}</div>
-      <h3 className="font-semibold mb-2">{title}</h3>
-      <p className="text-sm opacity-90 break-all">{value}</p>
-    </div>
-  );
-
-  return href ? (
-    <a
-      href={href}
-      target={href.startsWith('http') ? '_blank' : undefined}
-      rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
-    >
-      {content}
-    </a>
-  ) : (
-    content
-  );
-}
 
 export default MyResume;

@@ -1,98 +1,181 @@
-import { useState } from 'react';
+import { useState, useCallback, memo } from 'react';
 import { Link } from 'react-router-dom';
-import { FileText, Download, Eye, FileDown, Home } from 'lucide-react';
-import { exportToPDF, exportToWord } from '@utils/exportToWord';
+import { FileText, Download, Eye, EyeOff, FileDown, Home } from 'lucide-react';
+import { exportToPDF } from '@utils/exportToPDF';
+import { exportToWord } from '@utils/exportToWord';
 import useResumeStore from '@store/resumeStore';
+import { useAsyncOperation } from '@hooks/useAsyncOperation';
+import { logger } from '@utils/errorHandling';
+import Toast from './Toast';
+
+// Download menu item component
+interface DownloadMenuItemProps {
+  onClick: () => void;
+  icon: typeof FileDown;
+  label: string;
+  disabled?: boolean;
+}
+
+const DownloadMenuItem = memo(({ onClick, icon: Icon, label, disabled }: DownloadMenuItemProps) => (
+  <button
+    onClick={onClick}
+    disabled={disabled}
+    className="w-full flex items-center gap-3 px-4 py-2 hover:bg-slate-50 transition-colors
+               disabled:opacity-50 disabled:cursor-not-allowed text-left"
+  >
+    <Icon className="w-4 h-4 text-slate-600" />
+    <span className="text-slate-700">{label}</span>
+  </button>
+));
+
+DownloadMenuItem.displayName = 'DownloadMenuItem';
 
 function Header(): JSX.Element {
   const { showPreview, togglePreview, resumeData } = useResumeStore();
+  
   const [showDownloadMenu, setShowDownloadMenu] = useState<boolean>(false);
-  const [isExporting, setIsExporting] = useState<boolean>(false);
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
-  const handleDownloadPDF = async (): Promise<void> => {
-    setIsExporting(true);
-    const result = await exportToPDF('resume-preview', 'resume.pdf');
-    setIsExporting(false);
+  // Async operations for PDF export
+  const { execute: executePDFExport, state: pdfState } = useAsyncOperation(
+    async () => {
+      logger.info('Starting PDF export');
+      return await exportToPDF({
+        elementId: 'resume-preview',
+        fileName: 'resume.pdf',
+      });
+    }
+  );
+
+  // Async operations for Word export
+  const { execute: executeWordExport, state: wordState } = useAsyncOperation(
+    async () => {
+      logger.info('Starting Word export');
+      return await exportToWord(resumeData, {
+        fileName: 'resume.txt',
+        format: 'txt',
+      });
+    }
+  );
+
+  const isExporting = pdfState.loading || wordState.loading;
+
+  // Handle PDF download
+  const handleDownloadPDF = useCallback(async () => {
+    await executePDFExport();
     setShowDownloadMenu(false);
     
-    if (result.success) {
-      alert('PDF downloaded successfully!');
-    } else {
-      alert('Failed to download PDF. Please try again.');
+    if (pdfState.error) {
+      setToast({ message: 'Failed to download PDF. Please try again.', type: 'error' });
+    } else if (!pdfState.loading) {
+      setToast({ message: 'PDF downloaded successfully!', type: 'success' });
     }
-  };
+  }, [executePDFExport, pdfState.error, pdfState.loading]);
 
-  const handleDownloadWord = async (): Promise<void> => {
-    setIsExporting(true);
-    const result = await exportToWord(resumeData, 'resume.txt');
-    setIsExporting(false);
+  // Handle Word download
+  const handleDownloadWord = useCallback(async () => {
+    await executeWordExport();
     setShowDownloadMenu(false);
     
-    if (result.success) {
-      alert('Document downloaded successfully!');
-    } else {
-      alert('Failed to download document. Please try again.');
+    if (wordState.error) {
+      setToast({ message: 'Failed to download document. Please try again.', type: 'error' });
+    } else if (!wordState.loading) {
+      setToast({ message: 'Document downloaded successfully!', type: 'success' });
     }
-  };
+  }, [executeWordExport, wordState.error, wordState.loading]);
+
+  // Toggle download menu
+  const toggleDownloadMenu = useCallback(() => {
+    if (!isExporting) {
+      setShowDownloadMenu((prev) => !prev);
+    }
+  }, [isExporting]);
 
   return (
-    <div className="bg-white border-b shadow-sm sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <Link to="/" className="flex items-center gap-2 text-gray-600 hover:text-indigo-600 transition">
-              <Home className="w-5 h-5" />
-              <span className="font-semibold">Home</span>
-            </Link>
-            <div className="flex items-center gap-3">
-              <FileText className="w-8 h-8 text-blue-600" />
-              <h1 className="text-2xl font-bold text-gray-800">Resume Builder</h1>
-            </div>
-          </div>
-          
-          <div className="flex gap-3">
-            <button
-              onClick={togglePreview}
-              className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition duration-200"
-            >
-              <Eye className="w-4 h-4" />
-              {showPreview ? 'Hide Preview' : 'Show Preview'}
-            </button>
-            
-            <div className="relative">
-              <button
-                onClick={() => setShowDownloadMenu(!showDownloadMenu)}
-                disabled={isExporting}
-                className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+    <>
+      <header className="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <nav className="flex items-center justify-between">
+            {/* Left section */}
+            <div className="flex items-center gap-6">
+              <Link 
+                to="/" 
+                className="flex items-center gap-2 text-slate-600 hover:text-slate-800 
+                         transition-colors duration-200 group"
               >
-                <Download className="w-4 h-4" />
-                {isExporting ? 'Exporting...' : 'Download'}
+                <Home className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                <span className="font-semibold">Home</span>
+              </Link>
+              
+              <div className="flex items-center gap-3">
+                <FileText className="w-8 h-8 text-slate-700" />
+                <h1 className="text-2xl font-bold text-slate-800">Resume Builder</h1>
+              </div>
+            </div>
+            
+            {/* Right section */}
+            <div className="flex gap-3">
+              {/* Toggle Preview Button */}
+              <button
+                onClick={togglePreview}
+                className="btn-secondary flex items-center gap-2"
+                aria-label={showPreview ? 'Hide preview' : 'Show preview'}
+              >
+                {showPreview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                <span className="hidden sm:inline">
+                  {showPreview ? 'Hide Preview' : 'Show Preview'}
+                </span>
               </button>
               
-              {showDownloadMenu && !isExporting && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-10">
-                  <button
-                    onClick={handleDownloadPDF}
-                    className="w-full flex items-center gap-3 px-4 py-2 hover:bg-gray-50 transition"
+              {/* Download Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={toggleDownloadMenu}
+                  disabled={isExporting}
+                  className="btn-primary flex items-center gap-2"
+                  aria-label="Download options"
+                  aria-expanded={showDownloadMenu}
+                >
+                  <Download className="w-4 h-4" />
+                  {isExporting ? 'Exporting...' : 'Download'}
+                </button>
+                
+                {showDownloadMenu && !isExporting && (
+                  <div 
+                    className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg 
+                               border border-slate-200 py-2 z-10 animate-fade-in"
+                    role="menu"
                   >
-                    <FileDown className="w-4 h-4 text-red-600" />
-                    <span className="text-gray-700">Download as PDF</span>
-                  </button>
-                  <button
-                    onClick={handleDownloadWord}
-                    className="w-full flex items-center gap-3 px-4 py-2 hover:bg-gray-50 transition"
-                  >
-                    <FileDown className="w-4 h-4 text-blue-600" />
-                    <span className="text-gray-700">Download as Text</span>
-                  </button>
-                </div>
-              )}
+                    <DownloadMenuItem
+                      onClick={handleDownloadPDF}
+                      icon={FileDown}
+                      label="Download as PDF"
+                      disabled={pdfState.loading}
+                    />
+                    <DownloadMenuItem
+                      onClick={handleDownloadWord}
+                      icon={FileDown}
+                      label="Download as Text"
+                      disabled={wordState.loading}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
+          </nav>
         </div>
-      </div>
-    </div>
+      </header>
+
+      {/* Toast notifications */}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
+    </>
   );
 }
 
-export default Header;
+export default memo(Header);

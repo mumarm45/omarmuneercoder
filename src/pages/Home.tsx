@@ -1,133 +1,178 @@
-import { FileText } from 'lucide-react';
+import { memo } from 'react';
+import { FileText, User, Edit, Check, FileDown, Github } from 'lucide-react';
 import { Link } from 'react-router-dom';
+
+interface FeatureCardProps {
+  icon: typeof Edit;
+  title: string;
+  description: string;
+}
+
+const FeatureCard = memo(({ icon: Icon, title, description }: FeatureCardProps) => (
+  <div className="text-center">
+    <div className="bg-slate-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+      <Icon className="w-6 h-6 text-slate-600" />
+    </div>
+    <h4 className="font-semibold text-slate-800 mb-2">{title}</h4>
+    <p className="text-sm text-slate-600">{description}</p>
+  </div>
+));
+
+FeatureCard.displayName = 'FeatureCard';
+
+interface NavigationCardProps {
+  to: string;
+  bgGradient: string;
+  iconBg: string;
+  icon: typeof FileText;
+  title: string;
+  description: string;
+  badges: Array<{ text: string; bgColor: string; textColor: string }>;
+}
+
+const NavigationCard = memo(({
+  to,
+  bgGradient,
+  iconBg,
+  icon: Icon,
+  title,
+  description,
+  badges,
+}: NavigationCardProps) => (
+  <Link to={to} className="group">
+    <div className={`${bgGradient} rounded-xl p-8 border-2 border-slate-200 
+                    hover:border-slate-400 transition-all duration-300 hover:shadow-xl cursor-pointer`}>
+      <div className="flex justify-center mb-4">
+        <div className={`${iconBg} p-4 rounded-full group-hover:scale-110 transition-transform`}>
+          <Icon className="w-12 h-12 text-white" />
+        </div>
+      </div>
+      <h2 className="text-2xl font-bold text-slate-800 mb-3 text-center">
+        {title}
+      </h2>
+      <p className="text-slate-600 text-center mb-4">
+        {description}
+      </p>
+      <p className="text-slate-600 text-center text-sm">
+        {badges.map((badge, index) => (
+          <span key={index}>
+            {badge.text}
+            {index < badges.length - 1 && ' • '}
+          </span>
+        ))}
+      </p>
+    </div>
+  </Link>
+));
+
+NavigationCard.displayName = 'NavigationCard';
 
 function HomePage(): JSX.Element {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="max-w-4xl w-full bg-white rounded-2xl shadow-2xl overflow-hidden">
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-8 text-white">
-          <div className="flex items-center gap-3 mb-4">
-            <FileText className="w-12 h-12" />
-            <h1 className="text-4xl font-bold">Resume Application</h1>
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-slate-200">
+      {/* Header - Full Width */}
+      <header className="w-full bg-gradient-to-r from-slate-600 to-slate-700 px-4 sm:px-6 lg:px-8 py-6 sm:py-8 text-white shadow-lg">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-between flex-wrap gap-3 mb-3 sm:mb-4">
+            <div className="flex items-center gap-3">
+              <FileText className="w-10 h-10 sm:w-12 sm:h-12" />
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold">Resume Application</h1>
+            </div>
+            <div className="flex items-center gap-2 sm:gap-3">
+              <a
+                href="https://github.com/mumarm45/omarmuneercoder"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 bg-slate-800 hover:bg-slate-900 text-white text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg shadow-md transition-colors"
+              >
+                <Github className="w-4 h-4" />
+                <span className="hidden sm:inline">View on GitHub</span>
+                <span className="sm:hidden">GitHub</span>
+              </a>
+              <span className="bg-blue-500 text-white text-xs sm:text-sm font-semibold px-3 py-1 rounded-full shadow-md">
+                Portfolio Demo
+              </span>
+            </div>
           </div>
-          <p className="text-blue-100 text-lg">
+          <p className="text-slate-100 text-base sm:text-lg mb-2">
             Create professional resumes or view my personal resume
           </p>
+          <p className="text-slate-300 text-sm italic">
+            📌 Sample portfolio project to showcase React application development
+          </p>
         </div>
+      </header>
 
-        <div className="p-8">
-          <div className="grid md:grid-cols-2 gap-6">
-            {/* Resume Builder Card */}
-            <Link to="/builder" className="group">
-              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-8 border-2 border-blue-200 hover:border-blue-400 transition-all duration-300 hover:shadow-xl cursor-pointer">
-                <div className="flex justify-center mb-4">
-                  <div className="bg-blue-600 p-4 rounded-full group-hover:scale-110 transition-transform">
-                    <FileText className="w-12 h-12 text-white" />
-                  </div>
-                </div>
-                <h2 className="text-2xl font-bold text-gray-800 mb-3 text-center">
-                  Resume Builder
-                </h2>
-                <p className="text-gray-600 text-center mb-4">
-                  Create and customize your professional resume with our easy-to-use builder
-                </p>
-                <div className="flex flex-wrap gap-2 justify-center">
-                  <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
-                    Templates
-                  </span>
-                  <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
-                    Drag & Drop
-                  </span>
-                  <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
-                    Export PDF
-                  </span>
-                </div>
-              </div>
-            </Link>
+      {/* Main Content - Full Width with Centered Container */}
+      <main className="flex-1 w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div className="max-w-7xl mx-auto">
+          {/* Navigation Cards */}
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-12">
+            <NavigationCard
+              to="/builder"
+              bgGradient="bg-gradient-to-br from-white to-slate-50"
+              iconBg="bg-slate-600"
+              icon={FileText}
+              title="Resume Builder"
+              description="Create and customize your professional resume with our easy-to-use builder"
+              badges={[
+                { text: 'Templates', bgColor: 'bg-slate-100', textColor: 'text-slate-700' },
+                { text: 'Drag & Drop', bgColor: 'bg-slate-200', textColor: 'text-slate-700' },
+                { text: 'Export PDF', bgColor: 'bg-slate-100', textColor: 'text-slate-700' },
+              ]}
+            />
 
-            {/* My Resume Card */}
-            <Link to="/my-resume" className="group">
-              <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl p-8 border-2 border-indigo-200 hover:border-indigo-400 transition-all duration-300 hover:shadow-xl cursor-pointer">
-                <div className="flex justify-center mb-4">
-                  <div className="bg-indigo-600 p-4 rounded-full group-hover:scale-110 transition-transform">
-                    <svg className="w-12 h-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                  </div>
-                </div>
-                <h2 className="text-2xl font-bold text-gray-800 mb-3 text-center">
-                  Muhammad Omar Muneer
-                </h2>
-                <p className="text-gray-600 text-center mb-4">
-                  View my professional resume and experience as a Senior Full-Stack Engineer
-                </p>
-                <div className="flex flex-wrap gap-2 justify-center">
-                  <span className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium">
-                    11+ Years
-                  </span>
-                  <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
-                    Full-Stack
-                  </span>
-                  <span className="px-3 py-1 bg-pink-100 text-pink-700 rounded-full text-sm font-medium">
-                    Angular & React
-                  </span>
-                </div>
-              </div>
-            </Link>
+            <NavigationCard
+              to="/my-resume"
+              bgGradient="bg-gradient-to-br from-slate-50 to-slate-100"
+              iconBg="bg-slate-700"
+              icon={User}
+              title="Muhammad Omar Muneer"
+              description="View my professional resume and experience as a Senior Full-Stack Engineer"
+              badges={[
+                { text: '11+ Years', bgColor: 'bg-slate-100', textColor: 'text-slate-700' },
+                { text: 'Full-Stack', bgColor: 'bg-slate-200', textColor: 'text-slate-700' },
+                { text: 'Angular & React', bgColor: 'bg-slate-100', textColor: 'text-slate-700' },
+              ]}
+            />
           </div>
 
           {/* Features Section */}
-          <div className="mt-12 pt-8 border-t border-gray-200">
-            <h3 className="text-xl font-bold text-gray-800 mb-6 text-center">
+          <div className="pt-8 sm:pt-12 border-t border-slate-300">
+            <h3 className="text-xl sm:text-2xl font-bold text-slate-800 mb-6 sm:mb-8 text-center">
               Why Use This Application?
             </h3>
-            <div className="grid md:grid-cols-3 gap-6">
-              <div className="text-center">
-                <div className="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <svg className="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-                  </svg>
-                </div>
-                <h4 className="font-semibold text-gray-800 mb-2">Easy Customization</h4>
-                <p className="text-sm text-gray-600">
-                  Drag, drop, and edit to create your perfect resume
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <svg className="w-6 h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <h4 className="font-semibold text-gray-800 mb-2">Professional Templates</h4>
-                <p className="text-sm text-gray-600">
-                  Choose from beautifully designed templates
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="bg-purple-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <svg className="w-6 h-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                  </svg>
-                </div>
-                <h4 className="font-semibold text-gray-800 mb-2">Export Options</h4>
-                <p className="text-sm text-gray-600">
-                  Download as PDF or text format
-                </p>
-              </div>
+            <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+              <FeatureCard
+                icon={Edit}
+                title="Easy Customization"
+                description="Drag, drop, and edit to create your perfect resume"
+              />
+              <FeatureCard
+                icon={Check}
+                title="Professional Templates"
+                description="Choose from beautifully designed templates"
+              />
+              <FeatureCard
+                icon={FileDown}
+                title="Export Options"
+                description="Download as PDF or text format"
+              />
             </div>
           </div>
         </div>
+      </main>
 
-        {/* Footer */}
-        <div className="bg-gray-50 px-8 py-4 border-t border-gray-200">
-          <p className="text-center text-gray-600 text-sm">
+      {/* Footer - Full Width */}
+      <footer className="w-full bg-slate-50 px-4 sm:px-6 lg:px-8 py-4 sm:py-6 border-t border-slate-200 shadow-inner">
+        <div className="max-w-7xl mx-auto">
+          <p className="text-center text-slate-600 text-xs sm:text-sm">
             Built with TypeScript, Zustand, and Tailwind CSS • Fully tested with Jest
           </p>
         </div>
-      </div>
+      </footer>
     </div>
   );
 }
 
-export default HomePage;
+export default memo(HomePage);

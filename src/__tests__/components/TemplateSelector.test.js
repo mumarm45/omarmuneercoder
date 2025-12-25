@@ -30,7 +30,7 @@ describe('TemplateSelector Component', () => {
     render(<TemplateSelector />);
 
     const modernButton = screen.getByText('Modern').closest('button');
-    expect(modernButton).toHaveClass('border-blue-500');
+    expect(modernButton).toHaveClass('bg-slate-50');
   });
 
   it('should call setTemplate when a template is clicked', async () => {
@@ -54,6 +54,6 @@ describe('TemplateSelector Component', () => {
     rerender(<TemplateSelector />);
 
     const minimalButton = screen.getByText('Minimal').closest('button');
-    expect(minimalButton).toHaveClass('border-blue-500');
+    expect(minimalButton).toHaveClass('bg-slate-50');
   });
 });

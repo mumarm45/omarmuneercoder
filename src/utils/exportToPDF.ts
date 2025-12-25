@@ -1,5 +1,6 @@
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { withErrorHandling, ErrorCode, OperationResult, logger } from './errorHandling';
 
 export interface ExportResult {
   success: boolean;
@@ -7,59 +8,130 @@ export interface ExportResult {
   error?: Error;
 }
 
-export const exportToPDF = async (
-  elementId: string = 'resume-preview',
-  fileName: string = 'resume.pdf'
-): Promise<ExportResult> => {
-  try {
-    const element = document.getElementById(elementId);
-    
-    if (!element) {
-      throw new Error('Resume preview element not found');
-    }
+export interface PDFExportOptions {
+  elementId: string;
+  fileName: string;
+  scale?: number;
+  quality?: number;
+}
 
-    // Create canvas from the resume element
-    const canvas = await html2canvas(element, {
-      scale: 2,
-      useCORS: true,
-      logging: false,
-      backgroundColor: '#ffffff'
-    });
-
-    const imgData = canvas.toDataURL('image/png');
-    
-    // Calculate dimensions
-    const imgWidth = 210; // A4 width in mm
-    const pageHeight = 297; // A4 height in mm
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-    let heightLeft = imgHeight;
-    let position = 0;
-
-    // Create PDF
-    const pdf = new jsPDF('p', 'mm', 'a4');
-    
-    // Add first page
-    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-    heightLeft -= pageHeight;
-
-    // Add additional pages if content is longer
-    while (heightLeft > 0) {
-      position = heightLeft - imgHeight;
-      pdf.addPage();
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-    }
-
-    // Save the PDF
-    pdf.save(fileName);
-    
-    return { success: true, message: 'PDF downloaded successfully' };
-  } catch (error) {
-    console.error('Error generating PDF:', error);
-    return { 
-      success: false, 
-      message: 'Failed to generate PDF', 
-      error: error as Error 
-    };
-  }
+const DEFAULT_OPTIONS: Partial<PDFExportOptions> = {
+  scale: 2,
+  quality: 0.95,
 };
+
+/**
+ * Validates DOM element exists
+ */
+function validateElement(elementId: string): HTMLElement {
+  const element = document.getElementById(elementId);
+  if (!element) {
+    throw new Error(`Element with ID "${elementId}" not found in DOM`);
+  }
+  return element;
+}
+
+/**
+ * Converts HTML element to canvas
+ */
+async function elementToCanvas(
+  element: HTMLElement,
+  scale: number
+): Promise<HTMLCanvasElement> {
+  logger.debug('Converting element to canvas', { scale });
+
+  return await html2canvas(element, {
+    scale,
+    useCORS: true,
+    logging: false,
+    backgroundColor: '#ffffff',
+    imageTimeout: 15000,
+    allowTaint: false,
+  });
+}
+
+/**
+ * Calculates PDF dimensions for A4 format
+ */
+function calculatePDFDimensions(canvas: HTMLCanvasElement) {
+  const A4_WIDTH = 210; // mm
+  const A4_HEIGHT = 297; // mm
+  const imgWidth = A4_WIDTH;
+  const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+  return {
+    imgWidth,
+    imgHeight,
+    pageHeight: A4_HEIGHT,
+  };
+}
+
+/**
+ * Adds image pages to PDF document
+ */
+function addImageToPDF(
+  pdf: jsPDF,
+  imgData: string,
+  dimensions: ReturnType<typeof calculatePDFDimensions>
+): void {
+  const { imgWidth, imgHeight, pageHeight } = dimensions;
+  let heightLeft = imgHeight;
+  let position = 0;
+
+  // Add first page
+  pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
+  heightLeft -= pageHeight;
+
+  // Add additional pages if needed
+  while (heightLeft > 0) {
+    position = heightLeft - imgHeight;
+    pdf.addPage();
+    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
+    heightLeft -= pageHeight;
+  }
+}
+
+/**
+ * Exports HTML element to PDF with error handling and retry logic
+ */
+export async function exportToPDF(
+  options: PDFExportOptions
+): Promise<OperationResult<void>> {
+  const mergedOptions = { ...DEFAULT_OPTIONS, ...options };
+  const { elementId, fileName, scale = 2 } = mergedOptions;
+
+  logger.info('Starting PDF export', { elementId, fileName });
+
+  return withErrorHandling(
+    async () => {
+      // Validate element
+      const element = validateElement(elementId);
+
+      // Convert to canvas
+      const canvas = await elementToCanvas(element, scale);
+      logger.debug('Canvas created', {
+        width: canvas.width,
+        height: canvas.height,
+      });
+
+      // Get image data
+      const imgData = canvas.toDataURL('image/png', mergedOptions.quality);
+
+      // Calculate dimensions
+      const dimensions = calculatePDFDimensions(canvas);
+
+      // Create PDF
+      const pdf = new jsPDF('p', 'mm', 'a4', true);
+
+      // Add content to PDF
+      addImageToPDF(pdf, imgData, dimensions);
+
+      // Save PDF
+      pdf.save(fileName);
+
+      logger.info('PDF export completed successfully', { fileName });
+    },
+    'Failed to export PDF',
+    ErrorCode.EXPORT_FAILED
+  );
+}
