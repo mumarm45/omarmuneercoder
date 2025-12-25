@@ -1,6 +1,7 @@
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 import { withErrorHandling, ErrorCode, OperationResult, logger } from './errorHandling';
+
+type JsPDFConstructor = (typeof import('jspdf'))['default'];
+type JsPDFInstance = InstanceType<JsPDFConstructor>;
 
 export interface ExportResult {
   success: boolean;
@@ -40,6 +41,8 @@ async function elementToCanvas(
 ): Promise<HTMLCanvasElement> {
   logger.debug('Converting element to canvas', { scale });
 
+  const { default: html2canvas } = await import('html2canvas');
+
   return await html2canvas(element, {
     scale,
     useCORS: true,
@@ -70,7 +73,7 @@ function calculatePDFDimensions(canvas: HTMLCanvasElement) {
  * Adds image pages to PDF document
  */
 function addImageToPDF(
-  pdf: jsPDF,
+  pdf: JsPDFInstance,
   imgData: string,
   dimensions: ReturnType<typeof calculatePDFDimensions>
 ): void {
@@ -104,6 +107,8 @@ export async function exportToPDF(
 
   return withErrorHandling(
     async () => {
+      const { default: jsPDF } = await import('jspdf');
+
       // Validate element
       const element = validateElement(elementId);
 

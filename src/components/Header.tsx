@@ -1,8 +1,6 @@
 import { useState, useCallback, memo } from 'react';
 import { Link } from 'react-router-dom';
 import { FileText, Download, Eye, EyeOff, FileDown, Home } from 'lucide-react';
-import { exportToPDF } from '@utils/exportToPDF';
-import { exportToWord } from '@utils/exportToWord';
 import useResumeStore from '@store/resumeStore';
 import { useAsyncOperation } from '@hooks/useAsyncOperation';
 import { logger } from '@utils/errorHandling';
@@ -42,6 +40,7 @@ function Header(): JSX.Element {
   const { execute: executePDFExport, state: pdfState } = useAsyncOperation(
     async () => {
       logger.info('Starting PDF export');
+      const { exportToPDF } = await import('@utils/exportToPDF');
       return await exportToPDF({
         elementId: 'resume-preview',
         fileName: 'resume.pdf',
@@ -53,6 +52,7 @@ function Header(): JSX.Element {
   const { execute: executeWordExport, state: wordState } = useAsyncOperation(
     async () => {
       logger.info('Starting Word export');
+      const { exportToWord } = await import('@utils/exportToWord');
       return await exportToWord(resumeData, {
         fileName: 'resume.txt',
         format: 'txt',
