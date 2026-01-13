@@ -1,6 +1,6 @@
 import { useState, useCallback, memo } from 'react';
-import { Link } from 'react-router-dom';
-import { FileText, Download, Eye, EyeOff, FileDown, Home } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { FileText, Download, Eye, EyeOff, FileDown, ArrowLeft, Home } from 'lucide-react';
 import useResumeStore from '@store/resumeStore';
 import { useAsyncOperation } from '@hooks/useAsyncOperation';
 import { logger } from '@utils/errorHandling';
@@ -30,7 +30,13 @@ const DownloadMenuItem = memo(({ onClick, icon: Icon, label, disabled }: Downloa
 
 DownloadMenuItem.displayName = 'DownloadMenuItem';
 
-function Header(): JSX.Element {
+interface HeaderProps {
+  resumeName?: string;
+  resumeId?: string;
+}
+
+function Header({ resumeName, resumeId }: HeaderProps): JSX.Element {
+  const navigate = useNavigate();
   const { showPreview, togglePreview, resumeData } = useResumeStore();
   
   const [showDownloadMenu, setShowDownloadMenu] = useState<boolean>(false);
@@ -43,7 +49,7 @@ function Header(): JSX.Element {
       const { exportToPDF } = await import('@utils/exportToPDF');
       return await exportToPDF({
         elementId: 'resume-preview',
-        fileName: 'resume.pdf',
+        fileName: `${resumeName || 'resume'}.pdf`,
       });
     }
   );
@@ -54,7 +60,7 @@ function Header(): JSX.Element {
       logger.info('Starting Word export');
       const { exportToWord } = await import('@utils/exportToWord');
       return await exportToWord(resumeData, {
-        fileName: 'resume.txt',
+        fileName: `${resumeName || 'resume'}.txt`,
         format: 'txt',
       });
     }
@@ -99,18 +105,39 @@ function Header(): JSX.Element {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <nav className="flex items-center justify-between">
             {/* Left section */}
-            <div className="flex items-center gap-6">
-              <Link 
-                to="/" 
-                className="flex items-center gap-2 text-slate-200 hover:text-white transition-colors duration-200 group"
-              >
-                <Home className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                <span className="font-semibold">Home</span>
-              </Link>
+            <div className="flex items-center gap-4">
+              {/* Back to Dashboard */}
+              {resumeId && (
+                <button
+                  onClick={() => navigate('/dashboard')}
+                  className="flex items-center gap-2 text-slate-200 hover:text-white transition-colors duration-200 group"
+                >
+                  <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+                  <span className="font-semibold hidden sm:inline">Dashboard</span>
+                </button>
+              )}
+
+              {/* Home Link (only show if no resumeId) */}
+              {!resumeId && (
+                <Link 
+                  to="/" 
+                  className="flex items-center gap-2 text-slate-200 hover:text-white transition-colors duration-200 group"
+                >
+                  <Home className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  <span className="font-semibold">Home</span>
+                </Link>
+              )}
               
               <div className="flex items-center gap-3">
                 <FileText className={cn('w-8 h-8', theme.text.onDark)} />
-                <h1 className={cn('text-2xl font-bold', theme.text.onDark)}>Resume Builder</h1>
+                <div>
+                  <h1 className={cn('text-xl sm:text-2xl font-bold', theme.text.onDark)}>
+                    {resumeName || 'Resume Builder'}
+                  </h1>
+                  {resumeId && (
+                    <p className="text-xs text-slate-300">Auto-saving...</p>
+                  )}
+                </div>
               </div>
             </div>
             
@@ -124,7 +151,7 @@ function Header(): JSX.Element {
               >
                 {showPreview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 <span className="hidden sm:inline">
-                  {showPreview ? 'Hide Preview' : 'Show Preview'}
+                  {showPreview ? 'Hide' : 'Show'}
                 </span>
               </button>
               
@@ -138,7 +165,9 @@ function Header(): JSX.Element {
                   aria-expanded={showDownloadMenu}
                 >
                   <Download className="w-4 h-4" />
-                  {isExporting ? 'Exporting...' : 'Download'}
+                  <span className="hidden sm:inline">
+                    {isExporting ? 'Exporting...' : 'Download'}
+                  </span>
                 </button>
                 
                 {showDownloadMenu && !isExporting && (

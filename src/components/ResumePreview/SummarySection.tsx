@@ -1,34 +1,30 @@
-import { useState } from 'react';
-import { Edit2 } from 'lucide-react';
+import { FileText } from 'lucide-react';
 import useResumeStore from '@store/resumeStore';
 import { TEMPLATE_STYLES } from '@utils/constants';
-import SummaryDialog from '../Dialogs/SummaryDialog';
+import { theme } from '@/theme/colors';
+import { cn } from '@/hooks/useTheme';
 
-function SummarySection(): JSX.Element {
+function SummarySection(): JSX.Element | null {
   const { resumeData, selectedTemplate } = useResumeStore();
-  const [showDialog, setShowDialog] = useState<boolean>(false);
-  const style = TEMPLATE_STYLES[selectedTemplate];
+  const styles = TEMPLATE_STYLES[selectedTemplate];
+
+  if (!resumeData.summary) return null;
 
   return (
-    <>
-      <div className="mb-6 relative group">
-        <h2 className={`text-2xl font-bold mb-3 ${style.accent}`}>
-          Professional Summary
-        </h2>
-        <button
-          onClick={() => setShowDialog(true)}
-          className="absolute top-0 right-0 opacity-0 group-hover:opacity-100 p-2 bg-gray-100 hover:bg-gray-200 rounded transition"
-        >
-          <Edit2 className="w-4 h-4 text-gray-600" />
-        </button>
-        <p className="text-gray-700 leading-relaxed">{resumeData.summary}</p>
-      </div>
-
-      <SummaryDialog 
-        isOpen={showDialog} 
-        onClose={() => setShowDialog(false)} 
-      />
-    </>
+    <section className="mb-8 pb-6 border-b-2 border-slate-200">
+      <h2 className={cn(
+        'text-xl font-bold mb-6 pl-3 flex items-center gap-2',
+        styles.section,
+        styles.accent
+      )}>
+        <FileText className="w-5 h-5" />
+        PROFESSIONAL SUMMARY
+      </h2>
+      
+      <p className={cn('text-sm leading-relaxed ml-3', theme.text.body)}>
+        {resumeData.summary}
+      </p>
+    </section>
   );
 }
 

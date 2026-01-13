@@ -1,6 +1,16 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { ResumeData, TemplateType, Experience, Education, PersonalInfo } from '../types';
+import { 
+  ResumeData, 
+  TemplateType, 
+  Experience, 
+  Education, 
+  PersonalInfo,
+  Project,
+  Certification,
+  Language,
+  Award
+} from '../types';
 
 interface ResumeStore {
   selectedTemplate: TemplateType;
@@ -19,7 +29,7 @@ interface ResumeStore {
   
   // Experience Actions
   addExperience: (experience: Experience) => void;
-  updateExperience: (id: number, field: keyof Experience, value: string | number) => void;
+  updateExperience: (id: number, field: keyof Experience, value: string | number | boolean) => void;
   deleteExperience: (id: number) => void;
   reorderExperience: (startIndex: number, endIndex: number) => void;
   
@@ -34,6 +44,26 @@ interface ResumeStore {
   updateSkill: (index: number, value: string) => void;
   deleteSkill: (index: number) => void;
   reorderSkills: (startIndex: number, endIndex: number) => void;
+
+  // Project Actions
+  addProject: (project: Project) => void;
+  updateProject: (project: Project) => void;
+  deleteProject: (id: number) => void;
+  
+  // Certification Actions
+  addCertification: (certification: Certification) => void;
+  updateCertification: (certification: Certification) => void;
+  deleteCertification: (id: number) => void;
+  
+  // Language Actions
+  addLanguage: (language: Language) => void;
+  updateLanguage: (language: Language) => void;
+  deleteLanguage: (id: number) => void;
+  
+  // Award Actions
+  addAward: (award: Award) => void;
+  updateAward: (award: Award) => void;
+  deleteAward: (id: number) => void;
 }
 
 const useResumeStore = create<ResumeStore>()(
@@ -82,7 +112,11 @@ const useResumeStore = create<ResumeStore>()(
             year: '2019'
           }
         ],
-        skills: ['JavaScript', 'React', 'Node.js', 'Python', 'AWS', 'Docker', 'Git', 'SQL']
+        skills: ['JavaScript', 'React', 'Node.js', 'Python', 'AWS', 'Docker', 'Git', 'SQL'],
+        projects: [],
+        certifications: [],
+        languages: [],
+        awards: []
       },
 
       // Actions
@@ -230,7 +264,115 @@ const useResumeStore = create<ResumeStore>()(
               skills: result
             }
           };
-        })
+        }),
+
+      // Project Actions
+      addProject: (project) =>
+        set((state) => ({
+          resumeData: {
+            ...state.resumeData,
+            projects: [...(state.resumeData.projects || []), project]
+          }
+        })),
+
+      updateProject: (project) =>
+        set((state) => ({
+          resumeData: {
+            ...state.resumeData,
+            projects: (state.resumeData.projects || []).map((p) =>
+              p.id === project.id ? project : p
+            )
+          }
+        })),
+
+      deleteProject: (id) =>
+        set((state) => ({
+          resumeData: {
+            ...state.resumeData,
+            projects: (state.resumeData.projects || []).filter((p) => p.id !== id)
+          }
+        })),
+
+      // Certification Actions
+      addCertification: (certification) =>
+        set((state) => ({
+          resumeData: {
+            ...state.resumeData,
+            certifications: [...(state.resumeData.certifications || []), certification]
+          }
+        })),
+
+      updateCertification: (certification) =>
+        set((state) => ({
+          resumeData: {
+            ...state.resumeData,
+            certifications: (state.resumeData.certifications || []).map((c) =>
+              c.id === certification.id ? certification : c
+            )
+          }
+        })),
+
+      deleteCertification: (id) =>
+        set((state) => ({
+          resumeData: {
+            ...state.resumeData,
+            certifications: (state.resumeData.certifications || []).filter((c) => c.id !== id)
+          }
+        })),
+
+      // Language Actions
+      addLanguage: (language) =>
+        set((state) => ({
+          resumeData: {
+            ...state.resumeData,
+            languages: [...(state.resumeData.languages || []), language]
+          }
+        })),
+
+      updateLanguage: (language) =>
+        set((state) => ({
+          resumeData: {
+            ...state.resumeData,
+            languages: (state.resumeData.languages || []).map((l) =>
+              l.id === language.id ? language : l
+            )
+          }
+        })),
+
+      deleteLanguage: (id) =>
+        set((state) => ({
+          resumeData: {
+            ...state.resumeData,
+            languages: (state.resumeData.languages || []).filter((l) => l.id !== id)
+          }
+        })),
+
+      // Award Actions
+      addAward: (award) =>
+        set((state) => ({
+          resumeData: {
+            ...state.resumeData,
+            awards: [...(state.resumeData.awards || []), award]
+          }
+        })),
+
+      updateAward: (award) =>
+        set((state) => ({
+          resumeData: {
+            ...state.resumeData,
+            awards: (state.resumeData.awards || []).map((a) =>
+              a.id === award.id ? award : a
+            )
+          }
+        })),
+
+      deleteAward: (id) =>
+        set((state) => ({
+          resumeData: {
+            ...state.resumeData,
+            awards: (state.resumeData.awards || []).filter((a) => a.id !== id)
+          }
+        }))
     }),
     {
       name: 'resume-storage',
