@@ -121,7 +121,7 @@ export interface TemplateConfig {
   description: string;
   color: string;
   preview?: string;
-  features: string[];
+  features?: string[];
 }
 
 export interface ResumeState {

@@ -1,7 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-const HomePage = lazy(() => import('./pages/Home'));
+const HomePage = lazy(() => import('./pages/Home/Home'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const ResumeBuilder = lazy(() => import('./pages/ResumeBuilder'));
 const MyResume = lazy(() => import('./pages/MyResume'));

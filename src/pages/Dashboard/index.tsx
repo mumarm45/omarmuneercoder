@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FileText, Plus, Clock, Star, Search, MoreVertical, Pencil, Copy, Trash2, Download } from 'lucide-react';
-import { getServices, Resume, ResumeListItem } from '@/services';
+import { getServices, ResumeListItem } from '@/services';
 import { formatDistanceToNow } from '@/utils/dateUtils';
 import CreateResumeDialog from './CreateResumeDialog';
 import { cn } from '@/hooks/useTheme';
