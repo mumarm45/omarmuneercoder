@@ -24,43 +24,39 @@ function Sidebar(): JSX.Element {
   const additionalCount = languagesCount + awardsCount;
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex h-full flex-col">
       {/* Tab bar */}
-      <div className="shrink-0 border-b border-slate-700/60 px-4 py-3 flex gap-1">
+      <div className="flex shrink-0 gap-1 border-b border-slate-700/60 px-4 py-3">
         <button
           onClick={() => setActiveTab('edit')}
-          className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+          className={`flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
             activeTab === 'edit'
               ? 'bg-slate-700 text-white'
-              : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+              : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
           }`}
         >
-          <Zap className="w-4 h-4" />
+          <Zap className="h-4 w-4" />
           Edit
         </button>
         <button
           onClick={() => setActiveTab('templates')}
-          className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+          className={`flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
             activeTab === 'templates'
               ? 'bg-slate-700 text-white'
-              : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+              : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
           }`}
         >
-          <Layout className="w-4 h-4" />
+          <Layout className="h-4 w-4" />
           Templates
         </button>
       </div>
 
       {/* Content area */}
-      <div className="flex-1 overflow-y-auto py-4 px-3 space-y-3">
+      <div className="flex-1 space-y-3 overflow-y-auto px-3 py-4">
         {activeTab === 'edit' && (
           <>
             {/* Quick Actions Group */}
-            <SidebarGroup
-              title="Quick Actions"
-              icon={Zap}
-              defaultExpanded={true}
-            >
+            <SidebarGroup title="Quick Actions" icon={Zap} defaultExpanded={true}>
               <QuickActions />
             </SidebarGroup>
 
@@ -71,7 +67,7 @@ function Sidebar(): JSX.Element {
               defaultExpanded={portfolioCount > 0}
               badge={portfolioCount}
             >
-              <div className="space-y-4 mt-4">
+              <div className="mt-4 space-y-4">
                 <ProjectsSection />
                 <CertificationsSection />
               </div>
@@ -84,7 +80,7 @@ function Sidebar(): JSX.Element {
               defaultExpanded={additionalCount > 0}
               badge={additionalCount}
             >
-              <div className="space-y-4 mt-4">
+              <div className="mt-4 space-y-4">
                 <LanguagesSection />
                 <AwardsSection />
               </div>
@@ -92,9 +88,7 @@ function Sidebar(): JSX.Element {
           </>
         )}
 
-        {activeTab === 'templates' && (
-          <TemplateSelector />
-        )}
+        {activeTab === 'templates' && <TemplateSelector />}
       </div>
     </div>
   );

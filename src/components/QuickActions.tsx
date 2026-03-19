@@ -11,39 +11,33 @@ function QuickActions(): JSX.Element {
 
   return (
     <>
-      <div className="space-y-2 mt-4">
+      <div className="mt-4 space-y-2">
         <button
           onClick={() => setShowExpDialog(true)}
-          className="w-full flex items-center gap-2 px-4 py-2 rounded-lg transition duration-200 text-slate-300 hover:text-white hover:bg-slate-700"
+          className="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-slate-300 transition duration-200 hover:bg-slate-700 hover:text-white"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="h-4 w-4" />
           Add Experience
         </button>
         <button
           onClick={() => setShowEduDialog(true)}
-          className="w-full flex items-center gap-2 px-4 py-2 rounded-lg transition duration-200 text-slate-300 hover:text-white hover:bg-slate-700"
+          className="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-slate-300 transition duration-200 hover:bg-slate-700 hover:text-white"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="h-4 w-4" />
           Add Education
         </button>
         <button
           onClick={addSkill}
-          className="w-full flex items-center gap-2 px-4 py-2 rounded-lg transition duration-200 text-slate-300 hover:text-white hover:bg-slate-700"
+          className="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-slate-300 transition duration-200 hover:bg-slate-700 hover:text-white"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="h-4 w-4" />
           Add Skill
         </button>
       </div>
 
-      <ExperienceDialog
-        isOpen={showExpDialog}
-        onClose={() => setShowExpDialog(false)}
-      />
+      <ExperienceDialog isOpen={showExpDialog} onClose={() => setShowExpDialog(false)} />
 
-      <EducationDialog
-        isOpen={showEduDialog}
-        onClose={() => setShowEduDialog(false)}
-      />
+      <EducationDialog isOpen={showEduDialog} onClose={() => setShowEduDialog(false)} />
     </>
   );
 }

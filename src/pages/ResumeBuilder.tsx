@@ -37,8 +37,8 @@ function ResumeBuilder(): JSX.Element {
     const listResult = await resumeService.list();
     if (listResult.success && listResult.data) {
       const linked: LinkedLanguage[] = listResult.data
-        .filter(r => r.id === rootId || r.metadata?.parentId === rootId)
-        .map(r => ({
+        .filter((r) => r.id === rootId || r.metadata?.parentId === rootId)
+        .map((r) => ({
           id: r.id,
           language: r.metadata?.language || 'en',
           name: r.name,
@@ -80,11 +80,10 @@ function ResumeBuilder(): JSX.Element {
         setSaveStatus(result.success ? 'saved' : 'error');
         return result.success ? resumeId : null;
       } else {
-        const result = await resumeService.create(
-          currentResumeName,
-          resumeData,
-          { template: selectedTemplate, language: resumeLanguage }
-        );
+        const result = await resumeService.create(currentResumeName, resumeData, {
+          template: selectedTemplate,
+          language: resumeLanguage,
+        });
         if (result.success && result.data) {
           setSaveStatus('saved');
           navigate(`/builder/${result.data.id}`, { replace: true });
@@ -112,44 +111,50 @@ function ResumeBuilder(): JSX.Element {
   }, []);
 
   /** Called when user picks a language to add a new version */
-  const handleAddLanguage = useCallback(async (lang: SupportedLanguage) => {
-    setShowAddLanguagePicker(false);
+  const handleAddLanguage = useCallback(
+    async (lang: SupportedLanguage) => {
+      setShowAddLanguagePicker(false);
 
-    // Need a saved resumeId first
-    const currentId = resumeId ?? await saveAndGetId();
-    if (!currentId) return;
+      // Need a saved resumeId first
+      const currentId = resumeId ?? (await saveAndGetId());
+      if (!currentId) return;
 
-    // Root of the language group: if this resume already has a parentId, use that; else it IS the root
-    const currentResult = await resumeService.get(currentId);
-    const rootId = currentResult.data?.metadata?.parentId || currentId;
+      // Root of the language group: if this resume already has a parentId, use that; else it IS the root
+      const currentResult = await resumeService.get(currentId);
+      const rootId = currentResult.data?.metadata?.parentId || currentId;
 
-    // Create the new language version
-    const result = await resumeService.create(
-      `${currentResumeName} (${lang.name})`,
-      resumeData,
-      { template: selectedTemplate, language: lang.code, parentId: rootId }
-    );
+      // Create the new language version
+      const result = await resumeService.create(`${currentResumeName} (${lang.name})`, resumeData, {
+        template: selectedTemplate,
+        language: lang.code,
+        parentId: rootId,
+      });
 
-    if (result.success && result.data) {
-      // Also ensure the root resume has parentId pointing to itself so filtering works
-      if (!currentResult.data?.metadata?.parentId) {
-        await resumeService.update(currentId, {
-          metadata: { ...currentResult.data?.metadata, parentId: rootId }
-        });
+      if (result.success && result.data) {
+        // Also ensure the root resume has parentId pointing to itself so filtering works
+        if (!currentResult.data?.metadata?.parentId) {
+          await resumeService.update(currentId, {
+            metadata: { ...currentResult.data?.metadata, parentId: rootId },
+          });
+        }
+        navigate(`/builder/${result.data.id}`);
       }
-      navigate(`/builder/${result.data.id}`);
-    }
-  }, [resumeId, saveAndGetId, currentResumeName, resumeData, selectedTemplate, navigate]);
+    },
+    [resumeId, saveAndGetId, currentResumeName, resumeData, selectedTemplate, navigate]
+  );
 
-  const handleSwitchLanguage = useCallback((id: string) => {
-    navigate(`/builder/${id}`);
-  }, [navigate]);
+  const handleSwitchLanguage = useCallback(
+    (id: string) => {
+      navigate(`/builder/${id}`);
+    },
+    [navigate]
+  );
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-slate-900">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-400 mx-auto mb-4"></div>
+          <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-slate-400" />
           <p className="text-slate-400">Loading resume...</p>
         </div>
       </div>
@@ -157,10 +162,10 @@ function ResumeBuilder(): JSX.Element {
   }
 
   // Already-used language codes (to exclude from add-language picker)
-  const usedLanguageCodes = linkedLanguages.map(l => l.language);
+  const usedLanguageCodes = linkedLanguages.map((l) => l.language);
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-slate-900">
+    <div className="flex h-screen flex-col overflow-hidden bg-slate-900">
       {/* Initial language picker — shown for brand-new resumes */}
       {showInitialPicker && (
         <LanguagePicker
@@ -194,20 +199,22 @@ function ResumeBuilder(): JSX.Element {
 
       <div className="flex flex-1 overflow-hidden">
         {/* LEFT: dark sidebar */}
-        <aside className="w-[360px] shrink-0 bg-slate-900 border-r border-slate-700/60 flex flex-col overflow-hidden">
+        <aside className="flex w-[360px] shrink-0 flex-col overflow-hidden border-r border-slate-700/60 bg-slate-900">
           <Sidebar />
         </aside>
 
         {/* RIGHT: light canvas */}
         <main className="flex-1 overflow-y-auto bg-slate-100">
           {showPreview ? (
-            <div className="min-h-full flex flex-col items-center py-10 px-6">
+            <div className="flex min-h-full flex-col items-center px-6 py-10">
               <ResumePreview />
             </div>
           ) : (
-            <div className="min-h-full flex flex-col items-center justify-center text-slate-400">
+            <div className="flex min-h-full flex-col items-center justify-center text-slate-400">
               <p className="text-lg font-medium">Preview hidden</p>
-              <p className="text-sm mt-1">Click "Show" in the header to reveal the resume canvas</p>
+              <p className="mt-1 text-sm">
+                Click &quot;Show&quot; in the header to reveal the resume canvas
+              </p>
             </div>
           )}
         </main>

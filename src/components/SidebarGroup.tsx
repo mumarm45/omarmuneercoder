@@ -14,31 +14,31 @@ function SidebarGroup({
   icon: Icon,
   children,
   defaultExpanded = true,
-  badge
+  badge,
 }: SidebarGroupProps): JSX.Element {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
 
   return (
-    <div className="bg-slate-800 rounded-xl border border-slate-700/60 overflow-hidden">
+    <div className="overflow-hidden rounded-xl border border-slate-700/60 bg-slate-800">
       {/* Header */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full flex items-center justify-between p-4 hover:bg-slate-700/50 transition-colors"
+        className="flex w-full items-center justify-between p-4 transition-colors hover:bg-slate-700/50"
       >
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-gradient-to-br from-slate-600 to-slate-700 rounded-lg flex items-center justify-center">
-            <Icon className="w-4 h-4 text-white" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-slate-600 to-slate-700">
+            <Icon className="h-4 w-4 text-white" />
           </div>
           <h3 className="font-semibold text-slate-100">{title}</h3>
           {badge !== undefined && badge > 0 && (
-            <span className="px-2 py-0.5 bg-slate-700 text-slate-300 text-xs rounded-full font-medium">
+            <span className="rounded-full bg-slate-700 px-2 py-0.5 text-xs font-medium text-slate-300">
               {badge}
             </span>
           )}
         </div>
 
         <ChevronDown
-          className={`w-5 h-5 text-slate-400 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
+          className={`h-5 w-5 text-slate-400 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
         />
       </button>
 
@@ -47,9 +47,7 @@ function SidebarGroup({
         className={`grid transition-all duration-300 ${isExpanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
       >
         <div className="overflow-hidden">
-          <div className="px-4 pb-4 space-y-4 border-t border-slate-700/60">
-            {children}
-          </div>
+          <div className="space-y-4 border-t border-slate-700/60 px-4 pb-4">{children}</div>
         </div>
       </div>
     </div>

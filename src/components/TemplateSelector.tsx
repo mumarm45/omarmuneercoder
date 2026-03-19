@@ -12,27 +12,27 @@ const TEMPLATES: Template[] = [
   {
     id: 'modern',
     name: 'Modern',
-    description: 'Clean gradient header'
+    description: 'Clean gradient header',
   },
   {
     id: 'classic',
     name: 'Classic',
-    description: 'Traditional & professional'
+    description: 'Traditional & professional',
   },
   {
     id: 'minimal',
     name: 'Minimal',
-    description: 'Simple & elegant'
+    description: 'Simple & elegant',
   },
   {
     id: 'professional',
     name: 'Professional',
-    description: 'Bold & authoritative'
+    description: 'Bold & authoritative',
   },
   {
     id: 'creative',
     name: 'Creative',
-    description: 'Vibrant & expressive'
+    description: 'Vibrant & expressive',
   },
 ];
 
@@ -47,38 +47,38 @@ function TemplatePreview({ template }: { template: TemplateType }) {
   };
 
   return (
-    <div className="w-full aspect-[3/4] bg-white rounded-lg overflow-hidden border border-slate-600 shadow-sm">
+    <div className="aspect-[3/4] w-full overflow-hidden rounded-lg border border-slate-600 bg-white shadow-sm">
       {/* Header */}
       <div className={`h-8 ${previewStyles[template]}`}>
         {template !== 'minimal' && (
-          <div className="h-full flex items-center justify-center">
-            <div className="w-4 h-4 rounded-full bg-white/30"></div>
+          <div className="flex h-full items-center justify-center">
+            <div className="h-4 w-4 rounded-full bg-white/30" />
           </div>
         )}
       </div>
 
       {/* Content Lines */}
-      <div className="p-2 space-y-1.5">
-        <div className="h-1 bg-slate-900 rounded w-3/4"></div>
-        <div className="h-0.5 bg-slate-300 rounded w-1/2"></div>
+      <div className="space-y-1.5 p-2">
+        <div className="h-1 w-3/4 rounded bg-slate-900" />
+        <div className="h-0.5 w-1/2 rounded bg-slate-300" />
 
         <div className="mt-2 space-y-1">
-          <div className="h-0.5 bg-slate-200 rounded w-full"></div>
-          <div className="h-0.5 bg-slate-200 rounded w-full"></div>
-          <div className="h-0.5 bg-slate-200 rounded w-5/6"></div>
+          <div className="h-0.5 w-full rounded bg-slate-200" />
+          <div className="h-0.5 w-full rounded bg-slate-200" />
+          <div className="h-0.5 w-5/6 rounded bg-slate-200" />
         </div>
 
         <div className="mt-3 space-y-1">
-          <div className="h-1 bg-slate-700 rounded w-1/3"></div>
-          <div className="h-0.5 bg-slate-300 rounded w-2/3"></div>
-          <div className="h-0.5 bg-slate-200 rounded w-full"></div>
-          <div className="h-0.5 bg-slate-200 rounded w-4/5"></div>
+          <div className="h-1 w-1/3 rounded bg-slate-700" />
+          <div className="h-0.5 w-2/3 rounded bg-slate-300" />
+          <div className="h-0.5 w-full rounded bg-slate-200" />
+          <div className="h-0.5 w-4/5 rounded bg-slate-200" />
         </div>
 
         <div className="mt-2 flex gap-1">
-          <div className="h-3 w-10 bg-slate-100 rounded-full"></div>
-          <div className="h-3 w-10 bg-slate-100 rounded-full"></div>
-          <div className="h-3 w-10 bg-slate-100 rounded-full"></div>
+          <div className="h-3 w-10 rounded-full bg-slate-100" />
+          <div className="h-3 w-10 rounded-full bg-slate-100" />
+          <div className="h-3 w-10 rounded-full bg-slate-100" />
         </div>
       </div>
     </div>
@@ -90,7 +90,7 @@ function TemplateSelector(): JSX.Element {
 
   return (
     <div className="bg-transparent">
-      <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 px-1">
+      <p className="mb-3 px-1 text-xs font-semibold uppercase tracking-wider text-slate-400">
         Choose Template
       </p>
 
@@ -99,7 +99,7 @@ function TemplateSelector(): JSX.Element {
           <button
             key={template.id}
             onClick={() => setTemplate(template.id)}
-            className={`relative group rounded-lg border-2 transition-all ${
+            className={`group relative rounded-lg border-2 transition-all ${
               selectedTemplate === template.id
                 ? 'border-blue-400 shadow-lg shadow-blue-400/20'
                 : 'border-slate-700 hover:border-slate-500 hover:shadow-md'
@@ -112,9 +112,11 @@ function TemplateSelector(): JSX.Element {
 
             {/* Template Info */}
             <div className="px-3 pb-3">
-              <h3 className={`font-semibold text-sm mb-0.5 ${
-                selectedTemplate === template.id ? 'text-slate-200' : 'text-slate-200'
-              }`}>
+              <h3
+                className={`mb-0.5 text-sm font-semibold ${
+                  selectedTemplate === template.id ? 'text-slate-200' : 'text-slate-200'
+                }`}
+              >
                 {template.name}
               </h3>
               <p className="text-xs text-slate-500">{template.description}</p>
@@ -122,8 +124,8 @@ function TemplateSelector(): JSX.Element {
 
             {/* Selected Indicator */}
             {selectedTemplate === template.id && (
-              <div className="absolute top-3 right-3 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
-                <Check className="w-4 h-4 text-white" />
+              <div className="absolute right-3 top-3 flex h-6 w-6 items-center justify-center rounded-full bg-blue-500">
+                <Check className="h-4 w-4 text-white" />
               </div>
             )}
           </button>

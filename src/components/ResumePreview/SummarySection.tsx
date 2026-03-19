@@ -11,17 +11,24 @@ function SummarySection(): JSX.Element | null {
   if (!resumeData.summary) return null;
 
   return (
-    <section className="mb-8 pb-6 border-b-2 border-slate-200">
-      <h2 className={cn(
-        'text-xl font-bold mb-6 pl-3 flex items-center gap-2',
-        styles.section,
-        styles.accent
-      )}>
-        <FileText className="w-5 h-5" />
+    <section className="mb-8 border-b-2 border-slate-200 pb-6">
+      <h2
+        className={cn(
+          'mb-6 flex items-center gap-2 pl-3 text-xl font-bold',
+          styles.section,
+          styles.accent
+        )}
+      >
+        <FileText className="h-5 w-5" />
         PROFESSIONAL SUMMARY
       </h2>
-      
-      <p className={cn('text-sm leading-relaxed ml-3 break-words whitespace-pre-wrap', theme.text.body)}>
+
+      <p
+        className={cn(
+          'ml-3 whitespace-pre-wrap break-words text-sm leading-relaxed',
+          theme.text.body
+        )}
+      >
         {resumeData.summary}
       </p>
     </section>

@@ -1,6 +1,6 @@
 /**
  * Resume Service
- * 
+ *
  * Business logic layer for resume operations.
  * Uses IStorageService for persistence, making it easy to swap storage implementations.
  */
@@ -24,8 +24,8 @@ export interface ResumeMetadata {
   version?: number;
   template?: string;
   completenessScore?: number;
-  language?: string;   // e.g. 'en', 'ar', 'fr'
-  parentId?: string;   // ID of the root language version; absent on root
+  language?: string; // e.g. 'en', 'ar', 'fr'
+  parentId?: string; // ID of the root language version; absent on root
 }
 
 export interface ResumeListItem {
@@ -88,10 +88,13 @@ export class ResumeService {
 
     // Experience
     if (data.experience.length > 0) {
-      const avgCompleteness = data.experience.reduce((sum, exp) => {
-        const fields = [exp.title, exp.company, exp.startDate, exp.description].filter(Boolean).length;
-        return sum + (fields / 4);
-      }, 0) / data.experience.length;
+      const avgCompleteness =
+        data.experience.reduce((sum, exp) => {
+          const fields = [exp.title, exp.company, exp.startDate, exp.description].filter(
+            Boolean
+          ).length;
+          return sum + fields / 4;
+        }, 0) / data.experience.length;
       score += avgCompleteness * weights.experience;
     }
 
@@ -128,7 +131,11 @@ export class ResumeService {
   /**
    * Create a new resume
    */
-  async create(name: string, data: ResumeData, metadata?: Partial<ResumeMetadata>): Promise<ResumeServiceResult<Resume>> {
+  async create(
+    name: string,
+    data: ResumeData,
+    metadata?: Partial<ResumeMetadata>
+  ): Promise<ResumeServiceResult<Resume>> {
     try {
       logger.info('Creating new resume', { name });
 
@@ -175,7 +182,7 @@ export class ResumeService {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       logger.error('Failed to create resume', { name, error: errorMessage });
-      
+
       return {
         success: false,
         error: error as Error,
@@ -192,7 +199,7 @@ export class ResumeService {
       logger.debug('Getting resume', { id });
 
       const result = await this.storage.get<Resume>(this.getResumeKey(id));
-      
+
       if (!result.success) {
         return {
           success: false,
@@ -205,7 +212,7 @@ export class ResumeService {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       logger.error('Failed to get resume', { id, error: errorMessage });
-      
+
       return {
         success: false,
         error: error as Error,
@@ -261,7 +268,7 @@ export class ResumeService {
 
       // Update resume list
       const list = await this.getResumeList();
-      const index = list.findIndex(item => item.id === id);
+      const index = list.findIndex((item) => item.id === id);
       if (index !== -1) {
         list[index] = {
           id: updated.id,
@@ -282,7 +289,7 @@ export class ResumeService {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       logger.error('Failed to update resume', { id, error: errorMessage });
-      
+
       return {
         success: false,
         error: error as Error,
@@ -306,7 +313,7 @@ export class ResumeService {
 
       // Update resume list
       const list = await this.getResumeList();
-      const filtered = list.filter(item => item.id !== id);
+      const filtered = list.filter((item) => item.id !== id);
       await this.updateResumeList(filtered);
 
       logger.info('Resume deleted successfully', { id });
@@ -317,7 +324,7 @@ export class ResumeService {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       logger.error('Failed to delete resume', { id, error: errorMessage });
-      
+
       return {
         success: false,
         error: error as Error,
@@ -334,7 +341,7 @@ export class ResumeService {
       logger.debug('Listing all resumes');
 
       const list = await this.getResumeList();
-      
+
       // Sort by updatedAt (most recent first)
       list.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
 
@@ -346,7 +353,7 @@ export class ResumeService {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       logger.error('Failed to list resumes', { error: errorMessage });
-      
+
       return {
         success: false,
         error: error as Error,
@@ -379,7 +386,7 @@ export class ResumeService {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       logger.error('Failed to duplicate resume', { id, error: errorMessage });
-      
+
       return {
         success: false,
         error: error as Error,
@@ -401,9 +408,9 @@ export class ResumeService {
       }
 
       const lowercaseQuery = query.toLowerCase();
-      const filtered = listResult.data.filter(item => {
+      const filtered = listResult.data.filter((item) => {
         const nameMatch = item.name.toLowerCase().includes(lowercaseQuery);
-        const tagsMatch = item.metadata?.tags?.some(tag => 
+        const tagsMatch = item.metadata?.tags?.some((tag) =>
           tag.toLowerCase().includes(lowercaseQuery)
         );
         return nameMatch || tagsMatch;
@@ -417,7 +424,7 @@ export class ResumeService {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       logger.error('Failed to search resumes', { query, error: errorMessage });
-      
+
       return {
         success: false,
         error: error as Error,
@@ -438,7 +445,7 @@ export class ResumeService {
         return listResult;
       }
 
-      const favorites = listResult.data.filter(item => item.metadata?.favorite);
+      const favorites = listResult.data.filter((item) => item.metadata?.favorite);
 
       logger.debug('Favorites retrieved', { count: favorites.length });
       return {
@@ -448,7 +455,7 @@ export class ResumeService {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       logger.error('Failed to get favorites', { error: errorMessage });
-      
+
       return {
         success: false,
         error: error as Error,
@@ -482,7 +489,7 @@ export class ResumeService {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       logger.error('Failed to toggle favorite', { id, error: errorMessage });
-      
+
       return {
         success: false,
         error: error as Error,
