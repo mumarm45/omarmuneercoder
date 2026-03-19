@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Dialog from '../Dialog';
 import useResumeStore from '@store/resumeStore';
 import { PersonalInfo } from '../../types';
@@ -11,6 +11,10 @@ interface PersonalInfoDialogProps {
 function PersonalInfoDialog({ isOpen, onClose }: PersonalInfoDialogProps): JSX.Element {
   const { resumeData, updatePersonalInfo } = useResumeStore();
   const [formData, setFormData] = useState<PersonalInfo>(resumeData.personalInfo);
+
+  useEffect(() => {
+    if (isOpen) setFormData(resumeData.personalInfo);
+  }, [isOpen]);
 
   const handleChange = (field: keyof PersonalInfo, value: string): void => {
     setFormData({ ...formData, [field]: value });

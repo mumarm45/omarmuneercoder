@@ -1,5 +1,6 @@
 import { useState, useCallback, useMemo } from 'react';
 import useMyResumeStore from '@/store/pages/myResumeStore';
+import { useThemeContext } from '@/context/ThemeContext';
 import TopBar from '@/components/MyResume/TopBar';
 import Navigation from '@/components/MyResume/Navigation';
 import HeroSection from '@/components/MyResume/HeroSection';
@@ -25,17 +26,10 @@ interface Experience {
 }
 
 function MyResume(): JSX.Element {
-  const {
-    theme: themeMode,
-    language,
-    toggleTheme,
-    toggleLanguage,
-    downloadResume,
-  } = useMyResumeStore();
+  const { language, toggleLanguage, downloadResume } = useMyResumeStore();
+  const { isDark, toggle: toggleTheme } = useThemeContext();
   const [isDownloading, setIsDownloading] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
-
-  const isDark = themeMode === 'dark';
   const t = translations[language];
 
   const handleDownload = useCallback(async (): Promise<void> => {

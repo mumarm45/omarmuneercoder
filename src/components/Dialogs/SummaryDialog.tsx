@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Dialog from '../Dialog';
 import useResumeStore from '@store/resumeStore';
 
@@ -10,6 +10,10 @@ interface SummaryDialogProps {
 function SummaryDialog({ isOpen, onClose }: SummaryDialogProps): JSX.Element {
   const { resumeData, updateSummary } = useResumeStore();
   const [summary, setSummary] = useState<string>(resumeData.summary);
+
+  useEffect(() => {
+    if (isOpen) setSummary(resumeData.summary);
+  }, [isOpen]);
 
   const handleSave = (): void => {
     updateSummary(summary);

@@ -1,11 +1,14 @@
 import { useState } from 'react';
-import { Zap, Briefcase, Globe, Layout } from 'lucide-react';
+import { Zap, Briefcase, Globe, Layout, BookOpen } from 'lucide-react';
 import TemplateSelector from './TemplateSelector';
 import QuickActions from './QuickActions';
 import ProjectsSection from './sections/ProjectsSection';
 import CertificationsSection from './sections/CertificationsSection';
 import LanguagesSection from './sections/LanguagesSection';
 import AwardsSection from './sections/AwardsSection';
+import ExperienceSection from './sections/ExperienceSection';
+import EducationSection from './sections/EducationSection';
+import SkillsSection from './sections/SkillsSection';
 import SidebarGroup from './SidebarGroup';
 import useResumeStore from '@/store/resumeStore';
 
@@ -15,24 +18,25 @@ function Sidebar(): JSX.Element {
   const { resumeData } = useResumeStore();
   const [activeTab, setActiveTab] = useState<SidebarTab>('edit');
 
-  // Calculate totals for badges
   const projectsCount = resumeData.projects?.length || 0;
   const certificationsCount = resumeData.certifications?.length || 0;
   const languagesCount = resumeData.languages?.length || 0;
   const awardsCount = resumeData.awards?.length || 0;
   const portfolioCount = projectsCount + certificationsCount;
   const additionalCount = languagesCount + awardsCount;
+  const coreCount =
+    resumeData.experience.length + resumeData.education.length + resumeData.skills.length;
 
   return (
     <div className="flex h-full flex-col">
       {/* Tab bar */}
-      <div className="flex shrink-0 gap-1 border-b border-slate-700/60 px-4 py-3">
+      <div className="flex shrink-0 gap-1 border-b border-slate-200 px-4 py-3 dark:border-slate-700/60">
         <button
           onClick={() => setActiveTab('edit')}
           className={`flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
             activeTab === 'edit'
-              ? 'bg-slate-700 text-white'
-              : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+              ? 'bg-slate-200 text-slate-800 dark:bg-slate-700 dark:text-white'
+              : 'text-slate-500 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200'
           }`}
         >
           <Zap className="h-4 w-4" />
@@ -42,8 +46,8 @@ function Sidebar(): JSX.Element {
           onClick={() => setActiveTab('templates')}
           className={`flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
             activeTab === 'templates'
-              ? 'bg-slate-700 text-white'
-              : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+              ? 'bg-slate-200 text-slate-800 dark:bg-slate-700 dark:text-white'
+              : 'text-slate-500 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200'
           }`}
         >
           <Layout className="h-4 w-4" />
@@ -55,9 +59,23 @@ function Sidebar(): JSX.Element {
       <div className="flex-1 space-y-3 overflow-y-auto px-3 py-4">
         {activeTab === 'edit' && (
           <>
-            {/* Quick Actions Group */}
+            {/* Quick Actions — Heading & Summary */}
             <SidebarGroup title="Quick Actions" icon={Zap} defaultExpanded={true}>
               <QuickActions />
+            </SidebarGroup>
+
+            {/* Core Sections — Experience, Education, Skills */}
+            <SidebarGroup
+              title="Core Sections"
+              icon={BookOpen}
+              defaultExpanded={true}
+              badge={coreCount}
+            >
+              <div className="mt-4 space-y-4">
+                <ExperienceSection />
+                <EducationSection />
+                <SkillsSection />
+              </div>
             </SidebarGroup>
 
             {/* Portfolio Group */}

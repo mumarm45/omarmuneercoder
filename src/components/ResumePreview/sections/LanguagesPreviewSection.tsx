@@ -1,5 +1,5 @@
 import { Globe } from 'lucide-react';
-import { Language } from '@/types';
+import { Language, DEFAULT_SECTION_LABELS } from '@/types';
 import { TEMPLATE_STYLES } from '@/utils/constants';
 import useResumeStore from '@/store/resumeStore';
 
@@ -7,6 +7,7 @@ function LanguagesPreviewSection(): JSX.Element | null {
   const { resumeData, selectedTemplate } = useResumeStore();
   const languages = resumeData.languages || [];
   const styles = TEMPLATE_STYLES[selectedTemplate];
+  const label = resumeData.sectionLabels?.languages ?? DEFAULT_SECTION_LABELS.languages;
 
   if (languages.length === 0) return null;
 
@@ -16,7 +17,7 @@ function LanguagesPreviewSection(): JSX.Element | null {
         className={`mb-4 pl-3 text-xl font-bold ${styles.section} ${styles.accent} flex items-center gap-2`}
       >
         <Globe className="h-5 w-5" />
-        LANGUAGES
+        {label}
       </h2>
 
       <div className="grid grid-cols-2 gap-4 pl-3">

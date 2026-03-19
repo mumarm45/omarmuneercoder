@@ -152,10 +152,10 @@ function ResumeBuilder(): JSX.Element {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-900">
+      <div className="flex min-h-screen items-center justify-center bg-white dark:bg-slate-900">
         <div className="text-center">
-          <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-slate-400" />
-          <p className="text-slate-400">Loading resume...</p>
+          <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-slate-500 dark:border-slate-400" />
+          <p className="text-slate-500 dark:text-slate-400">Loading resume...</p>
         </div>
       </div>
     );
@@ -165,7 +165,7 @@ function ResumeBuilder(): JSX.Element {
   const usedLanguageCodes = linkedLanguages.map((l) => l.language);
 
   return (
-    <div className="flex h-screen flex-col overflow-hidden bg-slate-900">
+    <div className="flex h-screen flex-col overflow-hidden bg-white dark:bg-slate-900">
       {/* Initial language picker — shown for brand-new resumes */}
       {showInitialPicker && (
         <LanguagePicker
@@ -199,18 +199,18 @@ function ResumeBuilder(): JSX.Element {
 
       <div className="flex flex-1 overflow-hidden">
         {/* LEFT: dark sidebar */}
-        <aside className="flex w-[360px] shrink-0 flex-col overflow-hidden border-r border-slate-700/60 bg-slate-900">
+        <aside className="flex w-[360px] shrink-0 flex-col overflow-hidden border-r border-slate-200 bg-slate-50 dark:border-slate-700/60 dark:bg-slate-900">
           <Sidebar />
         </aside>
 
-        {/* RIGHT: light canvas */}
-        <main className="flex-1 overflow-y-auto bg-slate-100">
+        {/* RIGHT: canvas */}
+        <main className="flex-1 overflow-y-auto bg-slate-100 dark:bg-slate-800">
           {showPreview ? (
             <div className="flex min-h-full flex-col items-center px-6 py-10">
               <ResumePreview />
             </div>
           ) : (
-            <div className="flex min-h-full flex-col items-center justify-center text-slate-400">
+            <div className="flex min-h-full flex-col items-center justify-center text-slate-400 dark:text-slate-500">
               <p className="text-lg font-medium">Preview hidden</p>
               <p className="mt-1 text-sm">
                 Click &quot;Show&quot; in the header to reveal the resume canvas

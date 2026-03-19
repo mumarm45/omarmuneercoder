@@ -10,6 +10,8 @@ import {
   Certification,
   Language,
   Award,
+  SectionLabels,
+  DEFAULT_SECTION_LABELS,
 } from '../types';
 
 interface ResumeStore {
@@ -64,6 +66,9 @@ interface ResumeStore {
   addAward: (award: Award) => void;
   updateAward: (award: Award) => void;
   deleteAward: (id: number) => void;
+
+  // Section Label Actions
+  updateSectionLabel: (section: keyof SectionLabels, value: string) => void;
 }
 
 const useResumeStore = create<ResumeStore>()(
@@ -120,6 +125,7 @@ const useResumeStore = create<ResumeStore>()(
         certifications: [],
         languages: [],
         awards: [],
+        sectionLabels: { ...DEFAULT_SECTION_LABELS },
       },
 
       // Actions
@@ -370,6 +376,18 @@ const useResumeStore = create<ResumeStore>()(
           resumeData: {
             ...state.resumeData,
             awards: (state.resumeData.awards || []).filter((a) => a.id !== id),
+          },
+        })),
+
+      updateSectionLabel: (section, value) =>
+        set((state) => ({
+          resumeData: {
+            ...state.resumeData,
+            sectionLabels: {
+              ...DEFAULT_SECTION_LABELS,
+              ...state.resumeData.sectionLabels,
+              [section]: value,
+            },
           },
         })),
     }),

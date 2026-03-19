@@ -1,5 +1,5 @@
 import { ExternalLink, Award } from 'lucide-react';
-import { Certification } from '@/types';
+import { Certification, DEFAULT_SECTION_LABELS } from '@/types';
 import { TEMPLATE_STYLES } from '@/utils/constants';
 import useResumeStore from '@/store/resumeStore';
 
@@ -7,6 +7,7 @@ function CertificationsPreviewSection(): JSX.Element | null {
   const { resumeData, selectedTemplate } = useResumeStore();
   const certifications = resumeData.certifications || [];
   const styles = TEMPLATE_STYLES[selectedTemplate];
+  const label = resumeData.sectionLabels?.certifications ?? DEFAULT_SECTION_LABELS.certifications;
 
   if (certifications.length === 0) return null;
 
@@ -16,7 +17,7 @@ function CertificationsPreviewSection(): JSX.Element | null {
         className={`mb-4 pl-3 text-xl font-bold ${styles.section} ${styles.accent} flex items-center gap-2`}
       >
         <Award className="h-5 w-5" />
-        CERTIFICATIONS
+        {label}
       </h2>
 
       <div className="space-y-4">

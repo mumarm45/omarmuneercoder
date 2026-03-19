@@ -126,20 +126,23 @@ function CreateResumeDialog({ onClose, onSuccess }: CreateResumeDialogProps): JS
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
-      <div className="max-h-[90vh] w-full max-w-2xl overflow-hidden rounded-2xl bg-white shadow-2xl">
+      <div className="max-h-[90vh] w-full max-w-2xl overflow-hidden rounded-2xl bg-white shadow-2xl dark:bg-slate-800">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-200 p-6">
-          <h2 className="text-2xl font-bold text-slate-900">Create New Resume</h2>
-          <button onClick={onClose} className="rounded-lg p-2 transition-colors hover:bg-slate-100">
-            <X className="h-5 w-5 text-slate-600" />
+        <div className="flex items-center justify-between border-b border-slate-200 p-6 dark:border-slate-700">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Create New Resume</h2>
+          <button
+            onClick={onClose}
+            className="rounded-lg p-2 transition-colors hover:bg-slate-100 dark:hover:bg-slate-700"
+          >
+            <X className="h-5 w-5 text-slate-600 dark:text-slate-400" />
           </button>
         </div>
 
         {/* Content */}
         <div className="max-h-[calc(90vh-140px)] overflow-y-auto p-6">
           {error && (
-            <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4">
-              <p className="text-sm text-red-600">{error}</p>
+            <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4 dark:border-red-900/30 dark:bg-red-900/20">
+              <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
             </div>
           )}
 
@@ -147,7 +150,7 @@ function CreateResumeDialog({ onClose, onSuccess }: CreateResumeDialogProps): JS
           {step === 'name' && (
             <div className="space-y-6">
               <div>
-                <label className="mb-2 block text-sm font-medium text-slate-700">
+                <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
                   Resume Name <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -155,10 +158,10 @@ function CreateResumeDialog({ onClose, onSuccess }: CreateResumeDialogProps): JS
                   value={resumeName}
                   onChange={(e) => setResumeName(e.target.value)}
                   placeholder="e.g., Software Engineer Resume"
-                  className="w-full rounded-lg border border-slate-300 px-4 py-3 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-slate-900"
+                  className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-slate-900 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:placeholder-slate-500 dark:focus:ring-slate-400"
                   autoFocus
                 />
-                <p className="mt-2 text-sm text-slate-500">
+                <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
                   Give your resume a name to help you identify it later
                 </p>
               </div>
@@ -169,7 +172,9 @@ function CreateResumeDialog({ onClose, onSuccess }: CreateResumeDialogProps): JS
           {step === 'template' && (
             <div className="space-y-6">
               <div>
-                <h3 className="mb-4 text-lg font-semibold text-slate-900">Choose a Template</h3>
+                <h3 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
+                  Choose a Template
+                </h3>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                   {TEMPLATES.map((template) => (
                     <button
@@ -177,15 +182,19 @@ function CreateResumeDialog({ onClose, onSuccess }: CreateResumeDialogProps): JS
                       onClick={() => setSelectedTemplate(template.id)}
                       className={`rounded-xl border-2 p-6 transition-all ${
                         selectedTemplate === template.id
-                          ? 'border-slate-900 bg-slate-50'
-                          : 'border-slate-200 hover:border-slate-300'
+                          ? 'border-slate-900 bg-slate-50 dark:border-slate-400 dark:bg-slate-700'
+                          : 'border-slate-200 hover:border-slate-300 dark:border-slate-600 dark:hover:border-slate-500'
                       }`}
                     >
                       <div
                         className={`aspect-[3/4] w-full rounded-lg bg-gradient-to-br ${template.color} mb-4`}
                       />
-                      <h4 className="mb-1 font-semibold text-slate-900">{template.name}</h4>
-                      <p className="text-sm text-slate-600">{template.description}</p>
+                      <h4 className="mb-1 font-semibold text-slate-900 dark:text-white">
+                        {template.name}
+                      </h4>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">
+                        {template.description}
+                      </p>
                     </button>
                   ))}
                 </div>
@@ -197,7 +206,7 @@ function CreateResumeDialog({ onClose, onSuccess }: CreateResumeDialogProps): JS
           {step === 'method' && (
             <div className="space-y-6">
               <div>
-                <h3 className="mb-4 text-lg font-semibold text-slate-900">
+                <h3 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
                   How would you like to start?
                 </h3>
                 <div className="space-y-4">
@@ -205,17 +214,19 @@ function CreateResumeDialog({ onClose, onSuccess }: CreateResumeDialogProps): JS
                     onClick={() => setCreationMethod('scratch')}
                     className={`w-full rounded-xl border-2 p-6 text-left transition-all ${
                       creationMethod === 'scratch'
-                        ? 'border-slate-900 bg-slate-50'
-                        : 'border-slate-200 hover:border-slate-300'
+                        ? 'border-slate-900 bg-slate-50 dark:border-slate-400 dark:bg-slate-700'
+                        : 'border-slate-200 hover:border-slate-300 dark:border-slate-600 dark:hover:border-slate-500'
                     }`}
                   >
                     <div className="flex items-start gap-4">
-                      <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-slate-100">
-                        <FileText className="h-6 w-6 text-slate-600" />
+                      <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-600">
+                        <FileText className="h-6 w-6 text-slate-600 dark:text-slate-300" />
                       </div>
                       <div className="flex-1">
-                        <h4 className="mb-1 font-semibold text-slate-900">Start from Scratch</h4>
-                        <p className="text-sm text-slate-600">
+                        <h4 className="mb-1 font-semibold text-slate-900 dark:text-white">
+                          Start from Scratch
+                        </h4>
+                        <p className="text-sm text-slate-600 dark:text-slate-400">
                           Begin with a blank resume and fill in your information
                         </p>
                       </div>
@@ -226,8 +237,8 @@ function CreateResumeDialog({ onClose, onSuccess }: CreateResumeDialogProps): JS
                     onClick={() => setCreationMethod('sample')}
                     className={`w-full rounded-xl border-2 p-6 text-left transition-all ${
                       creationMethod === 'sample'
-                        ? 'border-slate-900 bg-slate-50'
-                        : 'border-slate-200 hover:border-slate-300'
+                        ? 'border-slate-900 bg-slate-50 dark:border-slate-400 dark:bg-slate-700'
+                        : 'border-slate-200 hover:border-slate-300 dark:border-slate-600 dark:hover:border-slate-500'
                     }`}
                   >
                     <div className="flex items-start gap-4">
@@ -235,10 +246,10 @@ function CreateResumeDialog({ onClose, onSuccess }: CreateResumeDialogProps): JS
                         <Sparkles className="h-6 w-6 text-white" />
                       </div>
                       <div className="flex-1">
-                        <h4 className="mb-1 font-semibold text-slate-900">
+                        <h4 className="mb-1 font-semibold text-slate-900 dark:text-white">
                           Start with Sample Data
                         </h4>
-                        <p className="text-sm text-slate-600">
+                        <p className="text-sm text-slate-600 dark:text-slate-400">
                           Use sample content as a starting point and customize it
                         </p>
                       </div>
@@ -251,7 +262,7 @@ function CreateResumeDialog({ onClose, onSuccess }: CreateResumeDialogProps): JS
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between border-t border-slate-200 bg-slate-50 p-6">
+        <div className="flex items-center justify-between border-t border-slate-200 bg-slate-50 p-6 dark:border-slate-700 dark:bg-slate-800/50">
           <div className="flex items-center gap-2">
             {['name', 'template', 'method'].map((s, index) => (
               <div
@@ -272,7 +283,7 @@ function CreateResumeDialog({ onClose, onSuccess }: CreateResumeDialogProps): JS
                   if (step === 'template') setStep('name');
                   if (step === 'method') setStep('template');
                 }}
-                className="rounded-lg px-6 py-2.5 text-slate-700 transition-colors hover:bg-slate-200"
+                className="rounded-lg px-6 py-2.5 text-slate-700 transition-colors hover:bg-slate-200 dark:text-slate-300 dark:hover:bg-slate-700"
               >
                 Back
               </button>

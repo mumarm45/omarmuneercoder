@@ -1,5 +1,5 @@
 import { ExternalLink, Github, FolderOpen } from 'lucide-react';
-import { Project } from '@/types';
+import { Project, DEFAULT_SECTION_LABELS } from '@/types';
 import { TEMPLATE_STYLES } from '@/utils/constants';
 import useResumeStore from '@/store/resumeStore';
 
@@ -7,6 +7,7 @@ function ProjectsPreviewSection(): JSX.Element | null {
   const { resumeData, selectedTemplate } = useResumeStore();
   const projects = resumeData.projects || [];
   const styles = TEMPLATE_STYLES[selectedTemplate];
+  const label = resumeData.sectionLabels?.projects ?? DEFAULT_SECTION_LABELS.projects;
 
   if (projects.length === 0) return null;
 
@@ -16,7 +17,7 @@ function ProjectsPreviewSection(): JSX.Element | null {
         className={`mb-4 pl-3 text-xl font-bold ${styles.section} ${styles.accent} flex items-center gap-2`}
       >
         <FolderOpen className="h-5 w-5" />
-        PROJECTS
+        {label}
       </h2>
 
       <div className="space-y-5">

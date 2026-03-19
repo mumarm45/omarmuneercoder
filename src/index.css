@@ -13,7 +13,7 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light;
+  color-scheme: light dark;
   color: #111827;
   background-color: #f9fafb;
 
@@ -21,6 +21,12 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.dark {
+  color-scheme: dark;
+  color: #f1f5f9;
+  background-color: #0f172a;
 }
 
 * {
@@ -54,9 +60,10 @@ body {
   }
 
   .btn-secondary-light {
-    @apply px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg 
-           transition-all duration-200 font-medium disabled:opacity-50 
-           disabled:cursor-not-allowed backdrop-blur-sm;
+    @apply px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700
+           dark:bg-white/20 dark:hover:bg-white/30 dark:text-white rounded-lg
+           transition-all duration-200 font-medium disabled:opacity-50
+           disabled:cursor-not-allowed dark:backdrop-blur-sm;
   }
 
   .btn-primary-light {

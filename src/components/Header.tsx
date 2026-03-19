@@ -14,6 +14,8 @@ import {
   Pencil,
   ChevronDown,
   Plus,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import type { SaveStatus } from '../pages/ResumeBuilder';
 import useResumeStore from '@store/resumeStore';
@@ -23,6 +25,7 @@ import Toast from './Toast';
 import { theme } from '@/theme/colors';
 import { cn } from '@/hooks/useTheme';
 import { SUPPORTED_LANGUAGES } from './LanguagePicker';
+import { useThemeContext } from '@/context/ThemeContext';
 
 export interface LinkedLanguage {
   id: string;
@@ -77,6 +80,7 @@ function Header({
 }: HeaderProps): JSX.Element {
   const navigate = useNavigate();
   const { showPreview, togglePreview, resumeData } = useResumeStore();
+  const { isDark, toggle: toggleDark } = useThemeContext();
 
   const [showDownloadMenu, setShowDownloadMenu] = useState<boolean>(false);
   const [showLangMenu, setShowLangMenu] = useState(false);
@@ -186,7 +190,7 @@ function Header({
         className={cn(
           'sticky top-0 z-50 border-b shadow-lg',
           theme.backgrounds.header,
-          'border-slate-800'
+          'border-slate-200 dark:border-slate-800'
         )}
       >
         <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
@@ -197,7 +201,7 @@ function Header({
               {resumeId && (
                 <button
                   onClick={() => navigate('/dashboard')}
-                  className="group flex items-center gap-2 text-slate-200 transition-colors duration-200 hover:text-white"
+                  className="group flex items-center gap-2 text-slate-600 transition-colors duration-200 hover:text-slate-900 dark:text-slate-200 dark:hover:text-white"
                 >
                   <ArrowLeft className="h-5 w-5 transition-transform group-hover:-translate-x-1" />
                   <span className="hidden font-semibold sm:inline">Dashboard</span>
@@ -208,7 +212,7 @@ function Header({
               {!resumeId && (
                 <Link
                   to="/"
-                  className="group flex items-center gap-2 text-slate-200 transition-colors duration-200 hover:text-white"
+                  className="group flex items-center gap-2 text-slate-600 transition-colors duration-200 hover:text-slate-900 dark:text-slate-200 dark:hover:text-white"
                 >
                   <Home className="h-5 w-5 transition-transform group-hover:scale-110" />
                   <span className="font-semibold">Home</span>
@@ -216,7 +220,7 @@ function Header({
               )}
 
               <div className="flex items-center gap-3">
-                <FileText className={cn('h-8 w-8', theme.text.onDark)} />
+                <FileText className="h-8 w-8 text-slate-600 dark:text-white" />
                 <div>
                   {isEditingName ? (
                     <input
@@ -232,10 +236,10 @@ function Header({
                       onClick={() => setIsEditingName(true)}
                       className="group flex items-center gap-2 text-left"
                     >
-                      <h1 className={cn('text-xl font-bold sm:text-2xl', theme.text.onDark)}>
+                      <h1 className="text-xl font-bold text-slate-800 dark:text-white sm:text-2xl">
                         {localName}
                       </h1>
-                      <Pencil className="h-4 w-4 text-white/40 opacity-0 transition-opacity group-hover:opacity-100" />
+                      <Pencil className="h-4 w-4 text-slate-400 opacity-0 transition-opacity group-hover:opacity-100 dark:text-white/40" />
                     </button>
                   )}
                   {saveStatus === 'saved' && <p className="text-xs text-green-400">Saved</p>}
@@ -246,13 +250,13 @@ function Header({
                 <div className="relative" ref={langMenuRef}>
                   <button
                     onClick={() => setShowLangMenu((v) => !v)}
-                    className="flex items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-1 text-sm font-medium text-white transition-colors hover:bg-white/20"
+                    className="flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-200 dark:bg-white/10 dark:text-white dark:hover:bg-white/20"
                   >
                     <span>
                       {SUPPORTED_LANGUAGES.find((l) => l.code === resumeLanguage)?.flag ?? '🌐'}
                     </span>
                     <span className="text-xs uppercase tracking-wide">{resumeLanguage}</span>
-                    <ChevronDown className="h-3 w-3 text-white/60" />
+                    <ChevronDown className="h-3 w-3 text-slate-400 dark:text-white/60" />
                   </button>
 
                   {showLangMenu && (
@@ -313,6 +317,15 @@ function Header({
 
             {/* Right section */}
             <div className="flex gap-3">
+              {/* Dark mode toggle */}
+              <button
+                onClick={toggleDark}
+                className="btn-secondary-light flex items-center gap-2"
+                aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              </button>
+
               {/* Save Button */}
               {onSave && (
                 <button

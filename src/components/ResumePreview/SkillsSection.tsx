@@ -3,10 +3,12 @@ import useResumeStore from '@store/resumeStore';
 import { TEMPLATE_STYLES } from '@utils/constants';
 import { theme } from '@/theme/colors';
 import { cn } from '@/hooks/useTheme';
+import { DEFAULT_SECTION_LABELS } from '@/types';
 
 function SkillsSection(): JSX.Element | null {
   const { resumeData, selectedTemplate } = useResumeStore();
   const styles = TEMPLATE_STYLES[selectedTemplate];
+  const label = resumeData.sectionLabels?.skills ?? DEFAULT_SECTION_LABELS.skills;
 
   if (resumeData.skills.length === 0) return null;
 
@@ -20,7 +22,7 @@ function SkillsSection(): JSX.Element | null {
         )}
       >
         <Lightbulb className="h-5 w-5" />
-        SKILLS
+        {label}
       </h2>
 
       <div className="ml-3 flex flex-wrap gap-2">

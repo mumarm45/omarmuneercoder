@@ -91,6 +91,28 @@ export interface SocialLinks {
   stackoverflow?: string;
 }
 
+export interface SectionLabels {
+  summary: string;
+  experience: string;
+  education: string;
+  skills: string;
+  projects: string;
+  certifications: string;
+  languages: string;
+  awards: string;
+}
+
+export const DEFAULT_SECTION_LABELS: SectionLabels = {
+  summary: 'PROFESSIONAL SUMMARY',
+  experience: 'EXPERIENCE',
+  education: 'EDUCATION',
+  skills: 'SKILLS',
+  projects: 'PROJECTS',
+  certifications: 'CERTIFICATIONS',
+  languages: 'LANGUAGES',
+  awards: 'AWARDS',
+};
+
 export interface ResumeData {
   personalInfo: PersonalInfo;
   summary: string;
@@ -104,6 +126,7 @@ export interface ResumeData {
   references?: Reference[];
   socialLinks?: SocialLinks;
   customSections?: CustomSection[];
+  sectionLabels?: SectionLabels;
 }
 
 export interface CustomSection {

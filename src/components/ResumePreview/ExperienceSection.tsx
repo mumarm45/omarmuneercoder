@@ -3,10 +3,12 @@ import useResumeStore from '@store/resumeStore';
 import { TEMPLATE_STYLES } from '@utils/constants';
 import { theme } from '@/theme/colors';
 import { cn } from '@/hooks/useTheme';
+import { DEFAULT_SECTION_LABELS } from '@/types';
 
 function ExperienceSection(): JSX.Element | null {
   const { resumeData, selectedTemplate } = useResumeStore();
   const styles = TEMPLATE_STYLES[selectedTemplate];
+  const label = resumeData.sectionLabels?.experience ?? DEFAULT_SECTION_LABELS.experience;
 
   if (resumeData.experience.length === 0) return null;
 
@@ -20,7 +22,7 @@ function ExperienceSection(): JSX.Element | null {
         )}
       >
         <Briefcase className="h-5 w-5" />
-        EXPERIENCE
+        {label}
       </h2>
 
       <div className="space-y-6">

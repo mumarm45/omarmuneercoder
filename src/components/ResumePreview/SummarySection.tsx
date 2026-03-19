@@ -3,10 +3,12 @@ import useResumeStore from '@store/resumeStore';
 import { TEMPLATE_STYLES } from '@utils/constants';
 import { theme } from '@/theme/colors';
 import { cn } from '@/hooks/useTheme';
+import { DEFAULT_SECTION_LABELS } from '@/types';
 
 function SummarySection(): JSX.Element | null {
   const { resumeData, selectedTemplate } = useResumeStore();
   const styles = TEMPLATE_STYLES[selectedTemplate];
+  const label = resumeData.sectionLabels?.summary ?? DEFAULT_SECTION_LABELS.summary;
 
   if (!resumeData.summary) return null;
 
@@ -20,7 +22,7 @@ function SummarySection(): JSX.Element | null {
         )}
       >
         <FileText className="h-5 w-5" />
-        PROFESSIONAL SUMMARY
+        {label}
       </h2>
 
       <p

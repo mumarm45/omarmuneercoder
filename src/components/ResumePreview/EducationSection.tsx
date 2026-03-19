@@ -3,10 +3,12 @@ import useResumeStore from '@store/resumeStore';
 import { TEMPLATE_STYLES } from '@utils/constants';
 import { theme } from '@/theme/colors';
 import { cn } from '@/hooks/useTheme';
+import { DEFAULT_SECTION_LABELS } from '@/types';
 
 function EducationSection(): JSX.Element | null {
   const { resumeData, selectedTemplate } = useResumeStore();
   const styles = TEMPLATE_STYLES[selectedTemplate];
+  const label = resumeData.sectionLabels?.education ?? DEFAULT_SECTION_LABELS.education;
 
   if (resumeData.education.length === 0) return null;
 
@@ -20,7 +22,7 @@ function EducationSection(): JSX.Element | null {
         )}
       >
         <GraduationCap className="h-5 w-5" />
-        EDUCATION
+        {label}
       </h2>
 
       <div className="space-y-4">

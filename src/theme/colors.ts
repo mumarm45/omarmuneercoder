@@ -56,7 +56,7 @@ export const theme = {
   // Background gradients
   backgrounds: {
     page: 'bg-gradient-to-br from-slate-50 to-slate-200',
-    header: 'bg-gradient-to-r from-slate-600 to-slate-700',
+    header: 'bg-white dark:bg-slate-800',
     card: {
       light: 'bg-white',
       dark: 'bg-slate-800',
