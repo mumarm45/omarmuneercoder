@@ -8,6 +8,8 @@ const ResumeBuilder = lazy(() => import('./pages/ResumeBuilder'));
 const MyResume = lazy(() => import('./pages/MyResume'));
 const Login = lazy(() => import('./pages/Auth/Login'));
 const Register = lazy(() => import('./pages/Auth/Register'));
+const ForgotPassword = lazy(() => import('./pages/Auth/ForgotPassword'));
+const ResetPassword = lazy(() => import('./pages/Auth/ResetPassword'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 const Spinner = (
@@ -25,6 +27,8 @@ function App(): JSX.Element {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/my-resume" element={<MyResume />} />
 
           {/* Protected */}
