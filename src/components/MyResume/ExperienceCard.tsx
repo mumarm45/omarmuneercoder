@@ -24,7 +24,7 @@ function ExperienceCard({
   return (
     <div
       className={cn(
-        'rounded-xl border-l-4 border-l-slate-600 p-8 shadow-lg',
+        'rounded-xl border-l-4 border-l-pink-500 p-8 shadow-lg',
         isDark ? theme.backgrounds.card.dark : theme.backgrounds.card.light,
         isDark ? theme.borders.dark : theme.borders.light
       )}
@@ -47,7 +47,7 @@ function ExperienceCard({
       <ul className={cn('space-y-2', isDark ? theme.text.secondary.dark : 'text-gray-700')}>
         {responsibilities.map((item, index) => (
           <li key={index} className="flex items-start gap-2">
-            <span className="mt-1 text-slate-600">•</span>
+            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-pink-500" />
             <span>{item}</span>
           </li>
         ))}

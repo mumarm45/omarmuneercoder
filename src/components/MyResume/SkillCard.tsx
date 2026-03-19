@@ -12,7 +12,7 @@ function SkillCard({ title, icon, skills, isDark }: SkillCardProps): JSX.Element
   return (
     <div
       className={cn(
-        'rounded-xl border p-6 shadow-lg transition hover:border-slate-500',
+        'rounded-xl border p-6 shadow-lg transition hover:border-pink-500/50 hover:shadow-pink-500/10',
         isDark ? theme.backgrounds.card.dark : theme.backgrounds.card.light,
         isDark ? theme.borders.dark : theme.borders.light
       )}
@@ -24,7 +24,7 @@ function SkillCard({ title, icon, skills, isDark }: SkillCardProps): JSX.Element
         {skills.map((skill, index) => (
           <span
             key={index}
-            className={`px-3 py-1 ${isDark ? 'bg-slate-700' : 'bg-slate-100'} rounded-full text-sm ${isDark ? 'text-slate-300' : 'text-slate-700'}`}
+            className={`rounded-full px-3 py-1 text-sm transition ${isDark ? 'bg-slate-700 text-slate-300 hover:bg-slate-600' : 'bg-pink-50 text-slate-700 hover:bg-pink-100'}`}
           >
             {skill}
           </span>

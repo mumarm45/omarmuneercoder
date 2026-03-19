@@ -19,9 +19,12 @@ function HobbiesSection({ isDark, title, intro, hobbies }: HobbiesSectionProps):
   return (
     <section className="px-6 py-16" id="hobbies">
       <div className="mx-auto max-w-7xl">
-        <h2 className="mb-4 text-center text-3xl font-bold">
-          <span className={theme.text.heading}>{title}</span>
-        </h2>
+        <div className="mb-4 text-center">
+          <h2 className="text-3xl font-bold">
+            <span className={theme.text.heading}>{title}</span>
+          </h2>
+          <div className="mx-auto mt-3 h-1 w-16 rounded-full bg-gradient-to-r from-pink-500 to-rose-500" />
+        </div>
         <p
           className={cn(
             'mx-auto mb-12 max-w-2xl text-center',

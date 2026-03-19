@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Languages } from 'lucide-react';
+import { ArrowLeft, Languages, Sun, Moon } from 'lucide-react';
 import { theme } from '@/theme/colors';
 import { cn } from '@/hooks/useTheme';
 
@@ -54,7 +54,7 @@ function Navigation({
             className={`rounded-full p-2 ${isDark ? 'bg-slate-700 hover:bg-slate-600' : 'bg-gray-200 hover:bg-gray-300'} transition`}
             aria-label="Toggle theme"
           >
-            {isDark ? '🌙' : '☀️'}
+            {isDark ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
           </button>
           <button
             onClick={onDownload}

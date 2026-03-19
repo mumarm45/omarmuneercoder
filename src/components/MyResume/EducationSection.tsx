@@ -1,4 +1,4 @@
-import { MapPin, Calendar } from 'lucide-react';
+import { MapPin, Calendar, GraduationCap } from 'lucide-react';
 import { theme } from '@/theme/colors';
 import { cn } from '@/hooks/useTheme';
 
@@ -22,9 +22,12 @@ function EducationSection({
   return (
     <section className="px-6 py-16" id="education">
       <div className="mx-auto max-w-5xl">
-        <h2 className="mb-12 text-center text-3xl font-bold">
-          <span className={theme.text.heading}>{title}</span>
-        </h2>
+        <div className="mb-12 text-center">
+          <h2 className="text-3xl font-bold">
+            <span className={theme.text.heading}>{title}</span>
+          </h2>
+          <div className="mx-auto mt-3 h-1 w-16 rounded-full bg-gradient-to-r from-pink-500 to-rose-500" />
+        </div>
         <div
           className={cn(
             'rounded-2xl border p-8 shadow-lg',
@@ -33,7 +36,9 @@ function EducationSection({
           )}
         >
           <div className="flex items-start gap-4">
-            <div className="text-4xl">🎓</div>
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-rose-500 shadow-lg shadow-pink-500/20">
+              <GraduationCap className="h-6 w-6 text-white" />
+            </div>
             <div className="flex-1">
               <h3 className={cn('mb-2 text-2xl font-bold', theme.text.heading)}>{degree}</h3>
               <p className="mb-2 text-xl font-semibold">{school}</p>
