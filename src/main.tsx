@@ -7,6 +7,10 @@ import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import App from './App';
 import './index.css';
+import { getServices, getEnvConfig } from './services/ServiceFactory';
+
+// Initialize singleton with correct backend before any component uses it
+getServices(getEnvConfig());
 
 Sentry.init({
   dsn: import.meta.env.VITE_SENTRY_DSN as string | undefined,
