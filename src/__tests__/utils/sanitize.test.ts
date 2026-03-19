@@ -53,7 +53,10 @@ describe('sanitize utils', () => {
 
   describe('sanitizeObject', () => {
     it('sanitizes string values', () => {
-      const result = sanitizeObject({ name: '<b>Omar</b>', age: 30 } as unknown as Record<string, unknown>);
+      const result = sanitizeObject({ name: '<b>Omar</b>', age: 30 } as unknown as Record<
+        string,
+        unknown
+      >);
       expect(result.name).toBe('Omar');
       expect(result.age).toBe(30);
     });
@@ -67,7 +70,10 @@ describe('sanitize utils', () => {
     });
 
     it('recursively sanitizes nested objects', () => {
-      const input = { outer: { inner: '<script>xss</script>' } } as unknown as Record<string, unknown>;
+      const input = { outer: { inner: '<script>xss</script>' } } as unknown as Record<
+        string,
+        unknown
+      >;
       const result = sanitizeObject(input) as { outer: { inner: string } };
       expect(result.outer.inner).not.toContain('<script>');
     });

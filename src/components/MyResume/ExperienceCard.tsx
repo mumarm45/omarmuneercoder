@@ -24,19 +24,19 @@ function ExperienceCard({
   return (
     <div
       className={cn(
-        'rounded-xl p-8 border-l-4 border-l-slate-600 shadow-lg',
+        'rounded-xl border-l-4 border-l-slate-600 p-8 shadow-lg',
         isDark ? theme.backgrounds.card.dark : theme.backgrounds.card.light,
         isDark ? theme.borders.dark : theme.borders.light
       )}
     >
-      <h3 className={cn('text-2xl font-bold mb-2', theme.text.heading)}>{title}</h3>
-      <p className="text-xl font-semibold mb-2">{company}</p>
-      <div className="flex gap-4 mb-4 text-sm flex-wrap">
+      <h3 className={cn('mb-2 text-2xl font-bold', theme.text.heading)}>{title}</h3>
+      <p className="mb-2 text-xl font-semibold">{company}</p>
+      <div className="mb-4 flex flex-wrap gap-4 text-sm">
         <span className="flex items-center gap-2">
-          <MapPin className="w-4 h-4" /> {location}
+          <MapPin className="h-4 w-4" /> {location}
         </span>
         <span className="flex items-center gap-2">
-          <Calendar className="w-4 h-4" /> {period}
+          <Calendar className="h-4 w-4" /> {period}
         </span>
       </div>
       {description && (
@@ -47,7 +47,7 @@ function ExperienceCard({
       <ul className={cn('space-y-2', isDark ? theme.text.secondary.dark : 'text-gray-700')}>
         {responsibilities.map((item, index) => (
           <li key={index} className="flex items-start gap-2">
-            <span className="text-slate-600 mt-1">•</span>
+            <span className="mt-1 text-slate-600">•</span>
             <span>{item}</span>
           </li>
         ))}

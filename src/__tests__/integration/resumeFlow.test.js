@@ -27,7 +27,9 @@ describe('Resume Builder Integration Tests', () => {
         result.current.updateSummary('Experienced QA engineer with testing expertise');
       });
 
-      expect(result.current.resumeData.summary).toBe('Experienced QA engineer with testing expertise');
+      expect(result.current.resumeData.summary).toBe(
+        'Experienced QA engineer with testing expertise'
+      );
 
       // Add experience
       const experience1 = {
@@ -37,7 +39,7 @@ describe('Resume Builder Integration Tests', () => {
         location: 'Remote',
         startDate: '2021',
         endDate: 'Present',
-        description: 'Led testing initiatives'
+        description: 'Led testing initiatives',
       };
 
       act(() => {
@@ -52,7 +54,7 @@ describe('Resume Builder Integration Tests', () => {
         degree: 'BS Computer Science',
         school: 'Test University',
         location: 'Test City',
-        year: '2020'
+        year: '2020',
       };
 
       act(() => {
@@ -84,7 +86,7 @@ describe('Resume Builder Integration Tests', () => {
         location: 'City A',
         startDate: '2018',
         endDate: '2020',
-        description: 'Entry level'
+        description: 'Entry level',
       };
 
       const exp2 = {
@@ -94,7 +96,7 @@ describe('Resume Builder Integration Tests', () => {
         location: 'City B',
         startDate: '2020',
         endDate: 'Present',
-        description: 'Leadership role'
+        description: 'Leadership role',
       };
 
       // Add experiences
@@ -104,18 +106,18 @@ describe('Resume Builder Integration Tests', () => {
       });
 
       const totalExperiences = result.current.resumeData.experience.length;
-      const juniorIndexBefore = result.current.resumeData.experience.findIndex(e => e.id === 1);
-      const seniorIndexBefore = result.current.resumeData.experience.findIndex(e => e.id === 2);
-      
+      const juniorIndexBefore = result.current.resumeData.experience.findIndex((e) => e.id === 1);
+      const seniorIndexBefore = result.current.resumeData.experience.findIndex((e) => e.id === 2);
+
       // Reorder: swap the two items
       act(() => {
         result.current.reorderExperience(seniorIndexBefore, juniorIndexBefore);
       });
 
       // Verify senior role is now before junior role
-      const seniorIndex = result.current.resumeData.experience.findIndex(e => e.id === 2);
-      const juniorIndex = result.current.resumeData.experience.findIndex(e => e.id === 1);
-      
+      const seniorIndex = result.current.resumeData.experience.findIndex((e) => e.id === 2);
+      const juniorIndex = result.current.resumeData.experience.findIndex((e) => e.id === 1);
+
       expect(seniorIndex).toBeLessThan(juniorIndex);
     });
 
@@ -127,7 +129,7 @@ describe('Resume Builder Integration Tests', () => {
         degree: 'Bachelor',
         school: 'University A',
         location: 'Location A',
-        year: '2020'
+        year: '2020',
       };
 
       // Add education
@@ -135,7 +137,7 @@ describe('Resume Builder Integration Tests', () => {
         result.current.addEducation(edu1);
       });
 
-      const addedEdu = result.current.resumeData.education.find(e => e.degree === 'Bachelor');
+      const addedEdu = result.current.resumeData.education.find((e) => e.degree === 'Bachelor');
       expect(addedEdu).toBeDefined();
 
       // Update education
@@ -143,7 +145,7 @@ describe('Resume Builder Integration Tests', () => {
         result.current.updateEducation(addedEdu.id, 'degree', 'Bachelor of Science');
       });
 
-      const updatedEdu = result.current.resumeData.education.find(e => e.id === addedEdu.id);
+      const updatedEdu = result.current.resumeData.education.find((e) => e.id === addedEdu.id);
       expect(updatedEdu.degree).toBe('Bachelor of Science');
 
       // Delete education
@@ -153,7 +155,7 @@ describe('Resume Builder Integration Tests', () => {
       });
 
       expect(result.current.resumeData.education.length).toBe(countBefore - 1);
-      expect(result.current.resumeData.education.find(e => e.id === addedEdu.id)).toBeUndefined();
+      expect(result.current.resumeData.education.find((e) => e.id === addedEdu.id)).toBeUndefined();
     });
 
     it('should maintain data consistency through multiple operations', () => {
@@ -163,7 +165,7 @@ describe('Resume Builder Integration Tests', () => {
       act(() => {
         // Update personal info
         result.current.updatePersonalInfo('name', 'Consistency Test');
-        
+
         // Add and modify experience
         result.current.addExperience({
           id: 100,
@@ -172,21 +174,23 @@ describe('Resume Builder Integration Tests', () => {
           location: 'Test Loc',
           startDate: '2020',
           endDate: '2021',
-          description: 'Test desc'
+          description: 'Test desc',
         });
         result.current.updateExperience(100, 'title', 'Updated Test');
-        
+
         // Add and reorder skills
         result.current.addSkill();
         result.current.updateSkill(result.current.resumeData.skills.length - 1, 'New Skill');
-        
+
         // Change template
         result.current.setTemplate('professional');
       });
 
       // Verify all changes persisted
       expect(result.current.resumeData.personalInfo.name).toBe('Consistency Test');
-      expect(result.current.resumeData.experience.find(e => e.id === 100).title).toBe('Updated Test');
+      expect(result.current.resumeData.experience.find((e) => e.id === 100).title).toBe(
+        'Updated Test'
+      );
       expect(result.current.resumeData.skills).toContain('New Skill');
       expect(result.current.selectedTemplate).toBe('professional');
     });
@@ -237,10 +241,10 @@ describe('Resume Builder Integration Tests', () => {
       act(() => {
         result.current.addSkill();
         result.current.updateSkill(initialSkillCount, 'TypeScript');
-        
+
         result.current.addSkill();
         result.current.updateSkill(initialSkillCount + 1, 'GraphQL');
-        
+
         result.current.addSkill();
         result.current.updateSkill(initialSkillCount + 2, 'Docker');
       });

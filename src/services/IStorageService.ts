@@ -1,6 +1,6 @@
 /**
  * Storage Service Interface
- * 
+ *
  * Provides abstraction for data persistence operations.
  * Can be implemented with localStorage, sessionStorage, HTTP API, or any other storage mechanism.
  */

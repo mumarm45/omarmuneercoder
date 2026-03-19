@@ -1,6 +1,6 @@
 /**
  * Services Module
- * 
+ *
  * Central export point for all service-related functionality.
  */
 
@@ -12,17 +12,9 @@ export type {
   StorageStats,
 } from './IStorageService';
 
-export type {
-  Resume,
-  ResumeMetadata,
-  ResumeListItem,
-  ResumeServiceResult,
-} from './ResumeService';
+export type { Resume, ResumeMetadata, ResumeListItem, ResumeServiceResult } from './ResumeService';
 
-export type {
-  StorageType,
-  ServiceConfig,
-} from './ServiceFactory';
+export type { StorageType, ServiceConfig } from './ServiceFactory';
 
 // Implementations
 export { LocalStorageService } from './LocalStorageService';
@@ -30,8 +22,4 @@ export { HttpStorageService } from './HttpStorageService';
 export { ResumeService } from './ResumeService';
 
 // Factory
-export { 
-  ServiceFactory, 
-  getServices, 
-  getEnvConfig 
-} from './ServiceFactory';
+export { ServiceFactory, getServices, getEnvConfig } from './ServiceFactory';

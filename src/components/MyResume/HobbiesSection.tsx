@@ -17,15 +17,20 @@ interface HobbiesSectionProps {
 
 function HobbiesSection({ isDark, title, intro, hobbies }: HobbiesSectionProps): JSX.Element {
   return (
-    <section className="py-16 px-6" id="hobbies">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-4">
+    <section className="px-6 py-16" id="hobbies">
+      <div className="mx-auto max-w-7xl">
+        <h2 className="mb-4 text-center text-3xl font-bold">
           <span className={theme.text.heading}>{title}</span>
         </h2>
-        <p className={cn('text-center max-w-2xl mx-auto mb-12', isDark ? theme.text.secondary.dark : theme.text.secondary.light)}>
+        <p
+          className={cn(
+            'mx-auto mb-12 max-w-2xl text-center',
+            isDark ? theme.text.secondary.dark : theme.text.secondary.light
+          )}
+        >
           {intro}
         </p>
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid gap-6 md:grid-cols-3">
           {hobbies.map((hobby, index) => (
             <HobbyCard
               key={index}

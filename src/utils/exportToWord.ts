@@ -1,5 +1,11 @@
 import { ResumeData } from '../types';
-import { withErrorHandling, ErrorCode, OperationResult, validateRequired, logger } from './errorHandling';
+import {
+  withErrorHandling,
+  ErrorCode,
+  OperationResult,
+  validateRequired,
+  logger,
+} from './errorHandling';
 
 export interface ExportResult {
   success: boolean;
@@ -47,11 +53,7 @@ function formatResumeText(data: ResumeData): string {
   // Education
   sections.push('EDUCATION', '');
   education.forEach((edu) => {
-    sections.push(
-      edu.degree,
-      `${edu.school} | ${edu.location} | ${edu.year}`,
-      ''
-    );
+    sections.push(edu.degree, `${edu.school} | ${edu.location} | ${edu.year}`, '');
   });
 
   // Skills
@@ -66,13 +68,13 @@ function formatResumeText(data: ResumeData): string {
 function downloadTextFile(content: string, fileName: string): void {
   const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
   const url = window.URL.createObjectURL(blob);
-  
+
   try {
     const link = document.createElement('a');
     link.href = url;
     link.download = fileName;
     link.style.display = 'none';
-    
+
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -87,7 +89,10 @@ function downloadTextFile(content: string, fileName: string): void {
  */
 function validateResumeData(data: ResumeData): OperationResult<ResumeData> {
   return validateRequired(data as unknown as Record<string, unknown>, [
-    'personalInfo', 'experience', 'education', 'skills',
+    'personalInfo',
+    'experience',
+    'education',
+    'skills',
   ]) as OperationResult<ResumeData>;
 }
 

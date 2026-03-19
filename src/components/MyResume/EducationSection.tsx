@@ -20,14 +20,14 @@ function EducationSection({
   period,
 }: EducationSectionProps): JSX.Element {
   return (
-    <section className="py-16 px-6" id="education">
-      <div className="max-w-5xl mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-12">
+    <section className="px-6 py-16" id="education">
+      <div className="mx-auto max-w-5xl">
+        <h2 className="mb-12 text-center text-3xl font-bold">
           <span className={theme.text.heading}>{title}</span>
         </h2>
         <div
           className={cn(
-            'rounded-2xl p-8 shadow-lg border',
+            'rounded-2xl border p-8 shadow-lg',
             isDark ? theme.backgrounds.card.dark : theme.backgrounds.card.light,
             isDark ? theme.borders.dark : theme.borders.light
           )}
@@ -35,14 +35,14 @@ function EducationSection({
           <div className="flex items-start gap-4">
             <div className="text-4xl">🎓</div>
             <div className="flex-1">
-              <h3 className={cn('text-2xl font-bold mb-2', theme.text.heading)}>{degree}</h3>
-              <p className="text-xl font-semibold mb-2">{school}</p>
-              <div className="flex gap-4 text-sm flex-wrap">
+              <h3 className={cn('mb-2 text-2xl font-bold', theme.text.heading)}>{degree}</h3>
+              <p className="mb-2 text-xl font-semibold">{school}</p>
+              <div className="flex flex-wrap gap-4 text-sm">
                 <span className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4" /> {location}
+                  <MapPin className="h-4 w-4" /> {location}
                 </span>
                 <span className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4" /> {period}
+                  <Calendar className="h-4 w-4" /> {period}
                 </span>
               </div>
             </div>

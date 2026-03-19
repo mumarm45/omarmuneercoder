@@ -20,7 +20,7 @@ describe('resumeStore', () => {
 
     it('should update selected template', () => {
       const { result } = renderHook(() => useResumeStore());
-      
+
       act(() => {
         result.current.setTemplate('professional');
       });
@@ -32,7 +32,7 @@ describe('resumeStore', () => {
   describe('Personal Info Management', () => {
     it('should update personal info field', () => {
       const { result } = renderHook(() => useResumeStore());
-      
+
       act(() => {
         result.current.updatePersonalInfo('name', 'Jane Doe');
       });
@@ -42,7 +42,7 @@ describe('resumeStore', () => {
 
     it('should update multiple personal info fields', () => {
       const { result } = renderHook(() => useResumeStore());
-      
+
       act(() => {
         result.current.updatePersonalInfo('name', 'Jane Doe');
         result.current.updatePersonalInfo('email', 'jane@example.com');
@@ -57,7 +57,7 @@ describe('resumeStore', () => {
     it('should update summary', () => {
       const { result } = renderHook(() => useResumeStore());
       const newSummary = 'New professional summary';
-      
+
       act(() => {
         result.current.updateSummary(newSummary);
       });
@@ -70,7 +70,7 @@ describe('resumeStore', () => {
     it('should add new experience', () => {
       const { result } = renderHook(() => useResumeStore());
       const initialLength = result.current.resumeData.experience.length;
-      
+
       const newExperience = {
         id: Date.now(),
         title: 'Test Engineer',
@@ -78,7 +78,7 @@ describe('resumeStore', () => {
         location: 'Test City',
         startDate: '2023',
         endDate: 'Present',
-        description: 'Test description'
+        description: 'Test description',
       };
 
       act(() => {
@@ -92,7 +92,7 @@ describe('resumeStore', () => {
     it('should update experience field', () => {
       const { result } = renderHook(() => useResumeStore());
       const firstExpId = result.current.resumeData.experience[0].id;
-      
+
       act(() => {
         result.current.updateExperience(firstExpId, 'title', 'Updated Title');
       });
@@ -104,20 +104,20 @@ describe('resumeStore', () => {
       const { result } = renderHook(() => useResumeStore());
       const initialLength = result.current.resumeData.experience.length;
       const firstExpId = result.current.resumeData.experience[0].id;
-      
+
       act(() => {
         result.current.deleteExperience(firstExpId);
       });
 
       expect(result.current.resumeData.experience.length).toBe(initialLength - 1);
-      expect(result.current.resumeData.experience.find(e => e.id === firstExpId)).toBeUndefined();
+      expect(result.current.resumeData.experience.find((e) => e.id === firstExpId)).toBeUndefined();
     });
 
     it('should reorder experience', () => {
       const { result } = renderHook(() => useResumeStore());
       const firstExp = result.current.resumeData.experience[0];
       const secondExp = result.current.resumeData.experience[1];
-      
+
       act(() => {
         result.current.reorderExperience(0, 1);
       });
@@ -131,13 +131,13 @@ describe('resumeStore', () => {
     it('should add new education', () => {
       const { result } = renderHook(() => useResumeStore());
       const initialLength = result.current.resumeData.education.length;
-      
+
       const newEducation = {
         id: Date.now(),
         degree: 'Master of Science',
         school: 'Test University',
         location: 'Test City',
-        year: '2023'
+        year: '2023',
       };
 
       act(() => {
@@ -150,7 +150,7 @@ describe('resumeStore', () => {
     it('should update education field', () => {
       const { result } = renderHook(() => useResumeStore());
       const firstEduId = result.current.resumeData.education[0].id;
-      
+
       act(() => {
         result.current.updateEducation(firstEduId, 'degree', 'Updated Degree');
       });
@@ -162,7 +162,7 @@ describe('resumeStore', () => {
       const { result } = renderHook(() => useResumeStore());
       const initialLength = result.current.resumeData.education.length;
       const firstEduId = result.current.resumeData.education[0].id;
-      
+
       act(() => {
         result.current.deleteEducation(firstEduId);
       });
@@ -172,14 +172,14 @@ describe('resumeStore', () => {
 
     it('should reorder education', () => {
       const { result } = renderHook(() => useResumeStore());
-      
+
       // Add another education for testing
       const newEducation = {
         id: Date.now(),
         degree: 'Test Degree',
         school: 'Test School',
         location: 'Test Location',
-        year: '2020'
+        year: '2020',
       };
 
       act(() => {
@@ -188,7 +188,7 @@ describe('resumeStore', () => {
 
       const firstEdu = result.current.resumeData.education[0];
       const secondEdu = result.current.resumeData.education[1];
-      
+
       act(() => {
         result.current.reorderEducation(0, 1);
       });
@@ -202,7 +202,7 @@ describe('resumeStore', () => {
     it('should add new skill', () => {
       const { result } = renderHook(() => useResumeStore());
       const initialLength = result.current.resumeData.skills.length;
-      
+
       act(() => {
         result.current.addSkill();
       });
@@ -213,7 +213,7 @@ describe('resumeStore', () => {
 
     it('should update skill', () => {
       const { result } = renderHook(() => useResumeStore());
-      
+
       act(() => {
         result.current.updateSkill(0, 'Updated Skill');
       });
@@ -224,7 +224,7 @@ describe('resumeStore', () => {
     it('should delete skill', () => {
       const { result } = renderHook(() => useResumeStore());
       const initialLength = result.current.resumeData.skills.length;
-      
+
       act(() => {
         result.current.deleteSkill(0);
       });
@@ -236,7 +236,7 @@ describe('resumeStore', () => {
       const { result } = renderHook(() => useResumeStore());
       const firstSkill = result.current.resumeData.skills[0];
       const secondSkill = result.current.resumeData.skills[1];
-      
+
       act(() => {
         result.current.reorderSkills(0, 1);
       });
@@ -250,7 +250,7 @@ describe('resumeStore', () => {
     it('should toggle preview visibility', () => {
       const { result } = renderHook(() => useResumeStore());
       const initialValue = result.current.showPreview;
-      
+
       act(() => {
         result.current.togglePreview();
       });

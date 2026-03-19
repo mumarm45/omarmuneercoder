@@ -7,20 +7,20 @@ import PersonalInfoDialog from '../Dialogs/PersonalInfoDialog';
 function PersonalInfoSection(): JSX.Element {
   const { resumeData, selectedTemplate } = useResumeStore();
   const [showDialog, setShowDialog] = useState<boolean>(false);
-  
+
   const style = TEMPLATE_STYLES[selectedTemplate];
 
   return (
     <>
-      <div className={`${style.header} p-8 rounded-lg mb-6 relative group`}>
+      <div className={`${style.header} group relative mb-6 rounded-lg p-8`}>
         <button
           onClick={() => setShowDialog(true)}
-          className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 p-2 bg-white/20 hover:bg-white/30 rounded transition"
+          className="absolute right-4 top-4 rounded bg-white/20 p-2 opacity-0 transition hover:bg-white/30 group-hover:opacity-100"
         >
-          <Edit2 className="w-4 h-4" />
+          <Edit2 className="h-4 w-4" />
         </button>
-        <h1 className="text-4xl font-bold mb-2">{resumeData.personalInfo.name}</h1>
-        <p className="text-xl mb-4">{resumeData.personalInfo.title}</p>
+        <h1 className="mb-2 text-4xl font-bold">{resumeData.personalInfo.name}</h1>
+        <p className="mb-4 text-xl">{resumeData.personalInfo.title}</p>
         <div className="flex flex-wrap gap-4 text-sm">
           <span>{resumeData.personalInfo.email}</span>
           <span>{resumeData.personalInfo.phone}</span>
@@ -29,10 +29,7 @@ function PersonalInfoSection(): JSX.Element {
         </div>
       </div>
 
-      <PersonalInfoDialog 
-        isOpen={showDialog} 
-        onClose={() => setShowDialog(false)} 
-      />
+      <PersonalInfoDialog isOpen={showDialog} onClose={() => setShowDialog(false)} />
     </>
   );
 }

@@ -63,8 +63,7 @@ export const de: Translation = {
   exp2Title: 'Fullstack Web Developer',
   exp2Company: 'Alef Education',
   exp2Period: 'Jan 2020 - Jul 2022',
-  exp2Desc:
-    'Full-Stack-Entwickler auf einer K-12-EdTech-Plattform mit Microservices-Architektur.',
+  exp2Desc: 'Full-Stack-Entwickler auf einer K-12-EdTech-Plattform mit Microservices-Architektur.',
   exp2Points: [
     'Entwicklung des Frontends mit React und GraphQL',
     'Entwicklung von Middleware-Services mit Node.js und GraphQL',

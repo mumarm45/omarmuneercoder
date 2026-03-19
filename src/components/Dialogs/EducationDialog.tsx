@@ -22,7 +22,7 @@ function EducationDialog({ isOpen, onClose, education = null }: EducationDialogP
     degree: '',
     school: '',
     location: '',
-    year: ''
+    year: '',
   });
 
   useEffect(() => {
@@ -31,14 +31,14 @@ function EducationDialog({ isOpen, onClose, education = null }: EducationDialogP
         degree: education.degree,
         school: education.school,
         location: education.location,
-        year: education.year
+        year: education.year,
       });
     } else {
       setFormData({
         degree: '',
         school: '',
         location: '',
-        year: ''
+        year: '',
       });
     }
   }, [education, isOpen]);
@@ -52,14 +52,18 @@ function EducationDialog({ isOpen, onClose, education = null }: EducationDialogP
       // Update existing
       Object.keys(formData).forEach((key) => {
         if (key !== 'id') {
-          updateEducation(education.id, key as keyof Education, formData[key as keyof EducationFormData]);
+          updateEducation(
+            education.id,
+            key as keyof Education,
+            formData[key as keyof EducationFormData]
+          );
         }
       });
     } else {
       // Add new
       const newEdu: Education = {
         id: Date.now(),
-        ...formData
+        ...formData,
       };
       addEducation(newEdu);
     }
@@ -67,77 +71,73 @@ function EducationDialog({ isOpen, onClose, education = null }: EducationDialogP
   };
 
   return (
-    <Dialog 
-      isOpen={isOpen} 
-      onClose={onClose} 
-      title={education ? 'Edit Education' : 'Add Education'} 
+    <Dialog
+      isOpen={isOpen}
+      onClose={onClose}
+      title={education ? 'Edit Education' : 'Add Education'}
       size="md"
     >
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Degree *
-          </label>
+          <label className="mb-1 block text-sm font-medium text-gray-700">Degree *</label>
           <input
             type="text"
             value={formData.degree}
             onChange={(e) => handleChange('degree', e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500"
             placeholder="Bachelor of Science in Computer Science"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="mb-1 block text-sm font-medium text-gray-700">
             School/University *
           </label>
           <input
             type="text"
             value={formData.school}
             onChange={(e) => handleChange('school', e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500"
             placeholder="University of Technology"
           />
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Location
-            </label>
+            <label className="mb-1 block text-sm font-medium text-gray-700">Location</label>
             <input
               type="text"
               value={formData.location}
               onChange={(e) => handleChange('location', e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500"
               placeholder="Boston, MA"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="mb-1 block text-sm font-medium text-gray-700">
               Graduation Year *
             </label>
             <input
               type="text"
               value={formData.year}
               onChange={(e) => handleChange('year', e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500"
               placeholder="2019"
             />
           </div>
         </div>
 
-        <div className="flex justify-end gap-3 pt-4 border-t">
+        <div className="flex justify-end gap-3 border-t pt-4">
           <button
             onClick={onClose}
-            className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition"
+            className="rounded-lg border border-gray-300 px-6 py-2 text-gray-700 transition hover:bg-gray-50"
           >
             Cancel
           </button>
           <button
             onClick={handleSave}
-            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            className="rounded-lg bg-blue-600 px-6 py-2 text-white transition hover:bg-blue-700"
           >
             {education ? 'Save Changes' : 'Add Education'}
           </button>

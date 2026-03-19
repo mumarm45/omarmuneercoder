@@ -18,16 +18,36 @@ function renderWithRouter(ui: React.ReactElement, initialPath = '/') {
 
 describe('ProtectedRoute', () => {
   it('shows spinner while loading', () => {
-    mockUseAuth.mockReturnValue({ user: null, session: null, loading: true, signIn: jest.fn(), signUp: jest.fn(), signOut: jest.fn() });
+    mockUseAuth.mockReturnValue({
+      user: null,
+      session: null,
+      loading: true,
+      signIn: jest.fn(),
+      signUp: jest.fn(),
+      signOut: jest.fn(),
+    });
     const { container } = renderWithRouter(
-      <ProtectedRoute><div>Protected</div></ProtectedRoute>
+      <ProtectedRoute>
+        <div>Protected</div>
+      </ProtectedRoute>
     );
     expect(container.querySelector('.animate-spin')).toBeInTheDocument();
   });
 
   it('redirects to /login when not authenticated', () => {
-    mockUseAuth.mockReturnValue({ user: null, session: null, loading: false, signIn: jest.fn(), signUp: jest.fn(), signOut: jest.fn() });
-    renderWithRouter(<ProtectedRoute><div>Secret</div></ProtectedRoute>);
+    mockUseAuth.mockReturnValue({
+      user: null,
+      session: null,
+      loading: false,
+      signIn: jest.fn(),
+      signUp: jest.fn(),
+      signOut: jest.fn(),
+    });
+    renderWithRouter(
+      <ProtectedRoute>
+        <div>Secret</div>
+      </ProtectedRoute>
+    );
     expect(screen.queryByText('Secret')).not.toBeInTheDocument();
   });
 
@@ -40,7 +60,11 @@ describe('ProtectedRoute', () => {
       signUp: jest.fn(),
       signOut: jest.fn(),
     });
-    renderWithRouter(<ProtectedRoute><div>Secret Page</div></ProtectedRoute>);
+    renderWithRouter(
+      <ProtectedRoute>
+        <div>Secret Page</div>
+      </ProtectedRoute>
+    );
     expect(screen.getByText('Secret Page')).toBeInTheDocument();
   });
 });

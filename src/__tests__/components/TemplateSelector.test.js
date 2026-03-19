@@ -1,4 +1,3 @@
-
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import TemplateSelector from '../../components/TemplateSelector';
@@ -13,7 +12,7 @@ describe('TemplateSelector Component', () => {
   beforeEach(() => {
     useResumeStore.mockReturnValue({
       selectedTemplate: 'modern',
-      setTemplate: mockSetTemplate
+      setTemplate: mockSetTemplate,
     });
     mockSetTemplate.mockClear();
   });
@@ -48,7 +47,7 @@ describe('TemplateSelector Component', () => {
 
     useResumeStore.mockReturnValue({
       selectedTemplate: 'minimal',
-      setTemplate: mockSetTemplate
+      setTemplate: mockSetTemplate,
     });
 
     rerender(<TemplateSelector />);

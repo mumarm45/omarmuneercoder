@@ -11,11 +11,7 @@ export function useTheme() {
 /**
  * Helper function to get theme-aware class names
  */
-export function getThemeClass(
-  lightClass: string,
-  darkClass: string,
-  isDark: boolean
-): string {
+export function getThemeClass(lightClass: string, darkClass: string, isDark: boolean): string {
   return isDark ? darkClass : lightClass;
 }
 

@@ -1,16 +1,11 @@
 /**
  * HTTP Implementation of Storage Service (Placeholder)
- * 
+ *
  * This is a placeholder implementation for future HTTP/API integration.
  * Replace the TODO sections with actual API calls when backend is ready.
  */
 
-import { 
-  IStorageService, 
-  StorageResult, 
-  StorageConfig, 
-  StorageStats 
-} from './IStorageService';
+import { IStorageService, StorageResult, StorageConfig, StorageStats } from './IStorageService';
 import { logger } from '../utils/errorHandling';
 
 interface ApiResponse<T> {
@@ -25,11 +20,7 @@ export class HttpStorageService implements IStorageService {
   private config: StorageConfig;
   private headers: HeadersInit;
 
-  constructor(
-    baseUrl: string = '/api',
-    config: Partial<StorageConfig> = {},
-    authToken?: string
-  ) {
+  constructor(baseUrl: string = '/api', config: Partial<StorageConfig> = {}, authToken?: string) {
     this.baseUrl = baseUrl;
     this.config = {
       prefix: config.prefix || 'resume-app',
@@ -64,7 +55,7 @@ export class HttpStorageService implements IStorageService {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       logger.error('HTTP request failed', { endpoint, error: errorMessage });
-      
+
       return {
         success: false,
         error: errorMessage,
@@ -75,13 +66,12 @@ export class HttpStorageService implements IStorageService {
   async save<T>(key: string, data: T): Promise<StorageResult<T>> {
     try {
       logger.debug('Saving to HTTP storage', { key });
-      
+
       // TODO: Replace with actual API endpoint
-      const response = await this.request<T>(
-        `/storage/${encodeURIComponent(key)}`,
-        'PUT',
-        { data, metadata: { version: this.config.version } }
-      );
+      const response = await this.request<T>(`/storage/${encodeURIComponent(key)}`, 'PUT', {
+        data,
+        metadata: { version: this.config.version },
+      });
 
       if (!response.success) {
         return {
@@ -100,7 +90,7 @@ export class HttpStorageService implements IStorageService {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       logger.error('Failed to save data via HTTP', { key, error: errorMessage });
-      
+
       return {
         success: false,
         error: error as Error,
@@ -112,7 +102,7 @@ export class HttpStorageService implements IStorageService {
   async get<T>(key: string): Promise<StorageResult<T>> {
     try {
       logger.debug('Retrieving from HTTP storage', { key });
-      
+
       // TODO: Replace with actual API endpoint
       const response = await this.request<{ data: T }>(
         `/storage/${encodeURIComponent(key)}`,
@@ -134,7 +124,7 @@ export class HttpStorageService implements IStorageService {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       logger.error('Failed to retrieve data via HTTP', { key, error: errorMessage });
-      
+
       return {
         success: false,
         error: error as Error,
@@ -146,12 +136,9 @@ export class HttpStorageService implements IStorageService {
   async delete(key: string): Promise<StorageResult<void>> {
     try {
       logger.debug('Deleting from HTTP storage', { key });
-      
+
       // TODO: Replace with actual API endpoint
-      const response = await this.request<void>(
-        `/storage/${encodeURIComponent(key)}`,
-        'DELETE'
-      );
+      const response = await this.request<void>(`/storage/${encodeURIComponent(key)}`, 'DELETE');
 
       if (!response.success) {
         return {
@@ -169,7 +156,7 @@ export class HttpStorageService implements IStorageService {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       logger.error('Failed to delete data via HTTP', { key, error: errorMessage });
-      
+
       return {
         success: false,
         error: error as Error,
@@ -201,7 +188,7 @@ export class HttpStorageService implements IStorageService {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       logger.error('Failed to check key existence via HTTP', { key, error: errorMessage });
-      
+
       return {
         success: false,
         error: error as Error,
@@ -213,13 +200,10 @@ export class HttpStorageService implements IStorageService {
   async list(prefix?: string): Promise<StorageResult<string[]>> {
     try {
       logger.debug('Listing keys via HTTP', { prefix });
-      
+
       // TODO: Replace with actual API endpoint
       const queryParam = prefix ? `?prefix=${encodeURIComponent(prefix)}` : '';
-      const response = await this.request<{ keys: string[] }>(
-        `/storage${queryParam}`,
-        'GET'
-      );
+      const response = await this.request<{ keys: string[] }>(`/storage${queryParam}`, 'GET');
 
       if (!response.success || !response.data) {
         return {
@@ -236,7 +220,7 @@ export class HttpStorageService implements IStorageService {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       logger.error('Failed to list keys via HTTP', { error: errorMessage });
-      
+
       return {
         success: false,
         error: error as Error,
@@ -248,13 +232,9 @@ export class HttpStorageService implements IStorageService {
   async clear(prefix?: string): Promise<StorageResult<void>> {
     try {
       logger.debug('Clearing storage via HTTP', { prefix });
-      
+
       // TODO: Replace with actual API endpoint
-      const response = await this.request<void>(
-        '/storage',
-        'DELETE',
-        { prefix }
-      );
+      const response = await this.request<void>('/storage', 'DELETE', { prefix });
 
       if (!response.success) {
         return {
@@ -272,7 +252,7 @@ export class HttpStorageService implements IStorageService {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       logger.error('Failed to clear storage via HTTP', { error: errorMessage });
-      
+
       return {
         success: false,
         error: error as Error,
@@ -284,10 +264,7 @@ export class HttpStorageService implements IStorageService {
   async getStats(): Promise<StorageResult<StorageStats>> {
     try {
       // TODO: Replace with actual API endpoint
-      const response = await this.request<StorageStats>(
-        '/storage/stats',
-        'GET'
-      );
+      const response = await this.request<StorageStats>('/storage/stats', 'GET');
 
       if (!response.success || !response.data) {
         return {
@@ -304,7 +281,7 @@ export class HttpStorageService implements IStorageService {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       logger.error('Failed to get storage stats via HTTP', { error: errorMessage });
-      
+
       return {
         success: false,
         error: error as Error,
@@ -336,7 +313,7 @@ export class HttpStorageService implements IStorageService {
 
 /**
  * Example Backend API Endpoints Structure:
- * 
+ *
  * PUT    /api/storage/:key          - Save data
  * GET    /api/storage/:key          - Get data
  * DELETE /api/storage/:key          - Delete data
@@ -344,7 +321,7 @@ export class HttpStorageService implements IStorageService {
  * GET    /api/storage?prefix=...    - List keys
  * DELETE /api/storage               - Clear storage (with optional prefix in body)
  * GET    /api/storage/stats         - Get storage statistics
- * 
+ *
  * Request Body Example (for PUT):
  * {
  *   "data": { ... },
@@ -353,7 +330,7 @@ export class HttpStorageService implements IStorageService {
  *     "timestamp": 1234567890
  *   }
  * }
- * 
+ *
  * Response Example:
  * {
  *   "success": true,

@@ -33,14 +33,18 @@ function makeStorageMock(): jest.Mocked<IStorageService> {
       store.delete(key);
       return { success: true };
     }),
-    exists: jest.fn(async (key: string): Promise<StorageResult<boolean>> => ({
-      success: true,
-      data: store.has(key),
-    })),
-    list: jest.fn(async (): Promise<StorageResult<string[]>> => ({
-      success: true,
-      data: Array.from(store.keys()),
-    })),
+    exists: jest.fn(
+      async (key: string): Promise<StorageResult<boolean>> => ({
+        success: true,
+        data: store.has(key),
+      })
+    ),
+    list: jest.fn(
+      async (): Promise<StorageResult<string[]>> => ({
+        success: true,
+        data: Array.from(store.keys()),
+      })
+    ),
     clear: jest.fn(async (): Promise<StorageResult<void>> => {
       store.clear();
       return { success: true };
@@ -77,7 +81,7 @@ describe('ResumeService', () => {
     it('adds resume to the list', async () => {
       await service.create('Listed Resume', sampleData);
       const list = await service.list();
-      expect(list.data?.some(r => r.name === 'Listed Resume')).toBe(true);
+      expect(list.data?.some((r) => r.name === 'Listed Resume')).toBe(true);
     });
   });
 
@@ -129,7 +133,7 @@ describe('ResumeService', () => {
       const { data: created } = await service.create('Remove From List', sampleData);
       await service.delete(created!.id);
       const list = await service.list();
-      expect(list.data?.some(r => r.id === created!.id)).toBe(false);
+      expect(list.data?.some((r) => r.id === created!.id)).toBe(false);
     });
   });
 
@@ -146,7 +150,7 @@ describe('ResumeService', () => {
       await service.create('First', sampleData);
       await service.create('Second', sampleData);
       const result = await service.list();
-      const dates = result.data!.map(r => new Date(r.updatedAt).getTime());
+      const dates = result.data!.map((r) => new Date(r.updatedAt).getTime());
       for (let i = 1; i < dates.length; i++) {
         expect(dates[i - 1]).toBeGreaterThanOrEqual(dates[i]);
       }
@@ -179,8 +183,8 @@ describe('ResumeService', () => {
       await service.create('React Developer', sampleData);
       await service.create('Python Engineer', sampleData);
       const result = await service.search('react');
-      expect(result.data?.some(r => r.name === 'React Developer')).toBe(true);
-      expect(result.data?.some(r => r.name === 'Python Engineer')).toBe(false);
+      expect(result.data?.some((r) => r.name === 'React Developer')).toBe(true);
+      expect(result.data?.some((r) => r.name === 'Python Engineer')).toBe(false);
     });
 
     it('returns empty array when no match', async () => {
@@ -211,8 +215,8 @@ describe('ResumeService', () => {
       await service.create('B', sampleData);
       await service.toggleFavorite(a!.id);
       const result = await service.getFavorites();
-      expect(result.data?.every(r => r.metadata?.favorite)).toBe(true);
-      expect(result.data?.some(r => r.id === a!.id)).toBe(true);
+      expect(result.data?.every((r) => r.metadata?.favorite)).toBe(true);
+      expect(result.data?.some((r) => r.id === a!.id)).toBe(true);
     });
   });
 });

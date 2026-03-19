@@ -11,12 +11,14 @@ function ProjectsPreviewSection(): JSX.Element | null {
   if (projects.length === 0) return null;
 
   return (
-    <section className="mb-8 pb-6 border-b-2 border-slate-200 last:border-0">
-      <h2 className={`text-xl font-bold mb-4 pl-3 ${styles.section} ${styles.accent} flex items-center gap-2`}>
-        <FolderOpen className="w-5 h-5" />
+    <section className="mb-8 border-b-2 border-slate-200 pb-6 last:border-0">
+      <h2
+        className={`mb-4 pl-3 text-xl font-bold ${styles.section} ${styles.accent} flex items-center gap-2`}
+      >
+        <FolderOpen className="h-5 w-5" />
         PROJECTS
       </h2>
-      
+
       <div className="space-y-5">
         {projects.map((project) => (
           <ProjectPreviewItem key={project.id} project={project} />
@@ -34,18 +36,18 @@ function ProjectPreviewItem({ project }: ProjectPreviewItemProps): JSX.Element {
   return (
     <div className="pl-3">
       {/* Project Header */}
-      <div className="flex items-start justify-between mb-2">
+      <div className="mb-2 flex items-start justify-between">
         <div className="flex-1">
-          <h3 className="font-bold text-slate-900 text-base">{project.name}</h3>
+          <h3 className="text-base font-bold text-slate-900">{project.name}</h3>
           {(project.startDate || project.endDate) && (
             <p className="text-sm text-slate-600">
               {project.startDate} {project.endDate && `- ${project.endDate}`}
             </p>
           )}
         </div>
-        
+
         {/* Links */}
-        <div className="flex gap-2 ml-4">
+        <div className="ml-4 flex gap-2">
           {project.link && (
             <a
               href={project.link}
@@ -54,7 +56,7 @@ function ProjectPreviewItem({ project }: ProjectPreviewItemProps): JSX.Element {
               className="text-blue-600 hover:text-blue-700 print:text-blue-600"
               title="Live Demo"
             >
-              <ExternalLink className="w-4 h-4" />
+              <ExternalLink className="h-4 w-4" />
             </a>
           )}
           {project.github && (
@@ -65,22 +67,22 @@ function ProjectPreviewItem({ project }: ProjectPreviewItemProps): JSX.Element {
               className="text-slate-600 hover:text-slate-900 print:text-slate-600"
               title="GitHub Repository"
             >
-              <Github className="w-4 h-4" />
+              <Github className="h-4 w-4" />
             </a>
           )}
         </div>
       </div>
 
       {/* Description */}
-      <p className="text-sm text-slate-700 mb-3 leading-relaxed">{project.description}</p>
+      <p className="mb-3 text-sm leading-relaxed text-slate-700">{project.description}</p>
 
       {/* Technologies */}
       {project.technologies && project.technologies.length > 0 && (
-        <div className="flex flex-wrap gap-2 mb-3">
+        <div className="mb-3 flex flex-wrap gap-2">
           {project.technologies.map((tech, index) => (
             <span
               key={index}
-              className="inline-block px-2.5 py-0.5 bg-slate-100 text-slate-700 text-xs rounded-full font-medium"
+              className="inline-block rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-700"
             >
               {tech}
             </span>
@@ -90,9 +92,11 @@ function ProjectPreviewItem({ project }: ProjectPreviewItemProps): JSX.Element {
 
       {/* Highlights */}
       {project.highlights && project.highlights.length > 0 && (
-        <ul className="list-disc list-inside text-sm text-slate-700 space-y-1 ml-2">
+        <ul className="ml-2 list-inside list-disc space-y-1 text-sm text-slate-700">
           {project.highlights.map((highlight, index) => (
-            <li key={index} className="leading-relaxed">{highlight}</li>
+            <li key={index} className="leading-relaxed">
+              {highlight}
+            </li>
           ))}
         </ul>
       )}

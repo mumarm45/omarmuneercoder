@@ -18,11 +18,10 @@ interface ExperienceSectionProps {
 
 function ExperienceSection({ isDark, title, experiences }: ExperienceSectionProps): JSX.Element {
   return (
-    <section className="py-16 px-6" id="experience">
-      <div className="max-w-5xl mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-12">
-          {title.split(' ')[0]}{' '}
-          <span className={theme.text.heading}>{title.split(' ')[1]}</span>
+    <section className="px-6 py-16" id="experience">
+      <div className="mx-auto max-w-5xl">
+        <h2 className="mb-12 text-center text-3xl font-bold">
+          {title.split(' ')[0]} <span className={theme.text.heading}>{title.split(' ')[1]}</span>
         </h2>
         <div className="space-y-8">
           {experiences.map((exp, index) => (

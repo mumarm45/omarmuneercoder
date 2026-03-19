@@ -52,9 +52,8 @@ function CreateResumeDialog({ onClose, onSuccess }: CreateResumeDialogProps): JS
 
     try {
       // Create initial resume data based on method
-      const initialData: ResumeData = creationMethod === 'scratch'
-        ? getEmptyResumeData()
-        : getSampleResumeData();
+      const initialData: ResumeData =
+        creationMethod === 'scratch' ? getEmptyResumeData() : getSampleResumeData();
 
       const result = await resumeService.create(resumeName, initialData, {
         template: selectedTemplate,
@@ -126,23 +125,20 @@ function CreateResumeDialog({ onClose, onSuccess }: CreateResumeDialogProps): JS
   });
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
+      <div className="max-h-[90vh] w-full max-w-2xl overflow-hidden rounded-2xl bg-white shadow-2xl">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-slate-200">
+        <div className="flex items-center justify-between border-b border-slate-200 p-6">
           <h2 className="text-2xl font-bold text-slate-900">Create New Resume</h2>
-          <button
-            onClick={onClose}
-            className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
-          >
-            <X className="w-5 h-5 text-slate-600" />
+          <button onClick={onClose} className="rounded-lg p-2 transition-colors hover:bg-slate-100">
+            <X className="h-5 w-5 text-slate-600" />
           </button>
         </div>
 
         {/* Content */}
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
+        <div className="max-h-[calc(90vh-140px)] overflow-y-auto p-6">
           {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+            <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4">
               <p className="text-sm text-red-600">{error}</p>
             </div>
           )}
@@ -151,7 +147,7 @@ function CreateResumeDialog({ onClose, onSuccess }: CreateResumeDialogProps): JS
           {step === 'name' && (
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+                <label className="mb-2 block text-sm font-medium text-slate-700">
                   Resume Name <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -159,7 +155,7 @@ function CreateResumeDialog({ onClose, onSuccess }: CreateResumeDialogProps): JS
                   value={resumeName}
                   onChange={(e) => setResumeName(e.target.value)}
                   placeholder="e.g., Software Engineer Resume"
-                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent"
+                  className="w-full rounded-lg border border-slate-300 px-4 py-3 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-slate-900"
                   autoFocus
                 />
                 <p className="mt-2 text-sm text-slate-500">
@@ -173,26 +169,22 @@ function CreateResumeDialog({ onClose, onSuccess }: CreateResumeDialogProps): JS
           {step === 'template' && (
             <div className="space-y-6">
               <div>
-                <h3 className="text-lg font-semibold text-slate-900 mb-4">
-                  Choose a Template
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <h3 className="mb-4 text-lg font-semibold text-slate-900">Choose a Template</h3>
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                   {TEMPLATES.map((template) => (
                     <button
                       key={template.id}
                       onClick={() => setSelectedTemplate(template.id)}
-                      className={`p-6 rounded-xl border-2 transition-all ${
+                      className={`rounded-xl border-2 p-6 transition-all ${
                         selectedTemplate === template.id
                           ? 'border-slate-900 bg-slate-50'
                           : 'border-slate-200 hover:border-slate-300'
                       }`}
                     >
                       <div
-                        className={`w-full aspect-[3/4] rounded-lg bg-gradient-to-br ${template.color} mb-4`}
+                        className={`aspect-[3/4] w-full rounded-lg bg-gradient-to-br ${template.color} mb-4`}
                       />
-                      <h4 className="font-semibold text-slate-900 mb-1">
-                        {template.name}
-                      </h4>
+                      <h4 className="mb-1 font-semibold text-slate-900">{template.name}</h4>
                       <p className="text-sm text-slate-600">{template.description}</p>
                     </button>
                   ))}
@@ -205,26 +197,24 @@ function CreateResumeDialog({ onClose, onSuccess }: CreateResumeDialogProps): JS
           {step === 'method' && (
             <div className="space-y-6">
               <div>
-                <h3 className="text-lg font-semibold text-slate-900 mb-4">
+                <h3 className="mb-4 text-lg font-semibold text-slate-900">
                   How would you like to start?
                 </h3>
                 <div className="space-y-4">
                   <button
                     onClick={() => setCreationMethod('scratch')}
-                    className={`w-full p-6 rounded-xl border-2 transition-all text-left ${
+                    className={`w-full rounded-xl border-2 p-6 text-left transition-all ${
                       creationMethod === 'scratch'
                         ? 'border-slate-900 bg-slate-50'
                         : 'border-slate-200 hover:border-slate-300'
                     }`}
                   >
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-lg bg-slate-100 flex items-center justify-center flex-shrink-0">
-                        <FileText className="w-6 h-6 text-slate-600" />
+                      <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-slate-100">
+                        <FileText className="h-6 w-6 text-slate-600" />
                       </div>
                       <div className="flex-1">
-                        <h4 className="font-semibold text-slate-900 mb-1">
-                          Start from Scratch
-                        </h4>
+                        <h4 className="mb-1 font-semibold text-slate-900">Start from Scratch</h4>
                         <p className="text-sm text-slate-600">
                           Begin with a blank resume and fill in your information
                         </p>
@@ -234,18 +224,18 @@ function CreateResumeDialog({ onClose, onSuccess }: CreateResumeDialogProps): JS
 
                   <button
                     onClick={() => setCreationMethod('sample')}
-                    className={`w-full p-6 rounded-xl border-2 transition-all text-left ${
+                    className={`w-full rounded-xl border-2 p-6 text-left transition-all ${
                       creationMethod === 'sample'
                         ? 'border-slate-900 bg-slate-50'
                         : 'border-slate-200 hover:border-slate-300'
                     }`}
                   >
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
-                        <Sparkles className="w-6 h-6 text-white" />
+                      <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-pink-500">
+                        <Sparkles className="h-6 w-6 text-white" />
                       </div>
                       <div className="flex-1">
-                        <h4 className="font-semibold text-slate-900 mb-1">
+                        <h4 className="mb-1 font-semibold text-slate-900">
                           Start with Sample Data
                         </h4>
                         <p className="text-sm text-slate-600">
@@ -261,12 +251,12 @@ function CreateResumeDialog({ onClose, onSuccess }: CreateResumeDialogProps): JS
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between p-6 border-t border-slate-200 bg-slate-50">
+        <div className="flex items-center justify-between border-t border-slate-200 bg-slate-50 p-6">
           <div className="flex items-center gap-2">
             {['name', 'template', 'method'].map((s, index) => (
               <div
                 key={s}
-                className={`w-2 h-2 rounded-full transition-colors ${
+                className={`h-2 w-2 rounded-full transition-colors ${
                   ['name', 'template', 'method'].indexOf(step) >= index
                     ? 'bg-slate-900'
                     : 'bg-slate-300'
@@ -282,7 +272,7 @@ function CreateResumeDialog({ onClose, onSuccess }: CreateResumeDialogProps): JS
                   if (step === 'template') setStep('name');
                   if (step === 'method') setStep('template');
                 }}
-                className="px-6 py-2.5 text-slate-700 hover:bg-slate-200 rounded-lg transition-colors"
+                className="rounded-lg px-6 py-2.5 text-slate-700 transition-colors hover:bg-slate-200"
               >
                 Back
               </button>
@@ -301,11 +291,11 @@ function CreateResumeDialog({ onClose, onSuccess }: CreateResumeDialogProps): JS
                 }
               }}
               disabled={loading || (step === 'name' && !resumeName.trim())}
-              className="px-6 py-2.5 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="rounded-lg bg-slate-900 px-6 py-2.5 text-white transition-colors hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {loading ? (
                 <span className="flex items-center gap-2">
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
                   Creating...
                 </span>
               ) : step === 'method' ? (

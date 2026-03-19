@@ -18,24 +18,23 @@ function Toast({ message, type, duration = 3000, onClose }: ToastProps): JSX.Ele
     success: `bg-green-50 border-green-200 text-green-800`,
     error: `bg-red-50 border-red-200 text-red-800`,
   };
-  
 
   const Icon = type === 'success' ? CheckCircle : AlertCircle;
 
   return (
     <div
-      className={`fixed bottom-4 right-4 z-50 flex items-center gap-3 px-4 py-3 rounded-lg 
-                  border shadow-lg animate-fade-in ${styles[type]}`}
+      className={`animate-fade-in fixed bottom-4 right-4 z-50 flex items-center gap-3 rounded-lg border 
+                  px-4 py-3 shadow-lg ${styles[type]}`}
       role="alert"
     >
-      <Icon className="w-5 h-5 flex-shrink-0" />
+      <Icon className="h-5 w-5 flex-shrink-0" />
       <p className="font-medium">{message}</p>
       <button
         onClick={onClose}
-        className="ml-2 hover:opacity-70 transition-opacity"
+        className="ml-2 transition-opacity hover:opacity-70"
         aria-label="Close notification"
       >
-        <X className="w-4 h-4" />
+        <X className="h-4 w-4" />
       </button>
     </div>
   );

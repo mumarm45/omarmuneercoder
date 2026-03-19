@@ -35,10 +35,7 @@ function validateElement(elementId: string): HTMLElement {
 /**
  * Converts HTML element to canvas
  */
-async function elementToCanvas(
-  element: HTMLElement,
-  scale: number
-): Promise<HTMLCanvasElement> {
+async function elementToCanvas(element: HTMLElement, scale: number): Promise<HTMLCanvasElement> {
   logger.debug('Converting element to canvas', { scale });
 
   const { default: html2canvas } = await import('html2canvas');
@@ -97,9 +94,7 @@ function addImageToPDF(
 /**
  * Exports HTML element to PDF with error handling and retry logic
  */
-export async function exportToPDF(
-  options: PDFExportOptions
-): Promise<OperationResult<void>> {
+export async function exportToPDF(options: PDFExportOptions): Promise<OperationResult<void>> {
   const mergedOptions = { ...DEFAULT_OPTIONS, ...options };
   const { elementId, fileName, scale = 2 } = mergedOptions;
 

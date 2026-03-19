@@ -13,13 +13,13 @@ interface SkillsSectionProps {
 
 function SkillsSection({ isDark, title, categories }: SkillsSectionProps): JSX.Element {
   return (
-    <section className="py-16 px-6" id="skills">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-12">
+    <section className="px-6 py-16" id="skills">
+      <div className="mx-auto max-w-7xl">
+        <h2 className="mb-12 text-center text-3xl font-bold">
           {title.split(' & ')[0]} &{' '}
           <span className={theme.text.heading}>{title.split(' & ')[1]}</span>
         </h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {categories.map((category, index) => (
             <SkillCard
               key={index}

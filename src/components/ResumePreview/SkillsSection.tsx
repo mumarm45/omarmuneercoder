@@ -11,22 +11,24 @@ function SkillsSection(): JSX.Element | null {
   if (resumeData.skills.length === 0) return null;
 
   return (
-    <section className="mb-8 pb-6 border-b-2 border-slate-200">
-      <h2 className={cn(
-        'text-xl font-bold mb-6 pl-3 flex items-center gap-2',
-        styles.section,
-        styles.accent
-      )}>
-        <Lightbulb className="w-5 h-5" />
+    <section className="mb-8 border-b-2 border-slate-200 pb-6">
+      <h2
+        className={cn(
+          'mb-6 flex items-center gap-2 pl-3 text-xl font-bold',
+          styles.section,
+          styles.accent
+        )}
+      >
+        <Lightbulb className="h-5 w-5" />
         SKILLS
       </h2>
-      
-      <div className="flex flex-wrap gap-2 ml-3">
+
+      <div className="ml-3 flex flex-wrap gap-2">
         {resumeData.skills.map((skill, index) => (
           <span
             key={index}
             className={cn(
-              'px-4 py-2 rounded-full text-sm font-medium',
+              'rounded-full px-4 py-2 text-sm font-medium',
               styles.accentBg,
               theme.text.body
             )}

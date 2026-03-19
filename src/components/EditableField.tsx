@@ -12,13 +12,13 @@ interface EditableFieldProps {
   inputClassName?: string;
 }
 
-function EditableField({ 
-  value, 
-  onSave, 
-  multiline = false, 
+function EditableField({
+  value,
+  onSave,
+  multiline = false,
   className = '',
   placeholder = '',
-  inputClassName = ''
+  inputClassName = '',
 }: EditableFieldProps): JSX.Element {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editValue, setEditValue] = useState<string>(value);
@@ -58,14 +58,17 @@ function EditableField({
         <div className="flex gap-2">
           <button
             onClick={handleSave}
-            className={cn('flex items-center gap-2 px-4 py-2 rounded transition', theme.buttons.primary)}
+            className={cn(
+              'flex items-center gap-2 rounded px-4 py-2 transition',
+              theme.buttons.primary
+            )}
           >
-            <Save className="w-4 h-4" />
+            <Save className="h-4 w-4" />
             Save
           </button>
           <button
             onClick={handleCancel}
-            className={cn('px-4 py-2 rounded transition', theme.buttons.secondary)}
+            className={cn('rounded px-4 py-2 transition', theme.buttons.secondary)}
           >
             Cancel
           </button>
@@ -75,18 +78,17 @@ function EditableField({
   }
 
   return (
-    <div className={`relative group ${className}`}>
+    <div className={`group relative ${className}`}>
       <button
         onClick={() => setIsEditing(true)}
-        className={cn('absolute top-0 right-0 opacity-0 group-hover:opacity-100 p-2 rounded transition', theme.buttons.secondary)}
+        className={cn(
+          'absolute right-0 top-0 rounded p-2 opacity-0 transition group-hover:opacity-100',
+          theme.buttons.secondary
+        )}
       >
-        <Edit2 className={cn('w-4 h-4', theme.text.secondary.light)} />
+        <Edit2 className={cn('h-4 w-4', theme.text.secondary.light)} />
       </button>
-      {multiline ? (
-        <p className="whitespace-pre-line">{value}</p>
-      ) : (
-        <span>{value}</span>
-      )}
+      {multiline ? <p className="whitespace-pre-line">{value}</p> : <span>{value}</span>}
     </div>
   );
 }

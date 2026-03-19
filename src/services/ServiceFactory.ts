@@ -1,6 +1,6 @@
 /**
  * Service Factory
- * 
+ *
  * Centralized factory for creating service instances.
  * Makes it easy to switch between different storage implementations.
  */
@@ -24,12 +24,12 @@ export interface ServiceConfig {
 
 /**
  * Service Factory Class
- * 
+ *
  * Usage:
  * ```typescript
  * // Development (localStorage)
  * const services = ServiceFactory.create();
- * 
+ *
  * // Production (HTTP API)
  * const services = ServiceFactory.create({
  *   storageType: 'http',
@@ -52,8 +52,8 @@ export class ServiceFactory {
       ...config,
     };
 
-    logger.info('ServiceFactory initialized', { 
-      storageType: this.config.storageType 
+    logger.info('ServiceFactory initialized', {
+      storageType: this.config.storageType,
     });
   }
 
@@ -82,13 +82,13 @@ export class ServiceFactory {
    */
   updateConfig(config: Partial<ServiceConfig>): void {
     this.config = { ...this.config, ...config };
-    
+
     // Clear cached services to force recreation with new config
     this.storageService = undefined;
     this.resumeService = undefined;
 
-    logger.info('ServiceFactory config updated', { 
-      storageType: this.config.storageType 
+    logger.info('ServiceFactory config updated', {
+      storageType: this.config.storageType,
     });
   }
 
@@ -124,10 +124,12 @@ export class ServiceFactory {
     switch (storageType) {
       case 'http':
         if (!apiBaseUrl) {
-          logger.warn('HTTP storage selected but no API URL provided, falling back to localStorage');
-          return new LocalStorageService({ 
-            prefix: storagePrefix, 
-            version: storageVersion 
+          logger.warn(
+            'HTTP storage selected but no API URL provided, falling back to localStorage'
+          );
+          return new LocalStorageService({
+            prefix: storagePrefix,
+            version: storageVersion,
           });
         }
         return new HttpStorageService(
@@ -146,7 +148,7 @@ export class ServiceFactory {
       default:
         return new LocalStorageService({
           prefix: storagePrefix,
-          version: storageVersion
+          version: storageVersion,
         });
     }
   }
@@ -155,15 +157,15 @@ export class ServiceFactory {
    * Switch storage type at runtime
    */
   switchStorageType(storageType: StorageType, apiBaseUrl?: string, authToken?: string): void {
-    logger.info('Switching storage type', { 
-      from: this.config.storageType, 
-      to: storageType 
+    logger.info('Switching storage type', {
+      from: this.config.storageType,
+      to: storageType,
     });
 
-    this.updateConfig({ 
-      storageType, 
+    this.updateConfig({
+      storageType,
       ...(apiBaseUrl && { apiBaseUrl }),
-      ...(authToken && { authToken })
+      ...(authToken && { authToken }),
     });
   }
 
@@ -185,7 +187,7 @@ export class ServiceFactory {
 
 /**
  * Convenience function to get service instances
- * 
+ *
  * Usage:
  * ```typescript
  * const { resumeService, storageService } = getServices();
@@ -193,7 +195,7 @@ export class ServiceFactory {
  */
 export function getServices(config?: ServiceConfig) {
   const factory = ServiceFactory.getInstance(config);
-  
+
   return {
     storageService: factory.getStorageService(),
     resumeService: factory.getResumeService(),
@@ -203,7 +205,7 @@ export function getServices(config?: ServiceConfig) {
 
 /**
  * Environment-based configuration helper
- * 
+ *
  * Usage:
  * ```typescript
  * const services = getServices(getEnvConfig());

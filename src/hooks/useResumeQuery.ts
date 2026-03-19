@@ -1,4 +1,10 @@
-import { useQuery, useMutation, useQueryClient, UseQueryOptions, UseMutationOptions } from '@tanstack/react-query';
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  UseQueryOptions,
+  UseMutationOptions,
+} from '@tanstack/react-query';
 import { ResumeData } from '../types';
 
 // Types
@@ -26,7 +32,7 @@ const resumeAPI = {
     // Replace with actual API call
     // const response = await fetch('/api/resumes');
     // return response.json();
-    
+
     // Mock data
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -43,7 +49,7 @@ const resumeAPI = {
     // Replace with actual API call
     // const response = await fetch(`/api/resumes/${id}`);
     // return response.json();
-    
+
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve({
@@ -79,13 +85,13 @@ const resumeAPI = {
     //   body: JSON.stringify(resumeData),
     // });
     // return response.json();
-    
+
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve({ 
-          id: Date.now(), 
+        resolve({
+          id: Date.now(),
           updatedAt: new Date(),
-          ...resumeData 
+          ...resumeData,
         });
       }, 500);
     });
@@ -100,14 +106,14 @@ const resumeAPI = {
     //   body: JSON.stringify(data),
     // });
     // return response.json();
-    
+
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve({ 
-          id, 
+        resolve({
+          id,
           name: 'Updated Resume',
           updatedAt: new Date(),
-          data: data as ResumeData
+          data: data as ResumeData,
         });
       }, 500);
     });
@@ -117,7 +123,7 @@ const resumeAPI = {
   deleteResume: async (_id: number): Promise<{ success: boolean }> => {
     // Replace with actual API call
     // await fetch(`/api/resumes/${id}`, { method: 'DELETE' });
-    
+
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve({ success: true });
@@ -226,10 +232,10 @@ export const useDeleteResume = (
 
 /**
  * Example usage in component:
- * 
+ *
  * const { data: resumes, isLoading, error } = useResumes();
  * const { mutate: saveResume, isPending } = useSaveResume();
- * 
+ *
  * saveResume(resumeData, {
  *   onSuccess: () => console.log('Saved!'),
  *   onError: (error) => console.error(error),

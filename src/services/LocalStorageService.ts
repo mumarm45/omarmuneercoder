@@ -1,16 +1,11 @@
 /**
  * LocalStorage Implementation of Storage Service
- * 
+ *
  * Production-ready implementation using browser localStorage.
  * Includes error handling, data validation, and size management.
  */
 
-import { 
-  IStorageService, 
-  StorageResult, 
-  StorageConfig, 
-  StorageStats 
-} from './IStorageService';
+import { IStorageService, StorageResult, StorageConfig, StorageStats } from './IStorageService';
 import { logger } from '../utils/errorHandling';
 
 const DEFAULT_CONFIG: StorageConfig = {
@@ -52,9 +47,7 @@ export class LocalStorageService implements IStorageService {
    */
   private removePrefixFromKey(prefixedKey: string): string {
     const prefix = `${this.config.prefix}:${this.config.version}:`;
-    return prefixedKey.startsWith(prefix) 
-      ? prefixedKey.substring(prefix.length) 
-      : prefixedKey;
+    return prefixedKey.startsWith(prefix) ? prefixedKey.substring(prefix.length) : prefixedKey;
   }
 
   /**
@@ -68,7 +61,9 @@ export class LocalStorageService implements IStorageService {
         version: this.config.version,
       });
     } catch (error) {
-      throw new Error(`Failed to serialize data: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Failed to serialize data: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     }
   }
 
@@ -80,7 +75,9 @@ export class LocalStorageService implements IStorageService {
       const parsed = JSON.parse(json);
       return parsed.data as T;
     } catch (error) {
-      throw new Error(`Failed to deserialize data: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Failed to deserialize data: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     }
   }
 
@@ -94,13 +91,14 @@ export class LocalStorageService implements IStorageService {
   async save<T>(key: string, data: T): Promise<StorageResult<T>> {
     try {
       logger.debug('Saving to localStorage', { key });
-      
+
       const prefixedKey = this.getPrefixedKey(key);
       const serialized = this.serialize(data);
 
       // Check quota before saving
       const size = this.calculateSize(serialized);
-      if (size > 5 * 1024 * 1024) { // 5MB limit
+      if (size > 5 * 1024 * 1024) {
+        // 5MB limit
         logger.warn('Data size exceeds recommended limit', { key, size });
       }
 
@@ -136,7 +134,7 @@ export class LocalStorageService implements IStorageService {
   async get<T>(key: string): Promise<StorageResult<T>> {
     try {
       logger.debug('Retrieving from localStorage', { key });
-      
+
       const prefixedKey = this.getPrefixedKey(key);
       const serialized = localStorage.getItem(prefixedKey);
 
@@ -158,7 +156,7 @@ export class LocalStorageService implements IStorageService {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       logger.error('Failed to retrieve data', { key, error: errorMessage });
-      
+
       return {
         success: false,
         error: error as Error,
@@ -170,7 +168,7 @@ export class LocalStorageService implements IStorageService {
   async delete(key: string): Promise<StorageResult<void>> {
     try {
       logger.debug('Deleting from localStorage', { key });
-      
+
       const prefixedKey = this.getPrefixedKey(key);
       localStorage.removeItem(prefixedKey);
 
@@ -182,7 +180,7 @@ export class LocalStorageService implements IStorageService {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       logger.error('Failed to delete data', { key, error: errorMessage });
-      
+
       return {
         success: false,
         error: error as Error,
@@ -203,7 +201,7 @@ export class LocalStorageService implements IStorageService {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       logger.error('Failed to check key existence', { key, error: errorMessage });
-      
+
       return {
         success: false,
         error: error as Error,
@@ -215,13 +213,13 @@ export class LocalStorageService implements IStorageService {
   async list(prefix?: string): Promise<StorageResult<string[]>> {
     try {
       logger.debug('Listing keys', { prefix });
-      
-      const fullPrefix = prefix 
+
+      const fullPrefix = prefix
         ? this.getPrefixedKey(prefix)
         : `${this.config.prefix}:${this.config.version}:`;
 
       const keys: string[] = [];
-      
+
       for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
         if (key && key.startsWith(fullPrefix)) {
@@ -237,7 +235,7 @@ export class LocalStorageService implements IStorageService {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       logger.error('Failed to list keys', { error: errorMessage });
-      
+
       return {
         success: false,
         error: error as Error,
@@ -249,7 +247,7 @@ export class LocalStorageService implements IStorageService {
   async clear(prefix?: string): Promise<StorageResult<void>> {
     try {
       logger.debug('Clearing storage', { prefix });
-      
+
       if (prefix) {
         // Clear only keys with specific prefix
         const result = await this.list(prefix);
@@ -276,7 +274,7 @@ export class LocalStorageService implements IStorageService {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       logger.error('Failed to clear storage', { error: errorMessage });
-      
+
       return {
         success: false,
         error: error as Error,
@@ -288,7 +286,7 @@ export class LocalStorageService implements IStorageService {
   async getStats(): Promise<StorageResult<StorageStats>> {
     try {
       const result = await this.list();
-      
+
       if (!result.success || !result.data) {
         return {
           success: false,
@@ -318,7 +316,7 @@ export class LocalStorageService implements IStorageService {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       logger.error('Failed to get storage stats', { error: errorMessage });
-      
+
       return {
         success: false,
         error: error as Error,

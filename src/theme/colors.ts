@@ -13,7 +13,7 @@ export const colors = {
     800: '#1e293b',
     900: '#0f172a',
   },
-  
+
   // Accent colors - Blue for CTAs
   accent: {
     50: '#eff6ff',
@@ -27,7 +27,7 @@ export const colors = {
     800: '#1e40af',
     900: '#1e3a8a',
   },
-  
+
   // Neutral colors
   gray: {
     50: '#f9fafb',
@@ -41,7 +41,7 @@ export const colors = {
     800: '#1f2937',
     900: '#111827',
   },
-  
+
   // Semantic colors
   success: '#10b981',
   error: '#ef4444',
@@ -52,7 +52,7 @@ export const colors = {
 // Theme configuration
 export const theme = {
   colors,
-  
+
   // Background gradients
   backgrounds: {
     page: 'bg-gradient-to-br from-slate-50 to-slate-200',
@@ -66,7 +66,7 @@ export const theme = {
       dark: 'bg-slate-900',
     },
   },
-  
+
   // Text colors
   text: {
     primary: {
@@ -85,7 +85,7 @@ export const theme = {
     heading: 'text-slate-700',
     onDark: 'text-white',
   },
-  
+
   // Border colors
   borders: {
     light: 'border-gray-200',
@@ -95,7 +95,7 @@ export const theme = {
       dark: 'hover:border-slate-600',
     },
   },
-  
+
   // Button styles
   buttons: {
     primary: 'bg-blue-600 hover:bg-blue-700 text-white',
@@ -103,7 +103,7 @@ export const theme = {
     secondaryLight: 'bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm',
     outline: 'border-2 border-slate-600 hover:bg-slate-600 hover:text-white',
   },
-  
+
   // Shadows
   shadows: {
     sm: 'shadow-sm',
@@ -111,7 +111,7 @@ export const theme = {
     lg: 'shadow-lg',
     xl: 'shadow-xl',
   },
-  
+
   // Spacing
   spacing: {
     section: 'py-16 px-6',

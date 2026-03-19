@@ -38,7 +38,9 @@ describe('withErrorHandling', () => {
 
   it('returns error result on rejected promise', async () => {
     const result = await withErrorHandling(
-      async () => { throw new Error('boom'); },
+      async () => {
+        throw new Error('boom');
+      },
       'operation failed',
       ErrorCode.EXPORT_FAILED
     );
@@ -50,10 +52,9 @@ describe('withErrorHandling', () => {
   });
 
   it('wraps non-Error throws in Error object', async () => {
-    const result = await withErrorHandling(
-      async () => { throw 'string error'; },
-      'failed'
-    );
+    const result = await withErrorHandling(async () => {
+      throw 'string error';
+    }, 'failed');
     expect(result.success).toBe(false);
     if (!result.success) expect(result.error).toBeInstanceOf(Error);
   });
@@ -66,7 +67,10 @@ describe('validateRequired', () => {
   });
 
   it('returns failure when a required field is missing', () => {
-    const result = validateRequired({ name: 'Alice' } as Record<string, unknown>, ['name', 'email']);
+    const result = validateRequired({ name: 'Alice' } as Record<string, unknown>, [
+      'name',
+      'email',
+    ]);
     expect(result.success).toBe(false);
     if (!result.success) expect(result.message).toContain('email');
   });
@@ -139,9 +143,7 @@ describe('retry', () => {
   });
 
   it('retries on failure and succeeds eventually', async () => {
-    const op = jest.fn()
-      .mockRejectedValueOnce(new Error('fail1'))
-      .mockResolvedValue('ok');
+    const op = jest.fn().mockRejectedValueOnce(new Error('fail1')).mockResolvedValue('ok');
     const result = await retry(op, 3, 0);
     expect(result).toBe('ok');
     expect(op).toHaveBeenCalledTimes(2);

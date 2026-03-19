@@ -5,10 +5,16 @@ function makeLocalStorageMock() {
   const store = new Map<string, string>();
   return {
     getItem: (key: string) => store.get(key) ?? null,
-    setItem: (key: string, value: string) => { store.set(key, value); },
-    removeItem: (key: string) => { store.delete(key); },
+    setItem: (key: string, value: string) => {
+      store.set(key, value);
+    },
+    removeItem: (key: string) => {
+      store.delete(key);
+    },
     clear: () => store.clear(),
-    get length() { return store.size; },
+    get length() {
+      return store.size;
+    },
     key: (index: number) => Array.from(store.keys())[index] ?? null,
   };
 }
@@ -106,7 +112,7 @@ describe('LocalStorageService', () => {
       await service.save('other:1', 'data3');
       const result = await service.list('resume');
       expect(result.success).toBe(true);
-      expect(result.data?.some(k => k.startsWith('resume'))).toBe(true);
+      expect(result.data?.some((k) => k.startsWith('resume'))).toBe(true);
     });
   });
 

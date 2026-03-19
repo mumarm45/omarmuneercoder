@@ -12,14 +12,19 @@ function HobbyCard({ icon, title, description, isDark }: HobbyCardProps): JSX.El
   return (
     <div
       className={cn(
-        'rounded-xl p-8 border hover:border-slate-500 transition shadow-lg text-center',
+        'rounded-xl border p-8 text-center shadow-lg transition hover:border-slate-500',
         isDark ? theme.backgrounds.card.dark : theme.backgrounds.card.light,
         isDark ? theme.borders.dark : theme.borders.light
       )}
     >
       <div className="mb-4 flex justify-center">{icon}</div>
-      <h3 className={cn('text-xl font-bold mb-3', theme.text.heading)}>{title}</h3>
-      <p className={cn('text-sm leading-relaxed', isDark ? theme.text.secondary.dark : theme.text.secondary.light)}>
+      <h3 className={cn('mb-3 text-xl font-bold', theme.text.heading)}>{title}</h3>
+      <p
+        className={cn(
+          'text-sm leading-relaxed',
+          isDark ? theme.text.secondary.dark : theme.text.secondary.light
+        )}
+      >
         {description}
       </p>
     </div>

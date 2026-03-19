@@ -1,10 +1,5 @@
 import { supabase } from '../lib/supabase';
-import {
-  IStorageService,
-  StorageResult,
-  StorageConfig,
-  StorageStats,
-} from './IStorageService';
+import { IStorageService, StorageResult, StorageConfig, StorageStats } from './IStorageService';
 import { logger } from '../utils/errorHandling';
 
 export class SupabaseStorageService implements IStorageService {
@@ -132,9 +127,7 @@ export class SupabaseStorageService implements IStorageService {
       const userId = await this.currentUserId();
       if (!userId) return { success: false, message: 'Not authenticated' };
 
-      const keyPrefix = prefix
-        ? `${this.config.prefix}:${prefix}`
-        : `${this.config.prefix}:`;
+      const keyPrefix = prefix ? `${this.config.prefix}:${prefix}` : `${this.config.prefix}:`;
 
       const { data, error } = await supabase
         .from('storage_items')
@@ -158,9 +151,7 @@ export class SupabaseStorageService implements IStorageService {
       const userId = await this.currentUserId();
       if (!userId) return { success: false, message: 'Not authenticated' };
 
-      const keyPrefix = prefix
-        ? `${this.config.prefix}:${prefix}`
-        : `${this.config.prefix}:`;
+      const keyPrefix = prefix ? `${this.config.prefix}:${prefix}` : `${this.config.prefix}:`;
 
       const { error } = await supabase
         .from('storage_items')

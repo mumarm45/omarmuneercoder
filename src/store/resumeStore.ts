@@ -1,44 +1,44 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { 
-  ResumeData, 
-  TemplateType, 
-  Experience, 
-  Education, 
+import {
+  ResumeData,
+  TemplateType,
+  Experience,
+  Education,
   PersonalInfo,
   Project,
   Certification,
   Language,
-  Award
+  Award,
 } from '../types';
 
 interface ResumeStore {
   selectedTemplate: TemplateType;
   showPreview: boolean;
   resumeData: ResumeData;
-  
+
   // Template Actions
   setTemplate: (template: TemplateType) => void;
   togglePreview: () => void;
-  
+
   // Personal Info Actions
   updatePersonalInfo: (field: keyof PersonalInfo, value: string) => void;
-  
+
   // Summary Actions
   updateSummary: (value: string) => void;
-  
+
   // Experience Actions
   addExperience: (experience: Experience) => void;
   updateExperience: (id: number, field: keyof Experience, value: string | number | boolean) => void;
   deleteExperience: (id: number) => void;
   reorderExperience: (startIndex: number, endIndex: number) => void;
-  
+
   // Education Actions
   addEducation: (education: Education) => void;
   updateEducation: (id: number, field: keyof Education, value: string | number) => void;
   deleteEducation: (id: number) => void;
   reorderEducation: (startIndex: number, endIndex: number) => void;
-  
+
   // Skills Actions
   addSkill: () => void;
   updateSkill: (index: number, value: string) => void;
@@ -49,17 +49,17 @@ interface ResumeStore {
   addProject: (project: Project) => void;
   updateProject: (project: Project) => void;
   deleteProject: (id: number) => void;
-  
+
   // Certification Actions
   addCertification: (certification: Certification) => void;
   updateCertification: (certification: Certification) => void;
   deleteCertification: (id: number) => void;
-  
+
   // Language Actions
   addLanguage: (language: Language) => void;
   updateLanguage: (language: Language) => void;
   deleteLanguage: (id: number) => void;
-  
+
   // Award Actions
   addAward: (award: Award) => void;
   updateAward: (award: Award) => void;
@@ -71,7 +71,7 @@ const useResumeStore = create<ResumeStore>()(
     (set) => ({
       selectedTemplate: 'modern',
       showPreview: true,
-      
+
       resumeData: {
         personalInfo: {
           name: 'John Doe',
@@ -80,9 +80,10 @@ const useResumeStore = create<ResumeStore>()(
           phone: '+1 (555) 123-4567',
           location: 'San Francisco, CA',
           linkedin: 'linkedin.com/in/johndoe',
-          portfolio: 'johndoe.dev'
+          portfolio: 'johndoe.dev',
         },
-        summary: 'Experienced software engineer with 5+ years of expertise in full-stack development, specializing in Node.js, and cloud technologies.',
+        summary:
+          'Experienced software engineer with 5+ years of expertise in full-stack development, specializing in Node.js, and cloud technologies.',
         experience: [
           {
             id: 1,
@@ -91,7 +92,8 @@ const useResumeStore = create<ResumeStore>()(
             location: 'San Francisco, CA',
             startDate: '2021',
             endDate: 'Present',
-            description: '• Led development of scalable web applications\n• Mentored junior developers\n• Improved system performance by 40%'
+            description:
+              '• Led development of scalable web applications\n• Mentored junior developers\n• Improved system performance by 40%',
           },
           {
             id: 2,
@@ -100,8 +102,9 @@ const useResumeStore = create<ResumeStore>()(
             location: 'Remote',
             startDate: '2019',
             endDate: '2021',
-            description: '• Built responsive user interfaces\n• Collaborated with cross-functional teams\n• Implemented CI/CD pipelines'
-          }
+            description:
+              '• Built responsive user interfaces\n• Collaborated with cross-functional teams\n• Implemented CI/CD pipelines',
+          },
         ],
         education: [
           {
@@ -109,19 +112,19 @@ const useResumeStore = create<ResumeStore>()(
             degree: 'Bachelor of Science in Computer Science',
             school: 'University of Technology',
             location: 'Boston, MA',
-            year: '2019'
-          }
+            year: '2019',
+          },
         ],
         skills: ['JavaScript', 'React', 'Node.js', 'Python', 'AWS', 'Docker', 'Git', 'SQL'],
         projects: [],
         certifications: [],
         languages: [],
-        awards: []
+        awards: [],
       },
 
       // Actions
       setTemplate: (template) => set({ selectedTemplate: template }),
-      
+
       togglePreview: () => set((state) => ({ showPreview: !state.showPreview })),
 
       updatePersonalInfo: (field, value) =>
@@ -130,17 +133,17 @@ const useResumeStore = create<ResumeStore>()(
             ...state.resumeData,
             personalInfo: {
               ...state.resumeData.personalInfo,
-              [field]: value
-            }
-          }
+              [field]: value,
+            },
+          },
         })),
 
       updateSummary: (value) =>
         set((state) => ({
           resumeData: {
             ...state.resumeData,
-            summary: value
-          }
+            summary: value,
+          },
         })),
 
       // Experience Actions
@@ -148,8 +151,8 @@ const useResumeStore = create<ResumeStore>()(
         set((state) => ({
           resumeData: {
             ...state.resumeData,
-            experience: [...state.resumeData.experience, experience]
-          }
+            experience: [...state.resumeData.experience, experience],
+          },
         })),
 
       updateExperience: (id, field, value) =>
@@ -158,16 +161,16 @@ const useResumeStore = create<ResumeStore>()(
             ...state.resumeData,
             experience: state.resumeData.experience.map((exp) =>
               exp.id === id ? { ...exp, [field]: value } : exp
-            )
-          }
+            ),
+          },
         })),
 
       deleteExperience: (id) =>
         set((state) => ({
           resumeData: {
             ...state.resumeData,
-            experience: state.resumeData.experience.filter((exp) => exp.id !== id)
-          }
+            experience: state.resumeData.experience.filter((exp) => exp.id !== id),
+          },
         })),
 
       reorderExperience: (startIndex, endIndex) =>
@@ -175,12 +178,12 @@ const useResumeStore = create<ResumeStore>()(
           const result = Array.from(state.resumeData.experience);
           const [removed] = result.splice(startIndex, 1);
           result.splice(endIndex, 0, removed);
-          
+
           return {
             resumeData: {
               ...state.resumeData,
-              experience: result
-            }
+              experience: result,
+            },
           };
         }),
 
@@ -189,8 +192,8 @@ const useResumeStore = create<ResumeStore>()(
         set((state) => ({
           resumeData: {
             ...state.resumeData,
-            education: [...state.resumeData.education, education]
-          }
+            education: [...state.resumeData.education, education],
+          },
         })),
 
       updateEducation: (id, field, value) =>
@@ -199,16 +202,16 @@ const useResumeStore = create<ResumeStore>()(
             ...state.resumeData,
             education: state.resumeData.education.map((edu) =>
               edu.id === id ? { ...edu, [field]: value } : edu
-            )
-          }
+            ),
+          },
         })),
 
       deleteEducation: (id) =>
         set((state) => ({
           resumeData: {
             ...state.resumeData,
-            education: state.resumeData.education.filter((edu) => edu.id !== id)
-          }
+            education: state.resumeData.education.filter((edu) => edu.id !== id),
+          },
         })),
 
       reorderEducation: (startIndex, endIndex) =>
@@ -216,12 +219,12 @@ const useResumeStore = create<ResumeStore>()(
           const result = Array.from(state.resumeData.education);
           const [removed] = result.splice(startIndex, 1);
           result.splice(endIndex, 0, removed);
-          
+
           return {
             resumeData: {
               ...state.resumeData,
-              education: result
-            }
+              education: result,
+            },
           };
         }),
 
@@ -230,26 +233,24 @@ const useResumeStore = create<ResumeStore>()(
         set((state) => ({
           resumeData: {
             ...state.resumeData,
-            skills: [...state.resumeData.skills, 'New Skill']
-          }
+            skills: [...state.resumeData.skills, 'New Skill'],
+          },
         })),
 
       updateSkill: (index, value) =>
         set((state) => ({
           resumeData: {
             ...state.resumeData,
-            skills: state.resumeData.skills.map((skill, i) =>
-              i === index ? value : skill
-            )
-          }
+            skills: state.resumeData.skills.map((skill, i) => (i === index ? value : skill)),
+          },
         })),
 
       deleteSkill: (index) =>
         set((state) => ({
           resumeData: {
             ...state.resumeData,
-            skills: state.resumeData.skills.filter((_, i) => i !== index)
-          }
+            skills: state.resumeData.skills.filter((_, i) => i !== index),
+          },
         })),
 
       reorderSkills: (startIndex, endIndex) =>
@@ -257,12 +258,12 @@ const useResumeStore = create<ResumeStore>()(
           const result = Array.from(state.resumeData.skills);
           const [removed] = result.splice(startIndex, 1);
           result.splice(endIndex, 0, removed);
-          
+
           return {
             resumeData: {
               ...state.resumeData,
-              skills: result
-            }
+              skills: result,
+            },
           };
         }),
 
@@ -271,8 +272,8 @@ const useResumeStore = create<ResumeStore>()(
         set((state) => ({
           resumeData: {
             ...state.resumeData,
-            projects: [...(state.resumeData.projects || []), project]
-          }
+            projects: [...(state.resumeData.projects || []), project],
+          },
         })),
 
       updateProject: (project) =>
@@ -281,16 +282,16 @@ const useResumeStore = create<ResumeStore>()(
             ...state.resumeData,
             projects: (state.resumeData.projects || []).map((p) =>
               p.id === project.id ? project : p
-            )
-          }
+            ),
+          },
         })),
 
       deleteProject: (id) =>
         set((state) => ({
           resumeData: {
             ...state.resumeData,
-            projects: (state.resumeData.projects || []).filter((p) => p.id !== id)
-          }
+            projects: (state.resumeData.projects || []).filter((p) => p.id !== id),
+          },
         })),
 
       // Certification Actions
@@ -298,8 +299,8 @@ const useResumeStore = create<ResumeStore>()(
         set((state) => ({
           resumeData: {
             ...state.resumeData,
-            certifications: [...(state.resumeData.certifications || []), certification]
-          }
+            certifications: [...(state.resumeData.certifications || []), certification],
+          },
         })),
 
       updateCertification: (certification) =>
@@ -308,16 +309,16 @@ const useResumeStore = create<ResumeStore>()(
             ...state.resumeData,
             certifications: (state.resumeData.certifications || []).map((c) =>
               c.id === certification.id ? certification : c
-            )
-          }
+            ),
+          },
         })),
 
       deleteCertification: (id) =>
         set((state) => ({
           resumeData: {
             ...state.resumeData,
-            certifications: (state.resumeData.certifications || []).filter((c) => c.id !== id)
-          }
+            certifications: (state.resumeData.certifications || []).filter((c) => c.id !== id),
+          },
         })),
 
       // Language Actions
@@ -325,8 +326,8 @@ const useResumeStore = create<ResumeStore>()(
         set((state) => ({
           resumeData: {
             ...state.resumeData,
-            languages: [...(state.resumeData.languages || []), language]
-          }
+            languages: [...(state.resumeData.languages || []), language],
+          },
         })),
 
       updateLanguage: (language) =>
@@ -335,16 +336,16 @@ const useResumeStore = create<ResumeStore>()(
             ...state.resumeData,
             languages: (state.resumeData.languages || []).map((l) =>
               l.id === language.id ? language : l
-            )
-          }
+            ),
+          },
         })),
 
       deleteLanguage: (id) =>
         set((state) => ({
           resumeData: {
             ...state.resumeData,
-            languages: (state.resumeData.languages || []).filter((l) => l.id !== id)
-          }
+            languages: (state.resumeData.languages || []).filter((l) => l.id !== id),
+          },
         })),
 
       // Award Actions
@@ -352,34 +353,32 @@ const useResumeStore = create<ResumeStore>()(
         set((state) => ({
           resumeData: {
             ...state.resumeData,
-            awards: [...(state.resumeData.awards || []), award]
-          }
+            awards: [...(state.resumeData.awards || []), award],
+          },
         })),
 
       updateAward: (award) =>
         set((state) => ({
           resumeData: {
             ...state.resumeData,
-            awards: (state.resumeData.awards || []).map((a) =>
-              a.id === award.id ? award : a
-            )
-          }
+            awards: (state.resumeData.awards || []).map((a) => (a.id === award.id ? award : a)),
+          },
         })),
 
       deleteAward: (id) =>
         set((state) => ({
           resumeData: {
             ...state.resumeData,
-            awards: (state.resumeData.awards || []).filter((a) => a.id !== id)
-          }
-        }))
+            awards: (state.resumeData.awards || []).filter((a) => a.id !== id),
+          },
+        })),
     }),
     {
       name: 'resume-storage',
-      partialize: (state) => ({ 
+      partialize: (state) => ({
         selectedTemplate: state.selectedTemplate,
-        resumeData: state.resumeData 
-      })
+        resumeData: state.resumeData,
+      }),
     }
   )
 );

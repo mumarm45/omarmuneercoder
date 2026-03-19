@@ -23,13 +23,10 @@ function ContactSection({
   locationValue,
 }: ContactSectionProps): JSX.Element {
   return (
-    <section
-      className={cn('py-16 px-6', theme.backgrounds.header)}
-      id="contact"
-    >
-      <div className={cn('max-w-5xl mx-auto text-center', theme.text.onDark)}>
-        <h2 className="text-3xl font-bold mb-8">{title}</h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
+    <section className={cn('px-6 py-16', theme.backgrounds.header)} id="contact">
+      <div className={cn('mx-auto max-w-5xl text-center', theme.text.onDark)}>
+        <h2 className="mb-8 text-3xl font-bold">{title}</h2>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
           <ContactCard
             icon={<Mail />}
             title={emailLabel}

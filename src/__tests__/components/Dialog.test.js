@@ -1,4 +1,3 @@
-
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Dialog from '../../components/Dialog';
@@ -33,7 +32,7 @@ describe('Dialog Component', () => {
 
   it('should call onClose when close button is clicked', async () => {
     const user = userEvent.setup();
-    
+
     render(
       <Dialog isOpen={true} onClose={mockOnClose} title="Test Dialog">
         <div>Test Content</div>
@@ -48,7 +47,7 @@ describe('Dialog Component', () => {
 
   it('should call onClose when backdrop is clicked', async () => {
     const user = userEvent.setup();
-    
+
     const { container } = render(
       <Dialog isOpen={true} onClose={mockOnClose} title="Test Dialog">
         <div>Test Content</div>
@@ -83,7 +82,7 @@ describe('Dialog Component', () => {
 
   it('should not call onClose when dialog content is clicked', async () => {
     const user = userEvent.setup();
-    
+
     render(
       <Dialog isOpen={true} onClose={mockOnClose} title="Test Dialog">
         <div>Test Content</div>

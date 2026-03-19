@@ -1,4 +1,3 @@
-
 import { render, screen, waitFor } from '@testing-library/react';
 import { act } from 'react';
 import userEvent from '@testing-library/user-event';
@@ -34,7 +33,7 @@ describe('QuickActions Component', () => {
 
   beforeEach(() => {
     useResumeStore.mockReturnValue({
-      addSkill: mockAddSkill
+      addSkill: mockAddSkill,
     });
     mockAddSkill.mockClear();
   });
@@ -52,7 +51,7 @@ describe('QuickActions Component', () => {
     render(<QuickActions />);
 
     const addExpButton = screen.getByText('Add Experience');
-    
+
     await act(async () => {
       await user.click(addExpButton);
     });
@@ -66,7 +65,7 @@ describe('QuickActions Component', () => {
     render(<QuickActions />);
 
     const addEduButton = screen.getByText('Add Education');
-    
+
     await act(async () => {
       await user.click(addEduButton);
     });
@@ -80,7 +79,7 @@ describe('QuickActions Component', () => {
     render(<QuickActions />);
 
     const addSkillButton = screen.getByText('Add Skill');
-    
+
     await act(async () => {
       await user.click(addSkillButton);
     });
@@ -97,7 +96,7 @@ describe('QuickActions Component', () => {
     await act(async () => {
       await user.click(addExpButton);
     });
-    
+
     const dialog = await screen.findByTestId('experience-dialog');
     expect(dialog).toBeInTheDocument();
 
@@ -121,7 +120,7 @@ describe('QuickActions Component', () => {
     await act(async () => {
       await user.click(addEduButton);
     });
-    
+
     const dialog = await screen.findByTestId('education-dialog');
     expect(dialog).toBeInTheDocument();
 

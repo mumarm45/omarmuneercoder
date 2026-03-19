@@ -18,7 +18,11 @@ import { useAuth } from '../../context/AuthContext';
 const mockUseAuth = useAuth as jest.MockedFunction<typeof useAuth>;
 
 function renderLogin() {
-  return render(<MemoryRouter><Login /></MemoryRouter>);
+  return render(
+    <MemoryRouter>
+      <Login />
+    </MemoryRouter>
+  );
 }
 
 describe('Login page', () => {
@@ -47,10 +51,19 @@ describe('Login page', () => {
 
   it('calls signIn with email and password on submit', async () => {
     const signIn = jest.fn().mockResolvedValue({ error: null });
-    mockUseAuth.mockReturnValue({ user: null, session: null, loading: false, signIn, signUp: jest.fn(), signOut: jest.fn() });
+    mockUseAuth.mockReturnValue({
+      user: null,
+      session: null,
+      loading: false,
+      signIn,
+      signUp: jest.fn(),
+      signOut: jest.fn(),
+    });
     renderLogin();
 
-    fireEvent.change(screen.getByPlaceholderText(/you@example.com/i), { target: { value: 'user@test.com' } });
+    fireEvent.change(screen.getByPlaceholderText(/you@example.com/i), {
+      target: { value: 'user@test.com' },
+    });
     fireEvent.change(screen.getByPlaceholderText('••••••••'), { target: { value: 'password123' } });
     fireEvent.click(screen.getByRole('button', { name: /sign in/i }));
 
@@ -59,10 +72,19 @@ describe('Login page', () => {
 
   it('navigates to /dashboard on successful sign in', async () => {
     const signIn = jest.fn().mockResolvedValue({ error: null });
-    mockUseAuth.mockReturnValue({ user: null, session: null, loading: false, signIn, signUp: jest.fn(), signOut: jest.fn() });
+    mockUseAuth.mockReturnValue({
+      user: null,
+      session: null,
+      loading: false,
+      signIn,
+      signUp: jest.fn(),
+      signOut: jest.fn(),
+    });
     renderLogin();
 
-    fireEvent.change(screen.getByPlaceholderText(/you@example.com/i), { target: { value: 'a@b.com' } });
+    fireEvent.change(screen.getByPlaceholderText(/you@example.com/i), {
+      target: { value: 'a@b.com' },
+    });
     fireEvent.change(screen.getByPlaceholderText('••••••••'), { target: { value: 'pass' } });
     fireEvent.click(screen.getByRole('button', { name: /sign in/i }));
 
@@ -71,11 +93,22 @@ describe('Login page', () => {
 
   it('shows error message on failed sign in', async () => {
     const signIn = jest.fn().mockResolvedValue({ error: new Error('Invalid credentials') });
-    mockUseAuth.mockReturnValue({ user: null, session: null, loading: false, signIn, signUp: jest.fn(), signOut: jest.fn() });
+    mockUseAuth.mockReturnValue({
+      user: null,
+      session: null,
+      loading: false,
+      signIn,
+      signUp: jest.fn(),
+      signOut: jest.fn(),
+    });
     renderLogin();
 
-    fireEvent.change(screen.getByPlaceholderText(/you@example.com/i), { target: { value: 'bad@bad.com' } });
-    fireEvent.change(screen.getByPlaceholderText('••••••••'), { target: { value: 'wrongpassword' } });
+    fireEvent.change(screen.getByPlaceholderText(/you@example.com/i), {
+      target: { value: 'bad@bad.com' },
+    });
+    fireEvent.change(screen.getByPlaceholderText('••••••••'), {
+      target: { value: 'wrongpassword' },
+    });
     fireEvent.click(screen.getByRole('button', { name: /sign in/i }));
 
     await waitFor(() => expect(screen.getByText('Invalid credentials')).toBeInTheDocument());

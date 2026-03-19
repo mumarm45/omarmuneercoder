@@ -25,7 +25,13 @@ interface Experience {
 }
 
 function MyResume(): JSX.Element {
-  const { theme: themeMode, language, toggleTheme, toggleLanguage, downloadResume } = useMyResumeStore();
+  const {
+    theme: themeMode,
+    language,
+    toggleTheme,
+    toggleLanguage,
+    downloadResume,
+  } = useMyResumeStore();
   const [isDownloading, setIsDownloading] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
