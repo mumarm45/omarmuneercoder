@@ -97,7 +97,7 @@ function SkillsSection(): JSX.Element {
                   </button>
                 </div>
               ) : (
-                <div className="flex items-center gap-0.5 rounded-full bg-slate-100 pl-3 pr-1.5 py-1 dark:bg-slate-700">
+                <div className="flex items-center gap-0.5 rounded-full bg-slate-100 py-1 pl-3 pr-1.5 dark:bg-slate-700">
                   <button
                     onClick={() => startEdit(index, skill)}
                     className="text-xs font-medium text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"

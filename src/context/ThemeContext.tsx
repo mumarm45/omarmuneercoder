@@ -12,7 +12,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     try {
       const saved = localStorage.getItem('theme');
       if (saved) return saved === 'dark';
-    } catch {}
+    } catch {} // eslint-disable-line no-empty
     return window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
   });
 
@@ -20,7 +20,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     document.documentElement.classList.toggle('dark', isDark);
     try {
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    } catch {}
+    } catch {} // eslint-disable-line no-empty
   }, [isDark]);
 
   return (

@@ -29,8 +29,24 @@ import ExperienceSection from '../../../components/sections/ExperienceSection';
 const mockUseResumeStore = useResumeStore as jest.MockedFunction<typeof useResumeStore>;
 
 const mockExperience = [
-  { id: 1, title: 'Software Engineer', company: 'Acme', location: 'NY', startDate: '2021', endDate: 'Present', description: 'Built stuff' },
-  { id: 2, title: 'Intern', company: 'BigCo', location: 'Remote', startDate: '2020', endDate: '2021', description: 'Learned stuff' },
+  {
+    id: 1,
+    title: 'Software Engineer',
+    company: 'Acme',
+    location: 'NY',
+    startDate: '2021',
+    endDate: 'Present',
+    description: 'Built stuff',
+  },
+  {
+    id: 2,
+    title: 'Intern',
+    company: 'BigCo',
+    location: 'Remote',
+    startDate: '2020',
+    endDate: '2021',
+    description: 'Learned stuff',
+  },
 ];
 
 function buildStore(overrides = {}) {

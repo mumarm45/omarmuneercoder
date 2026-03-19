@@ -104,9 +104,7 @@ describe('resumeStore — updateSectionLabel', () => {
     act(() => {
       result.current.updateSectionLabel('experience', 'CAREER');
     });
-    expect(result.current.resumeData.sectionLabels?.summary).toBe(
-      DEFAULT_SECTION_LABELS.summary
-    );
+    expect(result.current.resumeData.sectionLabels?.summary).toBe(DEFAULT_SECTION_LABELS.summary);
   });
 
   it('can update all 8 labels in one batch', () => {

@@ -30,7 +30,13 @@ const mockUseResumeStore = useResumeStore as jest.MockedFunction<typeof useResum
 
 const mockEducation = [
   { id: 1, degree: 'B.S. Computer Science', school: 'MIT', location: 'Boston', year: '2019' },
-  { id: 2, degree: 'M.S. Software Engineering', school: 'Stanford', location: 'Palo Alto', year: '2021' },
+  {
+    id: 2,
+    degree: 'M.S. Software Engineering',
+    school: 'Stanford',
+    location: 'Palo Alto',
+    year: '2021',
+  },
 ];
 
 function buildStore(overrides = {}) {

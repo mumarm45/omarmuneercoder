@@ -34,10 +34,7 @@ function QuickActions(): JSX.Element {
         onClose={() => setShowPersonalDialog(false)}
       />
       <SummaryDialog isOpen={showSummaryDialog} onClose={() => setShowSummaryDialog(false)} />
-      <SectionLabelsDialog
-        isOpen={showLabelsDialog}
-        onClose={() => setShowLabelsDialog(false)}
-      />
+      <SectionLabelsDialog isOpen={showLabelsDialog} onClose={() => setShowLabelsDialog(false)} />
     </>
   );
 }

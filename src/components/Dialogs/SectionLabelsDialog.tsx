@@ -69,7 +69,7 @@ function SectionLabelsDialog({ isOpen, onClose }: SectionLabelsDialogProps): JSX
         <div className="flex items-center justify-between border-t pt-4">
           <button
             onClick={handleReset}
-            className="text-sm text-gray-500 hover:text-gray-700 underline"
+            className="text-sm text-gray-500 underline hover:text-gray-700"
           >
             Reset to defaults
           </button>
