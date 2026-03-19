@@ -18,7 +18,7 @@ function PersonalInfoDialog({ isOpen, onClose }: PersonalInfoDialogProps): JSX.E
 
   const handleSave = (): void => {
     Object.keys(formData).forEach((key) => {
-      updatePersonalInfo(key as keyof PersonalInfo, formData[key as keyof PersonalInfo]);
+      updatePersonalInfo(key as keyof PersonalInfo, formData[key as keyof PersonalInfo] ?? '');
     });
     onClose();
   };

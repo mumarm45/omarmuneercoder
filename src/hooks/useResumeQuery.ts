@@ -114,7 +114,7 @@ const resumeAPI = {
   },
 
   // Delete resume
-  deleteResume: async (id: number): Promise<{ success: boolean }> => {
+  deleteResume: async (_id: number): Promise<{ success: boolean }> => {
     // Replace with actual API call
     // await fetch(`/api/resumes/${id}`, { method: 'DELETE' });
     
@@ -173,10 +173,10 @@ export const useSaveResume = (
 
   return useMutation({
     mutationFn: resumeAPI.saveResume,
-    onSuccess: (data, variables, context) => {
+    onSuccess: (data, variables, context, mutation) => {
       // Invalidate and refetch resumes list
       queryClient.invalidateQueries({ queryKey: resumeKeys.lists() });
-      options?.onSuccess?.(data, variables, context);
+      options?.onSuccess?.(data, variables, context, mutation);
     },
     ...options,
   });
@@ -192,12 +192,12 @@ export const useUpdateResume = (
 
   return useMutation({
     mutationFn: resumeAPI.updateResume,
-    onSuccess: (data, variables, context) => {
+    onSuccess: (data, variables, context, mutation) => {
       // Update cache for specific resume
       queryClient.setQueryData(resumeKeys.detail(data.id), data);
       // Invalidate list to show updated data
       queryClient.invalidateQueries({ queryKey: resumeKeys.lists() });
-      options?.onSuccess?.(data, variables, context);
+      options?.onSuccess?.(data, variables, context, mutation);
     },
     ...options,
   });
@@ -213,12 +213,12 @@ export const useDeleteResume = (
 
   return useMutation({
     mutationFn: resumeAPI.deleteResume,
-    onSuccess: (data, deletedId, context) => {
+    onSuccess: (data, deletedId, context, mutation) => {
       // Remove from cache
       queryClient.removeQueries({ queryKey: resumeKeys.detail(deletedId) });
       // Invalidate list
       queryClient.invalidateQueries({ queryKey: resumeKeys.lists() });
-      options?.onSuccess?.(data, deletedId, context);
+      options?.onSuccess?.(data, deletedId, context, mutation);
     },
     ...options,
   });

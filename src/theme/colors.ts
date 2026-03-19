@@ -81,6 +81,7 @@ export const theme = {
       light: 'text-gray-500',
       dark: 'text-slate-400',
     },
+    body: 'text-gray-700',
     heading: 'text-slate-700',
     onDark: 'text-white',
   },

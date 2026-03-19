@@ -8,10 +8,11 @@
 import { IStorageService } from './IStorageService';
 import { LocalStorageService } from './LocalStorageService';
 import { HttpStorageService } from './HttpStorageService';
+import { SupabaseStorageService } from './SupabaseStorageService';
 import { ResumeService } from './ResumeService';
 import { logger } from '../utils/errorHandling';
 
-export type StorageType = 'localStorage' | 'http';
+export type StorageType = 'localStorage' | 'http' | 'supabase';
 
 export interface ServiceConfig {
   storageType?: StorageType;
@@ -135,11 +136,17 @@ export class ServiceFactory {
           authToken
         );
 
+      case 'supabase':
+        return new SupabaseStorageService({
+          prefix: storagePrefix,
+          version: storageVersion,
+        });
+
       case 'localStorage':
       default:
-        return new LocalStorageService({ 
-          prefix: storagePrefix, 
-          version: storageVersion 
+        return new LocalStorageService({
+          prefix: storagePrefix,
+          version: storageVersion
         });
     }
   }
@@ -205,16 +212,18 @@ export function getServices(config?: ServiceConfig) {
 export function getEnvConfig(): ServiceConfig {
   const env = import.meta.env;
 
-  // Check if we're in production and have API URL configured
-  const isProd = env.MODE === 'production';
+  const hasSupabase = !!(env.VITE_SUPABASE_URL && env.VITE_SUPABASE_ANON_KEY);
   const apiBaseUrl = env.VITE_API_BASE_URL as string | undefined;
-  const useHttp = isProd && apiBaseUrl;
+
+  let storageType: StorageType = 'localStorage';
+  if (hasSupabase) storageType = 'supabase';
+  else if (apiBaseUrl) storageType = 'http';
 
   return {
-    storageType: useHttp ? 'http' : 'localStorage',
+    storageType,
     apiBaseUrl: apiBaseUrl || '/api',
-    storagePrefix: env.VITE_STORAGE_PREFIX as string || 'resume-app',
-    storageVersion: env.VITE_STORAGE_VERSION as string || '1.0',
+    storagePrefix: (env.VITE_STORAGE_PREFIX as string) || 'resume-app',
+    storageVersion: (env.VITE_STORAGE_VERSION as string) || '1.0',
   };
 }
 

@@ -1,15 +1,17 @@
 import { useState } from 'react';
 import { X, Plus, Trash2, ExternalLink } from 'lucide-react';
-import { DialogProps, Project } from '@/types';
+import { Project } from '@/types';
 import useResumeStore from '@/store/resumeStore';
 
-interface ProjectDialogProps extends DialogProps {
+interface ProjectDialogProps {
+  isOpen: boolean;
+  onClose: () => void;
   project?: Project;
   onSave?: (project: Project) => void;
 }
 
 function ProjectDialog({ isOpen, onClose, project }: ProjectDialogProps): JSX.Element | null {
-  const { resumeData, addProject, updateProject } = useResumeStore();
+  const { addProject, updateProject } = useResumeStore();
   const [formData, setFormData] = useState<Project>(
     project || {
       id: Date.now(),

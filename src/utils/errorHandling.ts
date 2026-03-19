@@ -1,4 +1,5 @@
 // src/utils/errorHandling.ts
+import * as Sentry from '@sentry/react';
 
 /**
  * Standard error response structure
@@ -167,6 +168,9 @@ export const logger = {
   },
   error: (message: string, error?: unknown) => {
     console.error(`[ERROR] ${message}`, error || '');
+    Sentry.captureException(
+      error instanceof Error ? error : new Error(`${message}: ${String(error)}`)
+    );
   },
   debug: (message: string, data?: unknown) => {
     if (process.env.NODE_ENV === 'development') {

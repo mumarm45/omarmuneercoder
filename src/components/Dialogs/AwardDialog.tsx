@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { X, Trophy, Calendar } from 'lucide-react';
-import { DialogProps, Award } from '@/types';
+import { Award } from '@/types';
 import useResumeStore from '@/store/resumeStore';
 
-interface AwardDialogProps extends DialogProps {
+interface AwardDialogProps {
+  isOpen: boolean;
+  onClose: () => void;
   award?: Award;
 }
 

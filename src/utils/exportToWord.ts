@@ -86,7 +86,9 @@ function downloadTextFile(content: string, fileName: string): void {
  * Validates resume data before export
  */
 function validateResumeData(data: ResumeData): OperationResult<ResumeData> {
-  return validateRequired(data, ['personalInfo', 'experience', 'education', 'skills']);
+  return validateRequired(data as unknown as Record<string, unknown>, [
+    'personalInfo', 'experience', 'education', 'skills',
+  ]) as OperationResult<ResumeData>;
 }
 
 /**

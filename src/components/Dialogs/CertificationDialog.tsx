@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { X, Award, ExternalLink, Calendar } from 'lucide-react';
-import { DialogProps, Certification } from '@/types';
+import { Certification } from '@/types';
 import useResumeStore from '@/store/resumeStore';
 
-interface CertificationDialogProps extends DialogProps {
+interface CertificationDialogProps {
+  isOpen: boolean;
+  onClose: () => void;
   certification?: Certification;
 }
 

@@ -15,17 +15,16 @@ interface AccordionItemProps {
   defaultOpen?: boolean;
 }
 
-export function Accordion({ children, defaultOpenItems = [] }: AccordionProps) {
+export function Accordion({ children }: AccordionProps) {
   return <div className="space-y-2">{children}</div>;
 }
 
-export function AccordionItem({ 
-  id, 
-  title, 
-  icon, 
-  badge, 
-  children, 
-  defaultOpen = false 
+export function AccordionItem({
+  title,
+  icon,
+  badge,
+  children,
+  defaultOpen = false
 }: AccordionItemProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 

@@ -2,8 +2,8 @@ import { TEMPLATES, TEMPLATE_STYLES } from '../../utils/constants';
 
 describe('Constants', () => {
   describe('TEMPLATES', () => {
-    it('should have 3 templates', () => {
-      expect(TEMPLATES).toHaveLength(3);
+    it('should have 5 templates', () => {
+      expect(TEMPLATES).toHaveLength(5);
     });
 
     it('should have required properties for each template', () => {
@@ -25,6 +25,8 @@ describe('Constants', () => {
       expect(ids).toContain('modern');
       expect(ids).toContain('classic');
       expect(ids).toContain('minimal');
+      expect(ids).toContain('professional');
+      expect(ids).toContain('creative');
     });
   });
 

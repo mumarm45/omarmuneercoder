@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { X, Globe } from 'lucide-react';
-import { DialogProps, Language } from '@/types';
+import { Language } from '@/types';
 import useResumeStore from '@/store/resumeStore';
 
-interface LanguageDialogProps extends DialogProps {
+interface LanguageDialogProps {
+  isOpen: boolean;
+  onClose: () => void;
   language?: Language;
 }
 

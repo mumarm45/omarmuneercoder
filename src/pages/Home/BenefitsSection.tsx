@@ -22,8 +22,9 @@ function BenefitsSection(){
                   'Export to PDF & Word',
                   'Mobile responsive builder',
                   'No credit card required',
-                  'Free forever',
-                  'Unlimited downloads'
+                  'Free for life 😜',
+                  'Unlimited downloads',
+                  'Beta and Everything is in localStorage'
                 ].map((feature, index) => (
                   <div key={index} className="flex items-center gap-3">
                     <div className="w-6 h-6 bg-gradient-to-br from-pink-500 to-rose-500 rounded-full flex items-center justify-center flex-shrink-0">
