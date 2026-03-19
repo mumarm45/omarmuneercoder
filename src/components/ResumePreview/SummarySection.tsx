@@ -21,7 +21,7 @@ function SummarySection(): JSX.Element | null {
         PROFESSIONAL SUMMARY
       </h2>
       
-      <p className={cn('text-sm leading-relaxed ml-3', theme.text.body)}>
+      <p className={cn('text-sm leading-relaxed ml-3 break-words whitespace-pre-wrap', theme.text.body)}>
         {resumeData.summary}
       </p>
     </section>

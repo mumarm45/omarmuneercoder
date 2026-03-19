@@ -24,6 +24,8 @@ export interface ResumeMetadata {
   version?: number;
   template?: string;
   completenessScore?: number;
+  language?: string;   // e.g. 'en', 'ar', 'fr'
+  parentId?: string;   // ID of the root language version; absent on root
 }
 
 export interface ResumeListItem {

@@ -3,8 +3,6 @@ import { Plus } from 'lucide-react';
 import ExperienceDialog from './Dialogs/ExperienceDialog';
 import EducationDialog from './Dialogs/EducationDialog';
 import useResumeStore from '@store/resumeStore';
-import { theme } from '@/theme/colors';
-import { cn } from '@/hooks/useTheme';
 
 function QuickActions(): JSX.Element {
   const { addSkill } = useResumeStore();
@@ -13,41 +11,38 @@ function QuickActions(): JSX.Element {
 
   return (
     <>
-      <div className="card">
-        <h2 className={cn('text-lg font-semibold mb-4', theme.text.heading)}>Quick Actions</h2>
-        <div className="space-y-2">
-          <button
-            onClick={() => setShowExpDialog(true)}
-            className={cn('w-full flex items-center gap-2 px-4 py-2 rounded-lg transition duration-200', theme.buttons.secondary)}
-          >
-            <Plus className="w-4 h-4" />
-            Add Experience
-          </button>
-          <button
-            onClick={() => setShowEduDialog(true)}
-            className={cn('w-full flex items-center gap-2 px-4 py-2 rounded-lg transition duration-200', theme.buttons.secondary)}
-          >
-            <Plus className="w-4 h-4" />
-            Add Education
-          </button>
-          <button
-            onClick={addSkill}
-            className={cn('w-full flex items-center gap-2 px-4 py-2 rounded-lg transition duration-200', theme.buttons.secondary)}
-          >
-            <Plus className="w-4 h-4" />
-            Add Skill
-          </button>
-        </div>
+      <div className="space-y-2 mt-4">
+        <button
+          onClick={() => setShowExpDialog(true)}
+          className="w-full flex items-center gap-2 px-4 py-2 rounded-lg transition duration-200 text-slate-300 hover:text-white hover:bg-slate-700"
+        >
+          <Plus className="w-4 h-4" />
+          Add Experience
+        </button>
+        <button
+          onClick={() => setShowEduDialog(true)}
+          className="w-full flex items-center gap-2 px-4 py-2 rounded-lg transition duration-200 text-slate-300 hover:text-white hover:bg-slate-700"
+        >
+          <Plus className="w-4 h-4" />
+          Add Education
+        </button>
+        <button
+          onClick={addSkill}
+          className="w-full flex items-center gap-2 px-4 py-2 rounded-lg transition duration-200 text-slate-300 hover:text-white hover:bg-slate-700"
+        >
+          <Plus className="w-4 h-4" />
+          Add Skill
+        </button>
       </div>
 
-      <ExperienceDialog 
-        isOpen={showExpDialog} 
-        onClose={() => setShowExpDialog(false)} 
+      <ExperienceDialog
+        isOpen={showExpDialog}
+        onClose={() => setShowExpDialog(false)}
       />
-      
-      <EducationDialog 
-        isOpen={showEduDialog} 
-        onClose={() => setShowEduDialog(false)} 
+
+      <EducationDialog
+        isOpen={showEduDialog}
+        onClose={() => setShowEduDialog(false)}
       />
     </>
   );
