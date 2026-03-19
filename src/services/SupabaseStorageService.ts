@@ -23,9 +23,9 @@ export class SupabaseStorageService implements IStorageService {
 
   private async currentUserId(): Promise<string | null> {
     const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    return user?.id ?? null;
+      data: { session },
+    } = await supabase.auth.getSession();
+    return session?.user?.id ?? null;
   }
 
   async save<T>(key: string, data: T): Promise<StorageResult<T>> {
