@@ -1,6 +1,6 @@
 import { useState, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FileText } from 'lucide-react';
+import { FileText, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 function Register(): JSX.Element {
@@ -11,6 +11,7 @@ function Register(): JSX.Element {
   const [confirm, setConfirm] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -70,9 +71,23 @@ function Register(): JSX.Element {
             </div>
 
             <div>
-              <label className="mb-1 block text-sm font-medium text-slate-300">Password</label>
+              <div className="mb-1 flex items-center justify-between">
+                <label className="text-sm font-medium text-slate-300">Password</label>
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((v) => !v)}
+                  className="flex items-center gap-1 text-xs text-slate-400 hover:text-slate-200"
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-3.5 w-3.5" />
+                  ) : (
+                    <Eye className="h-3.5 w-3.5" />
+                  )}
+                  {showPassword ? 'Hide' : 'Show'}
+                </button>
+              </div>
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -86,7 +101,7 @@ function Register(): JSX.Element {
                 Confirm password
               </label>
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 required
                 value={confirm}
                 onChange={(e) => setConfirm(e.target.value)}

@@ -11,16 +11,19 @@ import {
   Copy,
   Trash2,
   Download,
+  LogOut,
 } from 'lucide-react';
 import { getServices, ResumeListItem } from '@/services';
 import { formatDistanceToNow } from '@/utils/dateUtils';
 import CreateResumeDialog from './CreateResumeDialog';
 import { cn } from '@/hooks/useTheme';
+import { useAuth } from '@/context/AuthContext';
 
 const { resumeService } = getServices();
 
 function Dashboard(): JSX.Element {
   const navigate = useNavigate();
+  const { signOut, user } = useAuth();
   const [resumes, setResumes] = useState<ResumeListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -139,12 +142,26 @@ function Dashboard(): JSX.Element {
           </Link>
         </nav>
 
-        <div className="absolute bottom-6 left-6 right-6">
+        <div className="absolute bottom-6 left-6 right-6 space-y-3">
           <div className="rounded-lg border border-slate-200 bg-gradient-to-br from-slate-100 to-slate-50 p-4">
             <p className="mb-2 text-sm text-slate-600">Need help? Check out our guide</p>
             <Link to="/guide" className="text-sm font-medium text-slate-900 hover:text-slate-700">
               Learn more →
             </Link>
+          </div>
+
+          <div className="border-t border-slate-200 pt-3">
+            {user && <p className="mb-2 truncate text-xs text-slate-400">{user.email}</p>}
+            <button
+              onClick={async () => {
+                await signOut();
+                navigate('/login');
+              }}
+              className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-slate-600 transition-colors hover:bg-rose-50 hover:text-rose-600"
+            >
+              <LogOut className="h-4 w-4" />
+              Sign out
+            </button>
           </div>
         </div>
       </aside>
